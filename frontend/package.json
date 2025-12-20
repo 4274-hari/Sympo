@@ -9,13 +9,14 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^7.2.4"
+    "@tailwindcss/vite": "^4.1.18",
+    "@vitejs/plugin-react": "^5.1.2",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.3.0"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-router-dom": "^7.11.0",
-    "tailwindcss": "^4.1.18"
+    "react-router-dom": "^7.11.0"
   }
 }
