@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap");
+
+.container {
+  display: flex;
+  gap: 18px;
+  /* background: #8968cd; */
+  padding: 20px;
+  margin-top: 200px;
+}
+
+/* PANEL */
+.panel {
+  width: 300px;
+  height: 300px;
+  background: #9c2fa9;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;           /* 🔥 REQUIRED */
+  transform-style: preserve-3d;
+}
+
+
+/* LABEL */
+.label {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  font-size: 24px;
+  color: #fff;
+  font-family: "Orbitron", sans-serif;
+  z-index: 10;
+}
+
+/* FLIP CARD */
+.flipCard {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* REMOVE perspective from here */
+}
+
+/* SHARED HALVES */
+.top,
+.bottom,
+.topFlip,
+.bottomFlip {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+
+  font-size: 200px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+  background: #9c2fa9;
+  color: #772481;
+  border: 1px solid #fff;
+
+  backface-visibility: hidden;
+}
+
+/* TOP HALF */
+.top,
+.topFlip {
+  top: 0;
+  align-items: flex-end;
+  border-radius: 14px 14px 0 0;
+}
+
+.top span,
+.topFlip span {
+  transform: translateY(50%);
+}
+
+/* BOTTOM HALF */
+.bottom,
+.bottomFlip {
+  bottom: 0;
+  align-items: flex-start;
+  border-radius: 0 0 14px 14px;
+}
+
+.bottom span,
+.bottomFlip span {
+  transform: translateY(-50%);
+}
+
+/* SPLIT LINE */
+.top::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #9c2fa9;
+}
+
+.topFlip {
+  transform-origin: bottom;
+  animation: flipTop 0.45s cubic-bezier(.55, 0, .45, 1) forwards;
+}
+
+.bottomFlip {
+  transform-origin: top;
+  transform: rotateX(90deg);
+  animation: flipBottom 0.45s cubic-bezier(.4, 0, .2, 1) forwards;
+  animation-delay: 0.45s;
+}
+
+
+@keyframes flipTop {
+  to {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes flipBottom {
+  to {
+    transform: rotateX(0deg);
+  }
+}
+/* HIDE STATIC HALVES WHILE FLIPPING */
+.flipping .top{
+    overflow: hidden;
+}
+.flipping .bottom {
+ overflow: hidden; 
+}

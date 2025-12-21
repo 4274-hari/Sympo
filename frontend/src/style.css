@@ -1,1 +1,41 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #772481;
+    display: relative;
+}
+
+@keyframes floatSlow {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-60px) translateX(40px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@keyframes floatReverse {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(50px) translateX(-50px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+.animate-floatSlow {
+  animation: floatSlow 20s ease-in-out infinite;
+}
+
+.animate-floatReverse {
+  animation: floatReverse 25s ease-in-out infinite;
+}
