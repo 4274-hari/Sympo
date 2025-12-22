@@ -1,7 +1,213 @@
-.blurEffect {
-    border: 3px solid hsl(0, 0%, 100%, 0.3);
-    background: hsl(0, 0%, 100%, 0.2);
-    backdrop-filter: blur(2px);
+/* =================================================================== */
+/* navbar.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
 
-    box-shadow: inset 0 0 8px 1px hsl(0, 0%, 10);
+
+:root {
+  --island-bg: rgba(255,255,255,0.06);
+  --accent: linear-gradient(90deg,#ae00ff,#af002d 50%,#319197 100%);
 }
+
+.wrapper {
+  position: fixed;
+  top: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 60;
+  pointer-events: none; /* let inner elements control pointer events */
+}
+
+.nav {
+  width: calc(100% - 48px);
+  max-width: 1100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  pointer-events: auto;
+}
+
+.NavTitle{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  margin-top: 2px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  font-size: larger;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 160ms, transform 160ms;
+  font-family: 'Metal Mania', cursive;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.5),
+    0 0 14px rgba(173, 60, 255, 0.7),
+    0 0 30px rgba(130, 40, 255, 0.9);
+  transform: skewX(-8deg);
+}
+
+/* Dynamic island look */
+.dynamicIsland {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: var(--island-bg);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms;
+  /* margin-left: 300px; */
+}
+
+.dynamicIsland:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  gap: 2px 8px;
+  align-items: center;
+  margin: 0;
+  padding: 6px 12px;
+}
+
+.navItem {
+  display: flex;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 160ms, transform 160ms;
+}
+
+.navButton:hover {
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-2px);
+}
+
+.active {
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4) inset;
+}
+
+.icon {
+  display: none; /* hidden on desktop */
+}
+
+.label {
+  display: inline-block;
+  font-size: 14px;
+}
+
+.registerWrap {
+  display: flex;
+  align-items: center;
+}
+
+.registerBtn {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  background-size: 200% 200%;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 28px rgba(50, 20, 80, 0.35);
+  transition: transform 180ms, box-shadow 180ms, background-position 400ms;
+}
+
+.registerBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(50, 20, 80, 0.45);
+  background-position: 100% 0;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+.NavTitle { animation: float 4s ease-in-out infinite; }
+
+/* --------------------- Responsive: Mobile -------------------------- */
+@media (max-width: 640px) {
+  .nav {
+    width: calc(100% - 20px);
+    gap: 12px;
+  }
+
+  .dynamicIsland {
+    padding: 6px 10px;
+    min-width: auto;
+  }
+
+  /* show icons and hide text labels on small screens */
+  .icon {
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .label {
+    display: none;
+  }
+
+  /* tighten spacing for mobile */
+  .navList {
+    gap: 10px;
+    padding: 6px 6px;
+  }
+
+  .navButton {
+    padding: 6px;
+    min-width: 44px;
+    justify-content: center;
+  }
+
+  /* Keep register btn visible as a full button on mobile */
+  .registerBtn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+}
+
+/* small polish for very small screens */
+@media (max-width: 380px) {
+  .registerBtn {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
+
+/* color for icons/text */
+.navButton svg path {
+  fill: currentColor;
+}
+
+/* end of module */
