@@ -14,7 +14,6 @@ const Title = () => {
   const scaleEnd = 500        // scale stops here
   const releaseEnd = 1400     // text fully goes up & fades
 
-
   /* ---------------- PROGRESS VALUES ---------------- */
 
   const scaleProgress = Math.min(scrollY / scaleEnd, 1)
@@ -28,7 +27,7 @@ const Title = () => {
   /* ---------------- SCALE LOGIC ---------------- */
 
   const minScale = 3
-  const maxScale = 8
+  const maxScale = 7
   const scale =
     minScale + (maxScale - minScale) * scaleProgress
 
@@ -39,7 +38,7 @@ const Title = () => {
   const offsetY =
     scaleProgress < 1
       ? -10 * scaleProgress
-      : -10 + releaseProgress * 50   // move UP after fixed
+      : -10 + extraScroll * 0.1   // ✅ ONE CHANGE (scroll-like movement)
 
   /* ---------------- BLEND EFFECT ---------------- */
 
@@ -47,7 +46,6 @@ const Title = () => {
   const imageOpacity = 1 - scaleProgress * 2
 
   /* ---------------- JSX ---------------- */
-
 
   return (
     <div className="w-screen min-h-[200vh] text-white bg-black">
@@ -65,12 +63,14 @@ const Title = () => {
         }}
       >
         <h1
-          className="font-bold font-['cursive'] tracking-wider text-center"
+          className="font-semibold font-['Metal_Mania',cursive]   text-center  
+      tracking-[0.35em]"
           style={{
             transform: `scale(${scale})`,
             opacity: textOpacity,
             transition:
               'transform 0.2s linear, opacity 0.2s linear',
+             
           }}
         >
           COGNEBULA 2k26
@@ -89,14 +89,13 @@ const Title = () => {
 
       {/* CONTENT AFTER BLEND */}
       <section
-        className="pt-[140vh] px-10 max-w-4xl mx-auto text-white "
+        className="pt-[140vh] px-10 max-w-4xl mx-auto text-white"
         style={{
-         
           transform: `translateY(${10 * (0 - releaseProgress)}px)`,
-          transition: ' transform 0.1s linear',
+          transition: 'transform 0.1s linear',
         }}
       >
-        <p className='text-white '>
+        <p className="text-white">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Soluta explicabo labore sunt mollitia. Vitae fugiat repellat,
           alias aliquam culpa animi illo minus, tempora voluptates ipsa

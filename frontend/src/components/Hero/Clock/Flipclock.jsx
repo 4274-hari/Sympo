@@ -68,7 +68,7 @@ export default function FlipClock() {
           <FlipCard value={time.minutes} label="MINUTES" />
           <FlipCard value={time.seconds} label="SECONDS" />
         </div>
-        <img src="/robot2.webp" alt="robot image " width={400} height={400} />
+        {/* <img src="/robot2.webp" alt="robot image " width={400} height={400} /> */}
       </div>
     
 
