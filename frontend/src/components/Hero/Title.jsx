@@ -23,7 +23,7 @@ const Title = () => {
   const minScale = 3     
   const maxScale = 8      
   const scale = minScale + (maxScale - minScale) * progress 
-  console.log(scale );
+  // console.log(scale );
   
 
   return (

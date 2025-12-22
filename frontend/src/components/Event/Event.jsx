@@ -10,11 +10,11 @@ const data = [
     title: "Technical Events",
     desc: "Explore cutting-edge technical challenges and competitions.",
     events: [
-      { name: "AI Workshop", link: "/events" },
-      { name: "Machine Learning Hackathon", link: "/events/ml-hackathon" },
-      { name: "Web Development Challenge", link: "/events/web-dev" },
-      { name: "Cyber Security CTF", link: "/events/cyber-ctf" },
-      { name: "Data Science Sprint", link: "/events/data-science" }
+      { name: "AI Workshop"},
+      { name: "Machine Learning Hackathon"},
+      { name: "Web Development Challenge"},
+      { name: "Cyber Security CTF" },
+      { name: "Data Science Sprint" }
     ],
     color: "neonred",
     type: "tech",
@@ -25,11 +25,11 @@ const data = [
     title: "Non-Technical Events",
     desc: "Fun, creative, and engaging non-technical events for everyone.",
     events: [
-      { name: "Photography Contest", link: "/events/photography" },
-      { name: "Treasure Hunt", link: "/events/treasure-hunt" },
-      { name: "Quiz", link: "/events/quiz" },
-      { name: "Debate", link: "/events/debate" },
-      { name: "Short Film Contest", link: "/events/film-contest" }
+      { name: "Photography Contest"},
+      { name: "Treasure Hunt" },
+      { name: "Quiz"},
+      { name: "Debate"},
+      { name: "Short Film Contest"}
     ],
     color: "neonblue",
     type: "nontech",
@@ -46,7 +46,8 @@ const data = [
   }
 ];
 
-export default function Event() {
+export default function Event({ setEventType }) {
+
   const wrapRef = useRef(null);
   const [expandedCard, setExpandedCard] = useState(null);
   const [expandedEvent, setExpandedEvent] = useState(null);
@@ -114,16 +115,16 @@ export default function Event() {
           return (
             <div key={i} className={`${styles.row} ${side}`}>
               {/* floating image for this row */}
-<div
-  className={`${styles.floatImg} ${
-    item.type === "tech"
-      ? styles.techImg
-      : item.type === "nontech"
-      ? styles.nonTechImg
-      : styles.workshopImg
-  }`}
-  aria-hidden="true"
->
+                <div
+                  className={`${styles.floatImg} ${
+                    item.type === "tech"
+                      ? styles.techImg
+                      : item.type === "nontech"
+                      ? styles.nonTechImg
+                      : styles.workshopImg
+                  }`}
+                  aria-hidden="true"
+                >
 
                 <img src={item.icon} alt={`${item.title} icon`} />
               </div>
@@ -158,23 +159,23 @@ export default function Event() {
                   <div className={styles.eventListContainer}>
                     <ul className={styles.eventList}>
                       {item.events.map((ev, idx) => (
-                        <li
-                          key={idx}
-                          className={`${styles.eventItem} ${expandedEvent === `${i}-${idx}` ? styles.eventExpanded : ''}`}
-                          onClick={() => handleRedirect(ev.link)}
-                          role="button"
-                          tabIndex={0}
-                          aria-expanded={expandedEvent === `${i}-${idx}`}
-                        >
-                          <div className={styles.eventHeader}>
-                            <span className={styles.eventName}>{ev.name}</span>
-                                                        <button
-                                // className={styles.registerButton}
-                                onClick={() => handleRedirect(ev.link)}
-                                aria-label={`Register for ${ev.name}`}
-                              ></button>
-                          </div>
-                        </li>
+                  <li
+                    key={idx}
+                    className={styles.eventItem}
+                    onClick={() =>
+                      setEventType({
+                        category: item.type,
+                        name: ev.name
+                      })
+                    }
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className={styles.eventHeader}>
+                      <span className={styles.eventName}>{ev.name}</span>
+                    </div>
+                  </li>
+
                       ))}
                     </ul>
                   </div>

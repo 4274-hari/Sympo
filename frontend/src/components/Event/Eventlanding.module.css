@@ -1,0 +1,771 @@
+/* Eventlanding.module.css */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto+Mono:wght@300;400;500;600&display=swap");
+
+:root {
+  --bg: #0b0410;
+  --muted: #9aa0b3;
+  --accent-red: #b6162a;
+  --accent-blue: #0066ff;
+  --accent-spy: #ff0400;
+  --accent-purple: #7f00ff;
+  --accent-mag: #ff2bd9;
+  --accent-green: #1aff7b;
+  --accent-cyan: #00e5ff;
+  --card-bg: rgba(18, 22, 30, 0.98);
+  --card-border: rgba(255, 255, 255, 0.03);
+  --text-light: #cfd3ff;
+  --text-white: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Base Styles */
+.page {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--text-white);
+  padding: 0;
+  font-family: "Orbitron", sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.overlay {
+  /* position: absolute; */
+  inset: 0;
+  background: linear-gradient(
+    262deg,
+    rgba(6, 8, 18, 0.515) 0%,
+    rgba(11, 4, 16, 0.98) 100%
+  );
+  backdrop-filter: blur(5px);
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  /* min-height: 100vh; */
+  height: 100%;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-light);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.backButton:hover {
+  background: rgba(127, 0, 255, 0.1);
+  border-color: var(--accent-purple);
+  color: var(--text-white);
+  transform: translateX(-4px);
+}
+
+.eventCategory {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass-bg);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+}
+
+.techIcon {
+  color: var(--accent-red);
+}
+
+.nontechIcon {
+  color: var(--accent-blue);
+}
+
+.workshopIcon {
+  color: var(--accent-green);
+}
+
+.categoryLabel {
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Main Content Layout */
+.mainContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Left Column */
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  height: auto;
+}
+
+.eventImageContainer {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+
+.eventImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.eventImage:hover {
+  transform: scale(1.02);
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    transparent 100%
+  );
+}
+
+.eventBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-red);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.eventHeader {
+  margin-top: 8px;
+}
+
+.eventHeader h1 {
+  font-size: 36px;
+  margin: 0 0 12px 0;
+  color: var(--text-white);
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgb(68, 2, 134);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.eventMeta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.eventId {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+}
+
+.description {
+  color: var(--text-light);
+  font-family: "Roboto Mono", monospace;
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 0;
+  padding: 24px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+/* Info Grid */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.infoItem:hover {
+  background: rgba(127, 0, 255, 0.05);
+  border-color: var(--accent-purple);
+  transform: translateY(-2px);
+}
+
+.infoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(127, 0, 255, 0.1);
+  border-radius: 10px;
+  color: var(--accent-purple);
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoLabel {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.infoValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+/* Details Section */
+.detailsSection {
+  margin-top: 8px;
+}
+
+.detailsSection h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  margin: 0 0 24px 0;
+  color: var(--text-white);
+}
+
+.detailBlock {
+  margin-bottom: 24px;
+}
+
+.detailBlock h3 {
+  font-size: 16px;
+  color: var(--accent-cyan);
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detailBlock ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detailBlock li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  color: var(--text-light);
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.detailBlock li:last-child {
+  border-bottom: none;
+}
+
+/* Right Column */
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.section h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  margin: 0 0 20px 0;
+  color: var(--text-white);
+}
+
+.section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.section li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  color: var(--text-light);
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.section li:last-child {
+  border-bottom: none;
+}
+
+/* Leadership Section */
+.leadershipSection {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.leadershipSection h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  margin: 0 0 24px 0;
+  color: var(--text-white);
+}
+
+.leaderCard {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--glass-border);
+}
+
+.leaderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.leaderHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.leaderRole {
+  background: var(--accent-red);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.leaderInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.leaderName {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contactInfo a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-light);
+  text-decoration: none;
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.contactInfo a:hover {
+  color: var(--accent-purple);
+}
+
+.coordinatorsGrid h3 {
+  font-size: 16px;
+  color: var(--muted);
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.coordinatorsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.coordinatorCard {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.coordinatorCard:hover {
+  background: rgba(127, 0, 255, 0.05);
+  border-color: var(--accent-purple);
+}
+
+.coordinatorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.coordinatorName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+.coordinatorContact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-blue);
+  font-family: "Roboto Mono", monospace;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.coordinatorContact:hover {
+  color: var(--accent-cyan);
+}
+
+/* Certification Section */
+.certificationSection {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.certificationSection h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  margin: 0 0 20px 0;
+  color: var(--text-white);
+}
+
+.certificateCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(26, 255, 123, 0.05);
+  border: 1px solid rgba(26, 255, 123, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.certificateCard svg {
+  color: var(--accent-green);
+}
+
+.certificateInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.certificateType {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.certificateIssuer {
+  font-size: 14px;
+  color: var(--muted);
+  font-family: "Roboto Mono", monospace;
+}
+
+/* Urgent Banner */
+.urgentBanner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(182, 22, 42, 0.2),
+    rgba(255, 4, 0, 0.2)
+  );
+  border: 2px solid rgba(182, 22, 42, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  animation: pulse 2s infinite;
+}
+
+.urgentBanner svg {
+  color: var(--accent-red);
+  flex-shrink: 0;
+}
+
+.urgentContent {
+  flex: 1;
+}
+
+.urgentContent h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: var(--text-white);
+}
+
+.urgentContent p {
+  margin: 0;
+  color: var(--text-light);
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.registerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-mag));
+  color: white;
+  border: none;
+  padding: 18px 24px;
+  border-radius: 12px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.registerButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(127, 0, 255, 0.4);
+}
+
+.secondaryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-light);
+  padding: 18px 24px;
+  border-radius: 12px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.secondaryButton:hover {
+  background: rgba(127, 0, 255, 0.1);
+  border-color: var(--accent-purple);
+  color: var(--text-white);
+  transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(182, 22, 42, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(182, 22, 42, 0.6);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .mainContent {
+    gap: 32px;
+  }
+  
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .mainContent {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 32px 20px;
+  }
+  
+  .eventHeader h1 {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .eventHeader h1 {
+    font-size: 26px;
+  }
+  
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .coordinatorsList {
+    grid-template-columns: 1fr;
+  }
+  
+  .section,
+  .leadershipSection,
+  .certificationSection {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .eventHeader h1 {
+    font-size: 22px;
+  }
+  
+  .description {
+    padding: 20px;
+    font-size: 14px;
+  }
+  
+  .registerButton,
+  .secondaryButton {
+    padding: 16px 20px;
+    font-size: 14px;
+  }
+  
+  .urgentBanner {
+    padding: 20px;
+  }
+}
+
+/* Scrollbar Styling */
+/* ::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(12, 16, 24, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-purple), var(--accent-mag));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent-mag), var(--accent-purple));
+} */

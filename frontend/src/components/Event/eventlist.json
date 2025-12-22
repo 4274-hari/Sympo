@@ -1,0 +1,236 @@
+{
+  "tech": {
+"AI Workshop": {
+  "id": "tech01",
+  "title": "AI Workshop",
+  "sympoImg": "/images/tech/image.png",
+  "description": "A hands-on workshop introducing Artificial Intelligence concepts, real-world applications, and practical implementation using Python and popular AI libraries.",
+  
+  "highlights": [
+    "Live hands-on coding session",
+    "Introduction to Machine Learning & AI tools",
+    "Real-world use cases and demos",
+    "Certificate of participation"
+  ],
+
+  "eligibility": [
+    "Open to all departments",
+    "Basic programming knowledge preferred",
+    "Beginners are welcome"
+  ],
+
+  "rules": [
+    "Individual or team participation allowed",
+    "Participants must bring their own laptop",
+    "Internet access will be provided",
+    "Follow the instructions given by the mentor"
+  ],
+
+  "teamlimit": "1–4 members",
+  "place": "Main Auditorium",
+  "date": "07/02/2026",
+  "time": "10:00 AM – 01:00 PM",
+
+  "registration": {
+    "fee": "₹200 per team",
+    "lastDate": "05/02/2026",
+    "spotRegistration": true
+  },
+
+  "hurryUp": "Limited seats available! Register early.",
+
+  "eventLeader": {
+    "name": "Arjun Kumar",
+    "phone": "9876543210"
+  },
+
+  "coordinators": [
+    { "name": "Priya S", "phone": "9123456789" },
+    { "name": "Rahul M", "phone": "9988776655" }
+  ]
+}
+,
+
+    "Machine Learning Hackathon": {
+      "id": "tech02",
+      "title": "Machine Learning Hackathon",
+      "sympoImg": "/images/tech/ml-hackathon.jpg",
+      "description": "Build and train machine learning models to solve real-world problems.",
+      "rules": [
+        "Team of 2–3 members",
+        "Internet allowed",
+        "Pre-trained models not allowed"
+      ],
+      "hurryUp": "Only few teams left!",
+      "eventLeader": {
+        "name": "Sneha R",
+        "phone": "9001122334"
+      },
+      "coordinators": [
+        { "name": "Rahul M", "phone": "9988776655" }
+      ]
+    },
+
+    "webDevChallenge": {
+      "id": "tech03",
+      "title": "Web Development Challenge",
+      "sympoImg": "/images/tech/web-dev.jpg",
+      "description": "Design and develop a responsive web application based on the given theme.",
+      "rules": [
+        "Team of 2 members",
+        "Any frontend framework allowed",
+        "Judging based on UI/UX and functionality"
+      ],
+      "hurryUp": "Registrations closing soon!",
+      "eventLeader": {
+        "name": "Karthik V",
+        "phone": "9011223344"
+      },
+      "coordinators": [
+        { "name": "Meghana L", "phone": "9776655443" }
+      ]
+    },
+
+    "cyberCTF": {
+      "id": "tech04",
+      "title": "Cyber Security CTF",
+      "sympoImg": "/images/tech/ctf.jpg",
+      "description": "Capture the Flag event testing cyber security and ethical hacking skills.",
+      "rules": [
+        "Individual participation",
+        "No collaboration allowed",
+        "Any unfair means leads to disqualification"
+      ],
+      "hurryUp": "High demand event!",
+      "eventLeader": {
+        "name": "Rohit S",
+        "phone": "9887766554"
+      },
+      "coordinators": [
+        { "name": "Vishal K", "phone": "9445566778" }
+      ]
+    },
+
+    "dataScienceSprint": {
+      "id": "tech05",
+      "title": "Data Science Sprint",
+      "sympoImg": "/images/tech/data-science.jpg",
+      "description": "Analyze datasets and extract meaningful insights under time pressure.",
+      "rules": [
+        "Individual or team of 2",
+        "Python preferred",
+        "Final submission mandatory"
+      ],
+      "hurryUp": "Few slots remaining!",
+      "eventLeader": {
+        "name": "Ananya P",
+        "phone": "9345678123"
+      },
+      "coordinators": [
+        { "name": "Naveen R", "phone": "9556677889" }
+      ]
+    }
+  },
+
+  "nontech": {
+    "Photography Contest": {
+      "id": "nontech01",
+      "title": "Photography Contest",
+      "sympoImg": "/images/nontech/photography.jpg",
+      "description": "Capture creative moments based on the given theme.",
+      "rules": [
+        "Mobile or DSLR allowed",
+        "No editing allowed",
+        "Theme announced on spot"
+      ],
+      "hurryUp": "Limited entries!",
+      "eventLeader": {
+        "name": "Divya K",
+        "phone": "9665544332"
+      },
+      "coordinators": [
+        { "name": "Arun P", "phone": "9112233445" }
+      ]
+    },
+
+    "treasureHunt": {
+      "id": "nontech02",
+      "title": "Treasure Hunt",
+      "sympoImg": "/images/nontech/treasure.jpg",
+      "description": "Solve clues and race against time to find the hidden treasure.",
+      "rules": [
+        "Team of 3–4 members",
+        "No external help",
+        "Follow campus rules"
+      ],
+      "hurryUp": "Fast filling!",
+      "eventLeader": {
+        "name": "Sanjay M",
+        "phone": "9886655443"
+      },
+      "coordinators": [
+        { "name": "Keerthi S", "phone": "9008877665" }
+      ]
+    },
+
+    "quiz": {
+      "id": "nontech03",
+      "title": "Quiz",
+      "sympoImg": "/images/nontech/quiz.jpg",
+      "description": "Test your knowledge across multiple domains.",
+      "rules": [
+        "Team of 2",
+        "No mobile phones",
+        "Quiz master's decision is final"
+      ],
+      "hurryUp": "Open to all!",
+      "eventLeader": {
+        "name": "Harsha V",
+        "phone": "9776655441"
+      },
+      "coordinators": [
+        { "name": "Manoj K", "phone": "9332211445" }
+      ]
+    },
+
+    "debate": {
+      "id": "nontech04",
+      "title": "Debate",
+      "sympoImg": "/images/nontech/debate.jpg",
+      "description": "Express your ideas and argue with confidence.",
+      "rules": [
+        "Individual participation",
+        "Time limit applies",
+        "Language: English"
+      ],
+      "hurryUp": "Limited speakers!",
+      "eventLeader": {
+        "name": "Swetha R",
+        "phone": "9443322110"
+      },
+      "coordinators": [
+        { "name": "Ajay P", "phone": "9887700112" }
+      ]
+    },
+
+    "shortFilm": {
+      "id": "nontech05",
+      "title": "Short Film Contest",
+      "sympoImg": "/images/nontech/shortfilm.jpg",
+      "description": "Create and submit an original short film based on the given theme.",
+      "rules": [
+        "Maximum duration: 5 minutes",
+        "Any genre allowed",
+        "Original content only"
+      ],
+      "hurryUp": "Submit early!",
+      "eventLeader": {
+        "name": "Kiran S",
+        "phone": "9554433221"
+      },
+      "coordinators": [
+        { "name": "Lakshmi N", "phone": "9667788990" }
+      ]
+    }
+  }
+}
