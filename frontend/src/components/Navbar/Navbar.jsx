@@ -60,7 +60,7 @@ export default function Navbar() {
         {/* Dynamic Island container */}
         <div className={styles.dynamicIsland} role="navigation" aria-label="Primary">
           <ul className={styles.navList}>
-            <h1 className={styles.NavTitle}>COGNEBULA</h1>
+            {/* <h1 className={styles.NavTitle}>COGNEBULA</h1> */}
             {navItems.map((item) => (
               <li key={item.key} className={styles.navItem}>
                 <button

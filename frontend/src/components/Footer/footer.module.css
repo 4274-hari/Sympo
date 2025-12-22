@@ -1,0 +1,241 @@
+/*
+Save the CSS below as: footer.module.css (in same folder)
+*/
+
+/* File: footer.module.css */
+
+.footer {
+  background: linear-gradient(180deg, #0f172a 0%, #071126 100%);
+  color: #e6eef8;
+  padding: 40px 28px 18px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 1 1 40%;
+  min-width: 250px;
+}
+
+.title {
+  font-family: 'Metal Mania', cursive;
+  font-size: 30px;
+  margin-bottom: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.5),
+    0 0 14px rgba(173, 60, 255, 0.7),
+    0 0 30px rgba(130, 40, 255, 0.9);
+  transform: skewX(-8deg);
+}
+
+.paragraph {
+  margin: 0 0 18px;
+  line-height: 1.5;
+  color: #cfe6ff;
+}
+
+.socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 35px;
+    /* display: flex; */
+  /* gap: 14px; */
+}
+
+.social {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.08);
+  transition: all 0.25s ease;
+}
+
+.social:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.45);
+}
+
+.right {
+  flex: 1 1 60%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.columns {
+  display: flex;
+  gap: 22px;
+  justify-content: space-between;
+}
+
+.group {
+  min-width: 160px;
+}
+
+.groupTitle {
+  position: relative;
+  font-size: 16px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+}
+
+.groupTitle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  border-radius: 2px;
+}
+
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list a {
+  color: #d3e9ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.list a:hover {
+  text-decoration: underline;
+}
+
+.coordList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.coordItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.02);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.coordName {
+  font-weight: 600;
+}
+
+.coordRole {
+  font-size: 13px;
+  color: #c3d9f7;
+}
+
+.coordContact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+}
+
+.coordContact a {
+  color: #d3e9ff;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.coordContact a:hover {
+  text-decoration: underline;
+}
+
+.registerWrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.registerBtn {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: linear-gradient(90deg,#2563eb,#7c3aed);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(39, 46, 77, 0.45);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  margin-right: 80px;
+  margin-top: -10px;
+}
+
+.registerBtn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(39, 46, 77, 0.55);
+}
+
+.bottom {
+  max-width: 1180px;
+  margin: 20px auto 0;
+  font-size: 13px;
+  color: #9fbfe6;
+  text-align: center;
+}
+
+/* animations */
+@keyframes float {
+  0% { transform: translateY(5); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(5); }
+}
+.registerBtn{ animation: float 4s ease-in-out infinite; }
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+
+  .right {
+    width: 100%;
+  }
+
+  .columns {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .registerWrap {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  .social {
+    width: 36px;
+    height: 36px;
+  }
+
+  .title { font-size: 20px; }
+  .paragraph { font-size: 14px; }
+}
