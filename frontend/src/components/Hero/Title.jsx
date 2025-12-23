@@ -48,7 +48,7 @@ const Title = () => {
   /* ---------------- JSX ---------------- */
 
   return (
-    <div className="w-screen min-h-[200vh] text-white bg-black">
+    <div className="w-screen min-h-[200vh] text-white">
       
       {/* CENTER TITLE */}
       <div
