@@ -12,6 +12,8 @@ import Top_bar from "./components/Navbar/Top_bar.jsx";
 
 const STOP_AT = 600;         // scroll stop position in px
 const PAUSE_DURATION = 500; // pause duration in ms
+import BackgroundVideo from "./components/Background/Background.jsx";
+import HeroSection from "./components/Hero/hero-section.jsx";
 
 const App = () => {
   const [eventType, setEventType] = useState(null);
@@ -65,7 +67,8 @@ const App = () => {
 
   return (
     <>
-      <ParticlesBackground />
+      {/* <ParticlesBackground /> */}
+      {/* <BackgroundVideo /> */}
 
       <div className="relative z-10 flex flex-col">
         {eventType ? (
@@ -74,7 +77,9 @@ const App = () => {
           <>
             <Navbar />
             <Top_bar/>
-            <Hero />
+            {/* <Hero /> */}
+            {/* <Hero /> */}
+            <HeroSection />
             <Event setEventType={setEventType} />
             
             {/* Section to pause at */}

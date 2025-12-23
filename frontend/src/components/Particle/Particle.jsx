@@ -25,7 +25,7 @@ const ParticlesBackground = () => {
 
         particles: {
           number: {
-            value: 120,
+            value: 800,
             density: {
               enable: true,
               area: 1200,
@@ -33,7 +33,7 @@ const ParticlesBackground = () => {
           },
 
           color: {
-            value: ["#ffffff", "#e9d5ff", "#c4b5fd"],
+            value: ["#853ddf"],
           },
 
           opacity: {
@@ -47,7 +47,7 @@ const ParticlesBackground = () => {
           },
 
           size: {
-            value: { min: 0.6, max: 2.2 },
+            value: { min: 1, max: 3.2 },
           },
 
           blur: {
