@@ -1,0 +1,198 @@
+/* ---------------- MAIN WRAPPER ---------------- */
+
+.wrapper {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  background: radial-gradient(circle at top, #0b1026, #000);
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ---------------- LEFT / RIGHT SECTIONS ---------------- */
+
+.messageContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  width: 100px;
+}
+
+.bubbleContainer {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  margin-right: 260px;
+  margin-bottom: 30px;
+}
+
+/* ---------------- BACKGROUND EFFECTS ---------------- */
+
+.background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Stars */
+.stars {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: url("/images/bg/stars.png") repeat;
+  animation: starMove 60s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes starMove {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-500px); }
+}
+
+/* Clouds */
+.clouds {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 40%;
+  background: url("/images/bg/clouds.png") repeat-x;
+  animation: cloudMove 80s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes cloudMove {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-600px); }
+}
+
+/* ---------------- PRIZE BUBBLES ---------------- */
+
+.prizeBubble {
+  position: absolute;
+
+  /* RIGHT-SIDE ZIG-ZAG PLACEMENT */
+  left: calc(55% + var(--dir) * 8%);
+  top: calc(18% + var(--i) * 26%);
+
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  /* IMPORTANT: allow trophy to escape bubble */
+  overflow: visible;
+
+  /* Zig-zag floating */
+  --x: calc(var(--dir) * 70px);
+  animation: zigZagFloat 7s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.5s);
+
+  will-change: transform;
+}
+
+/* Glass highlight */
+.prizeBubble::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  filter: blur(6px);
+}
+
+/* ---------------- TROPHY (PEEK OUT) ---------------- */
+
+.prizeBubble img {
+  position: absolute;
+  top: -25px;
+  width: 130px;
+  z-index: 3;
+  filter: drop-shadow(0 16px 22px rgba(0,0,0,0.45));
+}
+
+/* ---------------- BUBBLE CONTENT ---------------- */
+
+.prizeBubble h3 {
+  margin-top: 42px;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.prizeBubble span {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* ---------------- ZIG-ZAG FLOAT ---------------- */
+
+@keyframes zigZagFloat {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(var(--x), -30px);
+  }
+  50% {
+    transform: translate(calc(var(--x) * -1), -60px);
+  }
+  75% {
+    transform: translate(var(--x), -30px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* ---------------- MESSAGE BOX ---------------- */
+
+.glassBox {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 40px;
+  border-radius: 20px;
+  width: 720px;
+  height: 300px;
+  margin-left: 70px;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .bubbleContainer,
+  .messageContainer {
+    width: 100%;
+  }
+
+  .bubbleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .prizeBubble {
+    position: static;
+    margin: 30px 0;
+    animation: zigZagFloat 6s ease-in-out infinite;
+  }
+}

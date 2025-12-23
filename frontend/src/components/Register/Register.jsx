@@ -1,217 +1,301 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import styles from "./register.module.css";
+import { useNavigate } from "react-router-dom";
 
-/* 🔹 Events */
-const EVENT_MAP = {
-  tech: [
-    "AI Developer Hackathon",
-    "Web Development Challenge",
-    "ML Sprint"
-  ],
-  nontech: [
-    "Photography",
-    "Quiz",
-    "Treasure Hunt"
-  ],
-  workshop: [
-    "AI Workshop",
-  ]
-};
 
-const BASE_FEE = 150;
-const WORKSHOP_FEE = 150;
-
-const RegistrationForm = () => {
-  const [form, setForm] = useState({
+export default function RegisterPage() {
+  const navigate = useNavigate();
+  const [event2Checked, setEvent2Checked] = useState(false);
+  const [role, setRole] = useState("");
+  const [payNow, setPayNow] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  // states
+const [paymentSuccess, setPaymentSuccess] = useState(false);
+const [loading, setLoading] = useState(false);
+const [form, setForm] = useState({
     name: "",
     mobile: "",
     email: "",
     college: "",
-    dept: "",
     year: "",
-    food: "",
-    categories: [],
-    role: "",
-    teamCode: ""
   });
+   const [errors, setErrors] = useState({});
 
-  const [selectedEvents, setSelectedEvents] = useState({});
-  const [amount, setAmount] = useState(0);
-
-  /* 🔹 Team Code */
-  const generateCode = () =>
-    "TEAM-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-
-  /* 🔹 Input */
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  /* 🔹 Category Select */
-  const handleCategoryChange = (e) => {
-    const { value, checked } = e.target;
+  const validate = () => {
+    const err = {};
 
-    setForm((prev) => ({
-      ...prev,
-      categories: checked
-        ? [...prev.categories, value]
-        : prev.categories.filter((c) => c !== value)
-    }));
+    if (!form.name.trim()) err.name = "Name is required";
+    if (!/^[6-9]\d{9}$/.test(form.mobile))
+      err.mobile = "Enter valid mobile number";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+      err.email = "Enter valid email";
+    if (!form.college.trim()) err.college = "College name required";
+    if (!form.year) err.year = "Select year";
 
-    if (!checked) {
-      setSelectedEvents((prev) => {
-        const updated = { ...prev };
-        delete updated[value];
-        return updated;
-      });
-    }
+    setErrors(err);
+    return Object.keys(err).length === 0;
   };
 
-  /* 🔹 Event Select */
-  const handleEventSelect = (category, event) => {
-    setSelectedEvents((prev) => {
-      const exists = prev[category]?.includes(event);
-      return {
-        ...prev,
-        [category]: exists
-          ? prev[category].filter((e) => e !== event)
-          : [...(prev[category] || []), event]
-      };
-    });
-  };
+// simulate redirect to payment
+const handlePayment = () => {
+  setLoading(true);
 
-  /* 🔹 Role */
-  const handleRole = (e) => {
-    const role = e.target.value;
-    setForm({
-      ...form,
-      role,
-      teamCode: role === "leader" ? generateCode() : ""
-    });
-  };
+  // 🔁 Later replace with real payment redirect
+  setTimeout(() => {
+    setLoading(false);
+    setPaymentSuccess(true); // payment success
+  }, 2000);
+};
 
-  /* 🔹 AMOUNT CALCULATION LOGIC */
-  useEffect(() => {
-    let total = 0;
-
-    const hasTechOrNonTech =
-      form.categories.includes("tech") ||
-      form.categories.includes("nontech");
-
-    const hasWorkshop = form.categories.includes("workshop");
-
-    if (hasTechOrNonTech) {
-      total += BASE_FEE;
-    }
-
-    if (hasWorkshop) {
-      total += WORKSHOP_FEE;
-    }
-
-    setAmount(total);
-  }, [form.categories]);
-
-  /* 🔹 Submit */
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const payload = {
-      ...form,
-      selectedEvents,
-      amount
-    };
-
-    console.log("Final Registration:", payload);
-    alert(`Proceed to Payment: ₹${amount}`);
-  };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <h2 className={styles.title}>Event Registration</h2>
-
-      <input name="name" placeholder="Full Name" onChange={handleChange} required />
-      <input name="mobile" placeholder="Mobile Number" onChange={handleChange} required />
-      <input name="email" placeholder="Email" onChange={handleChange} required />
-      <input name="college" placeholder="College Name" onChange={handleChange} />
-      <input name="dept" placeholder="Department" onChange={handleChange} />
-      <select name="year" onChange={handleChange} required>
-        <option value="">Select your year</option>
-        <option value="I-year">I-year</option>
-        <option value="II-year">II-year</option>
-        <option value="III-year">III-year</option>
-        <option value="IV-year">IV-year</option>
-      </select>
-
-      <select name="food" onChange={handleChange} required>
-        <option value="">Food Preference</option>
-        <option value="veg">Veg</option>
-        <option value="nonveg">Non-Veg</option>
-      </select>
-
-      {/* Categories */}
-      <div className={styles.section}>
-        <p className={styles.label}>Select Categories</p>
-
-        {["tech", "nontech", "workshop"].map((cat) => (
-          <label key={cat} className={styles.checkbox}>
-            <input
-              type="checkbox"
-              value={cat}
-              onChange={handleCategoryChange}
-            />
-            {cat.toUpperCase()}
-          </label>
+    <div className={styles.container}>
+      {/* Astronauts */}
+      <div className={styles.astronauts}>
+        {Array.from({ length: 12 }).map((_, i) => (
+          <span key={i} className={styles.astronaut}>🚀</span>
         ))}
       </div>
 
-      {/* Events */}
-      {form.categories.map((category) => (
-        <div key={category} className={styles.subEvents}>
-          <p className={styles.subTitle}>{category.toUpperCase()} Events</p>
+      <form className={styles.form}>
+        <h1 className={styles.title}>Event Registration</h1>
 
-          {EVENT_MAP[category].map((event) => (
-            <label key={event} className={styles.checkbox}>
-              <input
-                type="checkbox"
-                onChange={() => handleEventSelect(category, event)}
-              />
-              {event}
-            </label>
-          ))}
-        </div>
-      ))}
+        {/* Personal Details */}
+        <div className={styles.grid}>
+      {/* Name */}
+      <div className={styles.field}>
+  <label>NAME</label>
+  <input
+    name="name"
+    value={form.name}
+    placeholder="APPU S"
+    onChange={(e) =>
+      setForm({ ...form, name: e.target.value.toUpperCase() })
+    }
+  />
+  {errors.name && <span>{errors.name}</span>}
+</div>
 
-      {/* Participation */}
-      <select onChange={handleRole} required>
-        <option value="">Participation Type</option>
-        <option value="leader">Team Leader</option>
-        <option value="member">Team Member</option>
-      </select>
 
-      {form.role === "leader" && (
-        <p className={styles.code}>Team Code: {form.teamCode}</p>
-      )}
-
-      {form.role === "member" && (
+      {/* Mobile */}
+      <div className={styles.field}>
+        <label>Mobile Number</label>
         <input
-          name="teamCode"
-          placeholder="Enter Team Code"
+          name="mobile"
+          maxLength="10"
+          value={form.mobile}
+           placeholder="9876543210"
           onChange={handleChange}
-          required
         />
-      )}
-
-      {/* 💰 Amount */}
-      <div className={styles.amountBox}>
-        <p>Total Amount:</p>
-        <h3>₹{amount}</h3>
+        {errors.mobile && <span>{errors.mobile}</span>}
       </div>
 
-      <button className={styles.submit} disabled={amount === 0}>
-        Proceed to Pay ₹{amount}
-      </button>
-    </form>
-  );
-};
+      {/* Email */}
+      <div className={styles.field}>
+        <label>Email ID</label>
+        <input
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+           placeholder="APPU@GMAIL.COM"
+        />
+        {errors.email && <span>{errors.email}</span>}
+      </div>
 
-export default RegistrationForm;
+      {/* College */}
+      <div className={styles.field}>
+        <label>College Name</label>
+        <input
+          name="college"
+          value={form.college}
+          onChange={handleChange}
+          placeholder="ABC ENGINEERING COLLEGE"
+        />
+        {errors.college && <span>{errors.college}</span>}
+      </div>
+
+      {/* Year */}
+      <div className={styles.field}>
+        <label>Year</label>
+        <select
+          name="year"
+          value={form.year}
+          onChange={handleChange}
+        >
+          <option value="">Select Year</option>
+          <option>1st Year</option>
+          <option>2nd Year</option>
+          <option>3rd Year</option>
+          <option>4th Year</option>
+          <option>other</option>
+        </select>
+        {errors.year && <span>{errors.year}</span>}
+      </div>
+    </div>
+
+        {/* Food */}
+
+      <div className={styles.section}>
+  <h3>Events</h3>
+
+  {/* Technical */}
+  <div className={styles.eventBox}>
+    <h4>Technical</h4>
+
+    <label className={styles.checkCard}>
+      <input type="checkbox" />
+      <span></span>
+      Event 1
+    </label>
+        <label className={styles.checkCard}>
+          <input
+            type="checkbox"
+            onChange={(e) => setEvent2Checked(e.target.checked)}
+          />
+          <span></span>
+          Event 2 (Team Event)
+        </label>
+
+        {event2Checked && (
+          <div className={styles.teamBox}>
+            <div className={styles.roleGroup}>
+              <label className={styles.radioCard}>
+                <input
+                  type="radio"
+                  name="teamRole"
+                  onChange={() => setRole("leader")}
+                />
+                <span></span>
+                Team Leader
+              </label>
+
+              <label className={styles.radioCard}>
+                <input
+                  type="radio"
+                  name="teamRole"
+                  onChange={() => setRole("member")}
+                />
+                <span></span>
+                Team Member
+              </label>
+            </div>
+
+            {role === "leader" && (
+              <div className={styles.teamInputs}>
+                <input placeholder="Team Name (Eg: Code Warriors)" />
+                <input placeholder="Team Code (Auto Generated)" disabled />
+              </div>
+            )}
+
+            {role === "member" && (
+              <input placeholder="Enter Team Code (Eg: CW1023)" />
+            )}
+          </div>
+        )}
+      </div>
+  {/* Non Technical */}
+            <div className={styles.eventBox}>
+              <h4>Non-Technical</h4>
+
+              <label className={styles.checkCard}>
+                <input type="checkbox" />
+                <span></span>
+                Event 1
+              </label>
+
+              <label className={styles.checkCard}>
+                <input type="checkbox" />
+                <span></span>
+                Event 2
+              </label>
+            </div>
+
+            {/* Workshop */}
+            <div className={styles.eventBox}>
+              <h4>Workshop</h4>
+
+              <label className={styles.checkCard}>
+                <input type="checkbox" />
+                <span></span>
+                Workshop (₹300)
+              </label>
+            </div>
+          </div>
+        <div className={styles.section}>
+          <h3>Food Preference</h3>
+          <div className={styles.radioGroup}>
+            <label className={styles.radioCard}>
+              <input type="radio" name="food" />
+              <span className={styles.customRadio}></span>
+              Veg
+            </label>
+
+            <label className={styles.radioCard}>
+              <input type="radio" name="food" />
+              <span className={styles.customRadio}></span>
+              Non-Veg
+            </label>
+          </div>
+          </div>
+
+        {/* Payment Section */}
+          <div className={styles.section}>
+            <h3>Payment</h3>
+
+            {!paymentSuccess ? (
+              <button
+                type="button"
+                className={styles.payBtn}
+                onClick={handlePayment}
+                disabled={loading}
+              >
+                {loading ? "Redirecting to Payment..." : "Pay Now"}
+              </button>
+            ) : (
+              <div className={styles.paymentSuccess}>
+                ✅ Payment Successful
+              </div>
+            )}
+          </div>
+
+          {/* Register Button (ONLY after payment success) */}
+         {paymentSuccess && (
+  <button
+    type="button"
+    className={styles.registerBtn}
+    onClick={() => setShowPopup(true)}
+  >
+    Register Now
+  </button>
+)}
+
+{showPopup && (
+  <div className={styles.modalOverlay}>
+    <div className={styles.modalBox}>
+      <h2>Registration Successful 🎉</h2>
+      <p>Confirmation mail has been sent successfully.</p>
+
+      <button
+        className={styles.okBtn}
+        // onClick={() => router.push("/")}
+        onClick={() => navigate('/')}
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
+
+
+          <p className={styles.note}>
+            Confirmation email will be sent after successful registration
+          </p>
+      </form>
+    </div>
+  );
+}

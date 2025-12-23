@@ -13,7 +13,8 @@ import Highlight from "./components/Highlight/Highlight";
 import Event from "./components/Event/Event";
 import Contact from "./components/Contact/Contact";
 import Eventland from "./components/Event/Eventlanding";
-import Registration from "./components/Register/Register";
+import Register from "./components/Register/Register";
+import Prize from "./components/Prize/prize.jsx";
 
 const App = () => {
   return (
@@ -46,7 +47,11 @@ const App = () => {
           />
             <Route
             path="/register"
-            element={<Registration />}
+            element={<Register />}
+          />
+          <Route
+            path="/prize"
+            element={<Prize />}
           />
 
         </Routes>
