@@ -1,4 +1,3 @@
-"use client"
 import React, { useEffect, useState } from "react"
 import { CountdownTimer } from "./Clock/countdown-timer"
 import { Instagram } from "lucide-react"
@@ -13,12 +12,12 @@ export default function HeroSection() {
     setMounted(true)
     setTimeout(() => setIsLoaded(true), 100)
 
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
+    // const handleMouseMove = (e) => {
+    //   setMousePosition({ x: e.clientX, y: e.clientY })
+    // }
 
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
+    // window.addEventListener("mousemove", handleMouseMove)
+    // return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
   const handleInstaTextHover = (e) => {
@@ -48,8 +47,8 @@ export default function HeroSection() {
           <div
             className="absolute w-[400px] h-[400px] rounded-full pointer-events-none transition-all duration-300 ease-out"
             style={{
-              left: `${mousePosition.x}px`,
-              top: `${mousePosition.y}px`,
+              // left: `${mousePosition.x}px`,
+              // top: `${mousePosition.y}px`,
               transform: "translate(-50%, -50%)",
               background: "radial-gradient(circle, rgba(137, 104, 205, 0.15) 0%, transparent 70%)",
               filter: "blur(40px)",

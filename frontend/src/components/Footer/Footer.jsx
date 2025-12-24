@@ -1,4 +1,3 @@
-// File: Footer.jsx
 import React from "react";
 import styles from "./footer.module.css";
 import { Instagram, Facebook, Mail, Chrome } from "lucide-react";
@@ -16,49 +15,45 @@ export default function Footer() {
             subject-matter experts, participate in workshops and collaborate with
             peers from across departments.
           </p>
+          <div className={styles.socials}>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className={styles.social}
+            >
+              <Instagram size={20} />
+            </a>
 
-       
+            <a
+              href="https://accounts.google.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Google"
+              className={styles.social}
+            >
+              <Chrome size={20} />
+            </a>
 
-<div className={styles.socials}>
-  <a
-    href="https://instagram.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Instagram"
-    className={styles.social}
-  >
-    <Instagram size={20} />
-  </a>
+            <a
+              href="mailto:info@college.edu"
+              aria-label="Email"
+              className={styles.social}
+            >
+              <Mail size={20} />
+            </a>
 
-  <a
-    href="https://accounts.google.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Google"
-    className={styles.social}
-  >
-    <Chrome size={20} />
-  </a>
-
-  <a
-    href="mailto:info@college.edu"
-    aria-label="Email"
-    className={styles.social}
-  >
-    <Mail size={20} />
-  </a>
-
-  <a
-    href="https://facebook.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Facebook"
-    className={styles.social}
-  >
-    <Facebook size={20} />
-  </a>
-</div>
-
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className={styles.social}
+            >
+              <Facebook size={20} />
+            </a>
+          </div>
         </div>
 
         <div className={styles.right}>

@@ -24,8 +24,6 @@ const App = () => {
 
       <div className="relative z-10">
         <Routes>
-
-          {/* 🏠 HOME PAGE */}
           <Route
             path="/"
             element={
@@ -35,12 +33,13 @@ const App = () => {
                 <HeroSection />
                 <Event />
                 <Highlight />
+                <Prize />
                 <Contact />
+                <Sponsor />
+                <Footer />
               </>
             }
           />
-
-          {/* 🎯 EVENT LANDING PAGE */}
           <Route
             path="/event/:category/:name"
             element={<Eventland />}
@@ -53,7 +52,6 @@ const App = () => {
             path="/prize"
             element={<Prize />}
           />
-
         </Routes>
       </div>
     </>
