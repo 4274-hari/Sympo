@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { CountdownTimer } from "./Clock/countdown-timer"
 import { Instagram } from "lucide-react"
-
+import Comet from './Comet'
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -36,8 +36,9 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-black flex flex-col items-center justify-between px-4 py-8 md:px-8 lg:px-16">
+    <section className="relative min-h-screen overflow-hidden  flex flex-col items-center justify-between px-4 py-8 md:px-8 lg:px-16">
       {/* Background effects */}
+      <Comet/>
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-[#301934] to-[#1a0a1f]" />
         <div className="absolute inset-0 bg-gradient-to-tr from-[#4B0082]/20 via-transparent to-[#663399]/10" />
@@ -228,6 +229,7 @@ export default function HeroSection() {
           REGISTER NOW!
         </a>
       </div>
+        
     </section>
   )
 }
