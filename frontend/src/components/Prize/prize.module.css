@@ -18,7 +18,6 @@
   align-items: center;
   justify-content: center;
   z-index: 2;
-  width: 100px;
 }
 
 .bubbleContainer {
@@ -49,7 +48,7 @@
 
 @keyframes starMove {
   from { transform: translateY(0); }
-  to   { transform: translateY(-500px); }
+  to { transform: translateY(-500px); }
 }
 
 /* Clouds */
@@ -65,15 +64,13 @@
 
 @keyframes cloudMove {
   from { transform: translateX(0); }
-  to   { transform: translateX(-600px); }
+  to { transform: translateX(-600px); }
 }
 
-/* ---------------- PRIZE BUBBLES ---------------- */
+/* ---------------- PRIZE BUBBLES (DESKTOP) ---------------- */
 
 .prizeBubble {
   position: absolute;
-
-  /* RIGHT-SIDE ZIG-ZAG PLACEMENT */
   left: calc(55% + var(--dir) * 8%);
   top: calc(18% + var(--i) * 26%);
 
@@ -91,15 +88,11 @@
   justify-content: center;
   text-align: center;
 
-  /* IMPORTANT: allow trophy to escape bubble */
   overflow: visible;
 
-  /* Zig-zag floating */
   --x: calc(var(--dir) * 70px);
   animation: zigZagFloat 7s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.5s);
-
-  will-change: transform;
 }
 
 /* Glass highlight */
@@ -115,8 +108,7 @@
   filter: blur(6px);
 }
 
-/* ---------------- TROPHY (PEEK OUT) ---------------- */
-
+/* Trophy */
 .prizeBubble img {
   position: absolute;
   top: -25px;
@@ -125,8 +117,7 @@
   filter: drop-shadow(0 16px 22px rgba(0,0,0,0.45));
 }
 
-/* ---------------- BUBBLE CONTENT ---------------- */
-
+/* Text */
 .prizeBubble h3 {
   margin-top: 42px;
   margin-bottom: 6px;
@@ -138,24 +129,13 @@
   opacity: 0.85;
 }
 
-/* ---------------- ZIG-ZAG FLOAT ---------------- */
-
+/* Float animation */
 @keyframes zigZagFloat {
-  0% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(var(--x), -30px);
-  }
-  50% {
-    transform: translate(calc(var(--x) * -1), -60px);
-  }
-  75% {
-    transform: translate(var(--x), -30px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(var(--x), -30px); }
+  50% { transform: translate(calc(var(--x) * -1), -60px); }
+  75% { transform: translate(var(--x), -30px); }
+  100% { transform: translate(0, 0); }
 }
 
 /* ---------------- MESSAGE BOX ---------------- */
@@ -171,28 +151,148 @@
   margin-left: 70px;
 }
 
-/* ---------------- RESPONSIVE ---------------- */
+/* ---------------- MOBILE VIEW ---------------- */
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+
   .wrapper {
     flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    padding-bottom: 60px;
   }
 
-  .bubbleContainer,
+  /* Message section */
   .messageContainer {
     width: 100%;
+    padding: 20px 16px;
   }
 
+  .glassBox {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 24px;
+    border-radius: 18px;
+  }
+
+  /* Bubble container */
   .bubbleContainer {
+    width: 100%;
+    margin: 0;
+    padding-top: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 40px;
+    height: 200px;
   }
 
+  /* Smaller bubbles */
   .prizeBubble {
-    position: static;
-    margin: 30px 0;
-    animation: zigZagFloat 6s ease-in-out infinite;
+    position: relative;
+    left: auto;
+    top: auto;
+
+    width: 140px;
+    height: 140px;
+    margin: 22px 0;
+
+    animation: zigZagFloat 5s ease-in-out infinite;
+  }
+
+  .prizeBubble::before {
+    width: 36px;
+    height: 36px;
+    top: 12px;
+    left: 14px;
+  }
+
+  .prizeBubble img {
+    width: 90px;
+    top: -20px;
+  }
+
+  .prizeBubble h3 {
+    margin-top: 38px;
+    font-size: 0.9rem;
+  }
+
+  .prizeBubble span {
+    font-size: 0.8rem;
   }
 }
+/* ---------------- TABLET VIEW (BUBBLES ONE BY ONE) ---------------- */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .wrapper {
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+
+  /* Message at TOP */
+  .messageContainer {
+    width: 100%;
+    padding: 32px 24px;
+    justify-content: center;
+  }
+
+  .glassBox {
+    width: 85%;
+    max-width: 640px;
+    height: auto;
+    margin: 0;
+    padding: 32px;
+    border-radius: 20px;
+  }
+
+  /* Bubble section at BOTTOM (STACKED) */
+  .bubbleContainer {
+    width: 100%;
+    margin: 0;
+    padding-top: 30px;
+
+    display: flex;
+    flex-direction: column;   /* 👈 one by one */
+    align-items: center;
+    gap: 28px;
+
+    position: relative;
+    height: auto;
+  }
+
+  /* Prize bubbles */
+  .prizeBubble {
+    position: relative;
+    left: auto;
+    top: auto;
+
+    width: 180px;
+    height: 180px;
+
+    animation: zigZagFloat 6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.4s); /* 👈 stagger effect */
+  }
+
+  .prizeBubble::before {
+    width: 42px;
+    height: 42px;
+    top: 14px;
+    left: 16px;
+  }
+
+  .prizeBubble img {
+    width: 105px;
+    top: -22px;
+  }
+
+  .prizeBubble h3 {
+    margin-top: 38px;
+    font-size: 0.95rem;
+  }
+
+  .prizeBubble span {
+    font-size: 0.85rem;
+  }
+}
+

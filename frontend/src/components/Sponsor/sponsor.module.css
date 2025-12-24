@@ -145,3 +145,131 @@
     height: 320px;
   }
 }
+/* ===========================
+   MOBILE FIX (≤ 768px)
+   =========================== */
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+
+  /* Bubble container */
+  .bubbleContainer {
+    width: 100%;
+    max-width: 340px;
+    height: 500px;
+    margin: 0 auto;
+    margin-top: 0;
+  }
+
+  /* Reduce logo size */
+  .floatingLogo img {
+    width: 72px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  /* Reposition logos for mobile grid */
+  .floatingLogo:nth-child(1) { top: 8%; left: 12%; }
+  .floatingLogo:nth-child(2) { top: 10%; left: 55%; }
+  .floatingLogo:nth-child(3) { top: 35%; left: 10%; }
+  .floatingLogo:nth-child(4) { top: 35%; left: 58%; }
+  .floatingLogo:nth-child(5) { top: 62%; left: 18%; }
+  .floatingLogo:nth-child(6) { top: 65%; left: 62%; }
+  .floatingLogo:nth-child(7) { top: 80%; left: 40%; }
+  .floatingLogo:nth-child(8) { display: none; } /* optional for clarity */
+
+  /* Disable hover scaling on touch */
+  .floatingLogo:hover img {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Message section */
+  .messageContainer {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .glassBox {
+    width: 100%;
+    max-width: 100%;
+    padding: 26px 22px;
+    border-radius: 22px;
+  }
+
+  .glassBox h2 {
+    font-size: 22px;
+  }
+
+  .glassBox p {
+    font-size: 14px;
+  }
+}
+/* ===========================
+   TABLET / TAP VIEW (769px–1024px)
+   =========================== */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .wrapper {
+    gap: 40px;
+    padding: 40px 32px;
+    min-height: auto;
+  }
+
+  /* Bubble container */
+  .bubbleContainer {
+    width: 800px;
+    height: 620px;
+    margin-left: 0;
+    margin-top: 2rem;
+    margin-left: 40px;
+  }
+
+  /* Logo sizing for tap comfort */
+  .floatingLogo img {
+    width: 92px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  /* Tablet logo positions (balanced grid) */
+  .floatingLogo:nth-child(1) { top: 8%;  left: 18%; }
+  .floatingLogo:nth-child(2) { top: 14%; left: 55%; }
+  .floatingLogo:nth-child(3) { top: 32%; left: 14%; }
+  .floatingLogo:nth-child(4) { top: 36%; left: 60%; }
+  .floatingLogo:nth-child(5) { top: 58%; left: 20%; }
+  .floatingLogo:nth-child(6) { top: 64%; left: 62%; }
+  .floatingLogo:nth-child(7) { top: 80%; left: 42%; }
+  .floatingLogo:nth-child(8) { display: none; } /* optional */
+
+  /* Reduce hover intensity (tablet = touch-first) */
+  .floatingLogo:hover img {
+    transform: scale(1.1);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Message section */
+  .messageContainer {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .glassBox {
+    max-width: 660px;
+    padding: 32px;
+    border-radius: 24px;
+  }
+
+  .glassBox h2 {
+    font-size: 26px;
+  }
+
+  .glassBox p {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+}
