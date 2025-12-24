@@ -16,6 +16,9 @@ import Eventland from "./components/Event/Eventlanding";
 import Register from "./components/Register/Register";
 import Prize from "./components/Prize/prize.jsx";
 
+import CategoryPage from "./components/Event/CategoryPage";
+
+
 const App = () => {
   return (
     <>
@@ -40,8 +43,11 @@ const App = () => {
               </>
             }
           />
+
+          {/* 🎯 EVENT LANDING PAGE */}
+          <Route path="/events/:category" element={<CategoryPage />} />
           <Route
-            path="/event/:category/:name"
+            path="/event/:category/:id"
             element={<Eventland />}
           />
             <Route

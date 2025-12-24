@@ -1,106 +1,71 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./event.module.css";
-import cap from "../../assets/cap.png";
-import iron from "../../assets/iron.png";
-import spydi from "../../assets/spydi.png";
 import { useNavigate } from "react-router-dom";
-import Techimg from "../../Assets/eventimg/tech.png";
-import Nontechimg from "../../Assets/eventimg/nontech.png";
-import Workshopimg from "../../Assets/eventimg/workshop.png";
+import eventsData from "./eventlist.json";
+import StormbreakerCinematic  from "./StormbreakerCinematic.jsx";
 
 
-const data = [
-  {
-    date: "20 NOV 2025",
-    title: "Technical Events",
-    desc: "Explore cutting-edge technical challenges and competitions.",
-    events: [
-      { name: "AI Workshop"},
-      { name: "Machine Learning Hackathon"},
-      { name: "Web Development Challenge"},
-      { name: "Cyber Security CTF" },
-      { name: "Data Science Sprint" }
-    ],
-    color: "neonred",
-    type: "tech",
-    icon: iron,
-    img : Techimg,
-  },
-  {
-    date: "28 DEC 2025",
-    title: "Non-Technical Events",
-    desc: "Fun, creative, and engaging non-technical events for everyone.",
-    events: [
-      { name: "Photography Contest"},
-      { name: "Treasure Hunt" },
-      { name: "Quiz"},
-      { name: "Debate"},
-      { name: "Short Film Contest"}
-    ],
-    color: "neonblue",
-    type: "nontech",
-    icon: cap,
-    img : Nontechimg,
-  },
-    {
-    date: "Comming soon..",
-    title: "Work Shop",
-    desc: "Gain our knowlege and experience with our workshop.",
-    events: [],
-    color: "neonred",
-    type: "workshop",
-    icon: spydi,
-    img: Workshopimg,
-  }
-];
+const CATEGORY_META_KEYS = ["color", "icon", "date", "description", "id"];
+
+const buildTimelineData = (eventsData) =>
+  Object.entries(eventsData).map(([type, category]) => {
+    const { color, icon, img, date, description } = category;
+
+    const events = Object.entries(category)
+      .filter(([key]) => !CATEGORY_META_KEYS.includes(key))
+      .map(([_, ev]) => ev);
+
+    return {
+      type,
+      title:
+        type === "tech"
+          ? "Technical Events"
+          : type === "nontech"
+          ? "Non-Technical Events"
+          : "Work Shop",
+      date: date || events[0]?.date || "Coming Soon",
+      desc:
+        description ||
+        "Explore cutting-edge events and exciting challenges.",
+      color,
+      icon,
+      img,
+      events
+    };
+  });
 
 export default function Event() {
-
   const wrapRef = useRef(null);
   const [expandedCard, setExpandedCard] = useState(null);
-  const [eventType, setEventType] = useState(null);
   const navigate = useNavigate();
+  const handleCategoryRedirect = (category) => {
+  navigate(`/events/${category}`);
+};
 
-  // Toggle card expansion
-  const toggleCard = (index) => {
-    if (expandedCard === index) {
-      setExpandedCard(null);
-      setExpandedEvent(null);
-    } else {
-      setExpandedCard(index);
-    }
-  };
+  const data = buildTimelineData(eventsData);
 
-  // Toggle individual event expansion
-  const toggleEvent = (eventIndex, cardIndex) => {
-    if (expandedEvent === `${cardIndex}-${eventIndex}`) {
-      setExpandedEvent(null);
-    } else {
-      setExpandedEvent(`${cardIndex}-${eventIndex}`);
-    }
-  };
+  const toggleCard = (index) =>
+    setExpandedCard(expandedCard === index ? null : index);
 
-  // Handle event redirection
-  const handleRedirect = (link) => {
-    window.location.href = link;
-  };
-
-  // optional reveal-on-scroll for cards
   useEffect(() => {
-    const opts = { threshold: 0.12 };
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) e.target.classList.add(styles.reveal);
-      });
-    }, opts);
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach(
+          (e) => e.isIntersecting && e.target.classList.add(styles.reveal)
+        ),
+      { threshold: 0.12 }
+    );
 
-    const items = wrapRef.current?.querySelectorAll(`.${styles.row}`);
-    items?.forEach((it) => io.observe(it));
+    wrapRef.current
+      ?.querySelectorAll(`.${styles.row}`)
+      .forEach((el) => io.observe(el));
+
     return () => io.disconnect();
   }, []);
 
   return (
-    <section className={styles.page}>
+    <section className={styles.page} id="events">
+      <StormbreakerCinematic />
       <header className={styles.header}>
         <h1 className={styles.title}>OUR EVENTS</h1>
         <div className={styles.underline} />
@@ -142,7 +107,11 @@ export default function Event() {
 <article 
   className={`${styles.card} ${expandedCard === i ? styles.cardExpanded : ''} ${styles.cardGlow}`} 
   tabIndex={0}
-  onClick={() => toggleCard(i)}
+  onClick={() => {
+  toggleCard(i);
+  handleCategoryRedirect(item.type);
+}}
+
   onKeyDown={(e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -162,21 +131,19 @@ export default function Event() {
   
   {/* Date badge with improved styling */}
   <span className={`${styles.badge} ${styles[item.color]} ${styles.badgeGlow}`}>
-    <span className={styles.badgeText}>{item.date}</span>
+    <span className={styles.badgeText}>{item.date || "07/02/2026"}</span>
     <span className={styles.badgeDeco}></span>
   </span>
   
   {/* Image with overlay effect */}
-  <div className={styles.imageContainer}>
-    <img
-      src={item.img}
-      alt={item.title || "event image"}
-      className={styles.cardimg}
-      loading="lazy"
-    />
-    <div className={styles.imageOverlay}></div>
-    <div className={styles.imageShine}></div>
-  </div>
+<div className={styles.imageContainer}>
+  <img src={item.img} alt={item.title} className={styles.cardimg} loading="lazy" />
+  <div className={styles.imageOverlay}></div>
+  <div className={styles.imageShine}></div>
+  {/* optional outer ring */}
+  <div className={styles.borderRing}></div>
+</div>
+
   
   {/* Content */}
   <div className={styles.cardContent}>

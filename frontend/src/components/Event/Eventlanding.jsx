@@ -28,11 +28,14 @@ import {
   Zap
 } from "lucide-react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Eventlanding = () => {
-  const { category, name } = useParams();
-  const eventType = { category, name };
-  const event = eventsData?.[eventType.category]?.[eventType.name];
+  const { category, id } = useParams();
+  const eventType = { category, id };
+  const event = eventsData?.[eventType.category]?.[eventType.id];
+
+const navigate = useNavigate();
 
   if (!event) return <p>Event not found</p>;
 
@@ -63,10 +66,14 @@ const Eventlanding = () => {
           
           {/* Header with back button */}
           <div className={styles.header}>
-            <button onClick={() => setEventType(null)} className={styles.backButton}>
-              <ArrowLeft size={20} />
-              <span>Back to Events</span>
-            </button>
+<button
+  onClick={() => navigate(-1)}
+  className={styles.backButton}
+>
+  <ArrowLeft size={20} />
+  <span>Back to Events</span>
+</button>
+
             <div className={styles.eventCategory}>
               {getCategoryIcon()}
               <span className={styles.categoryLabel}>
@@ -355,10 +362,14 @@ const Eventlanding = () => {
                     Register Now
                   </a>
                 )}
-                <button onClick={() => setEventType(null)} className={styles.secondaryButton}>
-                  <ArrowLeft size={18} />
-                  Back to Events
-                </button>
+<button
+  onClick={() => navigate(-1)}
+  className={styles.secondaryButton}
+>
+  <ArrowLeft size={18} />
+  Back to Events
+</button>
+
               </div>
             </div>
           </div>

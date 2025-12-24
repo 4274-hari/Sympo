@@ -137,11 +137,15 @@
   box-shadow: 0 10px 30px rgba(4,6,8,0.6);
   border:1px solid rgba(255,255,255,0.03);
   position:relative;
-  /* transition: transform .28s ease, box-shadow .28s ease; */
+  transition: transform .28s ease, box-shadow .28s ease;
   font-family: "Roboto Mono", monospace;
 }
 
-
+/* hover lift for card */
+.card:hover{
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 30px rgba(127,0,255,0.06);
+}
 
 /* date badge */
 .badge{
@@ -173,6 +177,23 @@
   font-size:14px;
   line-height:1.8;
   margin-bottom:8px;
+}
+
+/* connector */
+.connector{
+  width:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+/* short connecting line */
+.line{
+  width:48px;
+  height:4px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03));
+  border-radius:2px;
 }
 
 /* diamond marker */
@@ -277,6 +298,26 @@
 }
 
 /* Expand indicator */
+.expandIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--accent-spyred);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.expandIndicator:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(127, 0, 255, 0.2);
+}
+
 /* Event list container */
 .eventListContainer {
   margin-top: 24px;
