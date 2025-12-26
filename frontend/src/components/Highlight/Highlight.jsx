@@ -31,12 +31,13 @@ const items = [
 
 export default function Highlight() {
   return (
-    <section className={styles.wrapper}>
+    <section className={styles.wrapper} id="highlights">
       <h2 className={styles.title}>HIGHLIGHTS</h2>
 
       <div className={styles.grid}>
         {/* Banner image */}
         <div className={`${styles.card} ${styles.span2} ${styles.overlayCard}`} tabIndex={0}>
+          <div className={styles.ambientGlow} />
           <img src={items[0].src} className={styles.img} />
           <div className={styles.overlay}>
             <h3>{items[0].title}</h3>
@@ -46,12 +47,14 @@ export default function Highlight() {
 
         {/* 250+ */}
         <div className={`${styles.card} ${styles.statCard}`}>
+          <div className={styles.ambientGlow} />
           <div className={styles.statBig}>250+</div>
           <div className={styles.statSmall}>PARTICIPANTS</div>
         </div>
 
         {/* Tall image */}
         <div className={`${styles.card} ${styles.tall} ${styles.overlayCard}`} tabIndex={0}>
+          <div className={styles.ambientGlow} />
           <img src={items[2].src} className={styles.img} />
           <div className={styles.overlay}>
             <h3>{items[2].title}</h3>
@@ -61,28 +64,33 @@ export default function Highlight() {
 
         {/* 50+ */}
         <div className={`${styles.card} ${styles.statCard}`}>
+          <div className={styles.ambientGlow} />
           <div className={styles.statBig}>50+</div>
           <div className={styles.statSmall}>TEAMS</div>
         </div>
 
         {/* Center image */}
         <div className={`${styles.card} ${styles.overlayCard}`} tabIndex={0}>
+          <div className={styles.ambientGlow} />
           <img src={items[4].src} className={styles.img} />
         </div>
 
         {/* Bottom wide */}
         <div className={`${styles.card} ${styles.span2} ${styles.overlayCard}`} tabIndex={0}>
+          <div className={styles.ambientGlow} />
           <img src={items[5].src} className={styles.img} />
         </div>
 
         {/* Workshop */}
         <div className={`${styles.card} ${styles.workshopCard}`}>
+          <div className={styles.ambientGlow} />
           <div className={styles.workshopTitle}>WORKSHOP</div>
           <div className={styles.workshopSub}>DJANGO</div>
         </div>
 
         {/* Bottom right */}
         <div className={`${styles.card} ${styles.overlayCard}`} tabIndex={0}>
+          <div className={styles.ambientGlow} />
           <img src={items[7].src} className={styles.img} />
         </div>
       </div>

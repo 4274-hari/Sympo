@@ -1,35 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Footer from "./components/Footer/Footer.jsx";
+import Sponsor from "./components/Sponsor/sponsor.jsx";
+import HeroSection from "./components/Hero/hero-section.jsx";
+import { Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar/Navbar";
-import ParticlesBackground from "./components/Particle/Particle";
-import Hero from "./components/Hero/Hero.jsx";
-import Highlight from "./components/Highlight/Highlight.jsx";
-import Event from "./components/Event/Event.jsx";
-import Contact from "./components/Contact/Contact.jsx";
-import Eventland from "./components/Event/Eventlanding.jsx";
+import Highlight from "./components/Highlight/Highlight";
+import Event from "./components/Event/Event";
+import Contact from "./components/Contact/Contact";
+import Eventland from "./components/Event/Eventlanding";
+import Register from "./components/Register/Register";
+import Prize from "./components/Prize/prize.jsx";
 
-const App = () => {
-  const [eventType, setEventType] = useState(null);
-  console.log("Ajith",eventType);
+import CategoryPage from "./components/Event/CategoryPage";
+import AppBackground from "./components/Background/Background.jsx";
 
+
+const App = () => { 
   return (
     <>
-      <ParticlesBackground />
 
-      <div className="relative z-10 flex flex-col">
-        {/* 🔴 CONDITION */}
-        {eventType ? (
-          <Eventland eventType={eventType} setEventType={setEventType} />
-        ) : (
-          <>
-            <Navbar />
-            <Hero />
-            <Event setEventType={setEventType} />
-            <Highlight />
-            <Contact />
-          </>
-        )}
+      <AppBackground>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar />
+                <HeroSection />
+                <Event />
+                <Highlight />
+                <Contact />
+                <Sponsor />
+                <Footer />
+              </>
+            }
+          />
 
-      </div>
+          {/* 🎯 EVENT LANDING PAGE */}
+          <Route path="/events/:category" element={<CategoryPage />} />
+          <Route
+            path="/event/:category/:id"
+            element={<Eventland />}
+          />
+            <Route
+            path="/register"
+            element={<Register />}
+          />
+          <Route
+            path="/prize"
+            element={<Prize />}
+          />
+        </Routes>
+      </AppBackground>
     </>
   );
 };

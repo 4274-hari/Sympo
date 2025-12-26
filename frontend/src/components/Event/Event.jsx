@@ -1,97 +1,81 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./event.module.css";
-import cap from "../../assets/cap.png";
-import iron from "../../assets/iron.png";
-import spydi from "../../assets/spydi.png";
+import { useNavigate } from "react-router-dom";
+import eventsData from "./eventlist.json";
 
-const data = [
-  {
-    date: "20 NOV 2025",
-    title: "Technical Events",
-    desc: "Explore cutting-edge technical challenges and competitions.",
-    events: [
-      { name: "AI Workshop"},
-      { name: "Machine Learning Hackathon"},
-      { name: "Web Development Challenge"},
-      { name: "Cyber Security CTF" },
-      { name: "Data Science Sprint" }
-    ],
-    color: "neonred",
-    type: "tech",
-    icon: iron,
-  },
-  {
-    date: "28 DEC 2025",
-    title: "Non-Technical Events",
-    desc: "Fun, creative, and engaging non-technical events for everyone.",
-    events: [
-      { name: "Photography Contest"},
-      { name: "Treasure Hunt" },
-      { name: "Quiz"},
-      { name: "Debate"},
-      { name: "Short Film Contest"}
-    ],
-    color: "neonblue",
-    type: "nontech",
-    icon: cap,
-  },
-    {
-    date: "Comming soon..",
-    title: "Work Shop",
-    desc: "Gain our knowlege and experience with our workshop.",
-    events: [],
-    color: "neonred",
-    type: "workshop",
-    icon: spydi,
-  }
-];
+const CATEGORY_META_KEYS = ["color", "icon", "date", "description", "id","img"];
 
-export default function Event({ setEventType }) {
+const buildTimelineData = (eventsData) =>
+  Object.entries(eventsData).map(([type, category]) => {
+    const { color, icon, img, date, description } = category;
 
+const events = Object.entries(category)
+  .filter(([key]) => !CATEGORY_META_KEYS.includes(key))
+  .map(([key, ev]) => ({
+    key,      // 🔥 DOthethink
+    ...ev
+  }));
+
+    return {
+      type,
+      title:
+        type === "tech"
+          ? "Technical Events"
+          : type === "nontech"
+          ? "Non-Technical Events"
+          : "Work Shop",
+      date: date || events[0]?.date || "Coming Soon",
+      desc:
+        description ||
+        "Explore cutting-edge events and exciting challenges.",
+      color,
+      icon,
+      img,
+      events
+    };
+  });
+
+export default function Event() {
   const wrapRef = useRef(null);
   const [expandedCard, setExpandedCard] = useState(null);
-  const [expandedEvent, setExpandedEvent] = useState(null);
+  const navigate = useNavigate();
+  const handleCardClick = (item, index) => {
+    if (item.type === "workshop") {
+      const firstWorkshopEvent = item.events?.[0];
 
-  // Toggle card expansion
-  const toggleCard = (index) => {
-    if (expandedCard === index) {
-      setExpandedCard(null);
-      setExpandedEvent(null);
-    } else {
-      setExpandedCard(index);
+      if (firstWorkshopEvent?.key) {
+        navigate(`/event/workshop/${firstWorkshopEvent.key}`);
+      }
+      return;
     }
+
+    toggleCard(index);
+    navigate(`/events/${item.type}`);
   };
 
-  // Toggle individual event expansion
-  const toggleEvent = (eventIndex, cardIndex) => {
-    if (expandedEvent === `${cardIndex}-${eventIndex}`) {
-      setExpandedEvent(null);
-    } else {
-      setExpandedEvent(`${cardIndex}-${eventIndex}`);
-    }
-  };
+  const data = buildTimelineData(eventsData);
 
-  // Handle event redirection
-  const handleRedirect = (link) => {
-    window.location.href = link;
-  };
+  const toggleCard = (index) =>
+    setExpandedCard(expandedCard === index ? null : index);
 
-  // optional reveal-on-scroll for cards
   useEffect(() => {
-    const opts = { threshold: 0.12 };
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) e.target.classList.add(styles.reveal);
-      });
-    }, opts);
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach(
+          (e) => e.isIntersecting && e.target.classList.add(styles.reveal)
+        ),
+      { threshold: 0.12 }
+    );
 
-    const items = wrapRef.current?.querySelectorAll(`.${styles.row}`);
-    items?.forEach((it) => io.observe(it));
+    wrapRef.current
+      ?.querySelectorAll(`.${styles.row}`)
+      .forEach((el) => io.observe(el));
+
     return () => io.disconnect();
   }, []);
 
   return (
-    <section className={styles.page}>
+    <section className={styles.page} id="events">
       <header className={styles.header}>
         <h1 className={styles.title}>OUR EVENTS</h1>
         <div className={styles.underline} />
@@ -130,59 +114,52 @@ export default function Event({ setEventType }) {
               </div>
 
               {/* card */}
-              <article 
-                className={`${styles.card} ${expandedCard === i ? styles.cardExpanded : ''}`} 
+              <article
+                className={`${styles.card} ${
+                  expandedCard === i ? styles.cardExpanded : ""
+                } ${styles.cardGlow}`}
                 tabIndex={0}
-                onClick={() => toggleCard(i)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    toggleCard(i);
-                  }
-                }}
                 role="button"
                 aria-expanded={expandedCard === i}
+                aria-label={`${expandedCard === i ? "Collapse" : "Expand"} ${item.title}`}
+                data-expanded={expandedCard === i}
+                onClick={() => handleCardClick(item, i)}
               >
-                <span className={`${styles.badge} ${styles[item.color]}`}>
-                  {item.date}
+                
+                {/* Glow effect */}
+                <div className={styles.ambientGlow} />
+                
+                {/* Date badge with improved styling */}
+                <span className={`${styles.badge} ${styles[item.color]} ${styles.badgeGlow}`}>
+                  <span className={styles.badgeText}>{item.date || "07/02/2026"}</span>
+                  <span className={styles.badgeDeco}></span>
                 </span>
+                
+                {/* Image with overlay effect */}
+              <div className={styles.imageContainer}>
+                <img src={item.img} alt={item.title} className={styles.cardimg} loading="lazy" />
+                <div className={styles.imageOverlay}></div>
+                <div className={styles.imageShine}></div>
+                {/* optional outer ring */}
+                <div className={styles.borderRing}></div>
+              </div>
 
-                <h3 className={styles.cardTitle}>{item.title}</h3>
-                <p className={styles.cardDesc}>{item.desc}</p>
+                
+                {/* Content */}
+                <div className={styles.cardContent}>
+                  <h3 className={styles.cardTitle}>
+                    <span className={styles.titleText}>{item.title}</span>
+                    <span className={styles.titleUnderline}></span>
+                  </h3>
+                  
+                  <div className={styles.cardDescWrapper}>
+                    <p className={styles.cardDesc}>{item.desc}</p>
 
-                {/* expand/collapse indicator */}
-                {/* <div className={styles.expandIndicator}>
-                  {expandedCard === i ? '▼' : '▶'} {expandedCard === i ? 'Hide Events' : 'View Events'}
-                </div> */}
-
-                {/* clickable event list - visible when card is expanded */}
-                {expandedCard === i && (
-                  <div className={styles.eventListContainer}>
-                    <ul className={styles.eventList}>
-                      {item.events.map((ev, idx) => (
-                  <li
-                    key={idx}
-                    className={styles.eventItem}
-                    onClick={() =>
-                      setEventType({
-                        category: item.type,
-                        name: ev.name
-                      })
-                    }
-                    role="button"
-                    tabIndex={0}
-                  >
-                    <div className={styles.eventHeader}>
-                      <span className={styles.eventName}>{ev.name}</span>
-                    </div>
-                  </li>
-
-                      ))}
-                    </ul>
                   </div>
-                )}
-              </article>
-
-              {/* connector + diamond marker */}
+                  
+                </div>
+                
+              </article>  
             </div>
           );
         })}

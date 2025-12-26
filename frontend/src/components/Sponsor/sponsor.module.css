@@ -1,0 +1,361 @@
+:root {
+  --nebula-purple: #663399;
+  --nebula-mid: #8968CD;
+  --nebula-light: #CEA2FD;
+}
+
+.header{
+  text-align:center;
+  margin-bottom:36px;
+  font-family: "Orbitron", sans-serif;
+}
+
+.title{
+  font-size:48px;
+  margin:0;
+  color: var(--nebula-light);
+  letter-spacing:2px;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
+.underline{
+  width:86px;
+  height:8px;
+  background: linear-gradient(90deg,var(--accent-spyred),var(--accent-purple));
+  margin:12px auto;
+  border-radius:4px;
+}
+
+.subtitle{
+  margin-top:10px;
+  font-family: "Roboto Mono", monospace;
+  color:#9fb0d9;
+  letter-spacing:2px;
+  font-size:13px;
+}
+
+.wrapper {
+  display: flex;
+  gap: 60px;
+  padding: 80px 60px;
+  min-height: 520px;
+  font-family: "Orbitron", sans-serif;
+  background: transparent; /* IMPORTANT */
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Bubble container */
+
+.bubbleContainer::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+}
+
+.bubbleContainer {
+  position: relative;
+  width: 900px;
+  height: 600px;
+  margin-left: 100px;
+  /* margin-top: 4rem; */
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+/* ===========================
+   LOGO POSITIONS (ANCHORS)
+   =========================== */
+.floatingLogo {
+  position: absolute;
+  animation: floatDiffuse 14s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -1.5s);
+}
+
+/* spread logos manually (prevents overlap) */
+.floatingLogo:nth-child(1) { top: 10%; left: 18%; }
+.floatingLogo:nth-child(2) { top: 22%; left: 38%; }
+.floatingLogo:nth-child(3) { top: 40%; left: 18%; }
+.floatingLogo:nth-child(4) { top: 42%; left: 62%; }
+.floatingLogo:nth-child(5) { top: 70%; left: 60%; }
+.floatingLogo:nth-child(6) { top: 82%; left: 85%; }
+.floatingLogo:nth-child(7) { top: 12%; left: 80%; }
+.floatingLogo:nth-child(8) { top: 80%; left: 15%; }
+
+/* logo glass chip */
+.floatingLogo img {
+  width: 120px;
+  padding: 14px;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(40, 20, 70, 0.55),
+    rgba(15, 8, 30, 0.55)
+  );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(206, 162, 253, 0.25);
+
+  box-shadow:
+    0 0 30px rgba(137, 104, 205, 0.45),
+    inset 0 0 18px rgba(206, 162, 253, 0.2);
+
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Hover: pause + pop */
+.floatingLogo:hover {
+  animation-play-state: paused;
+  z-index: 5;
+}
+
+.floatingLogo:hover img {
+  transform: scale(1.25);
+  box-shadow:
+    0 0 70px rgba(137, 104, 205, 0.9),
+    inset 0 0 30px rgba(206, 162, 253, 0.35);
+}
+
+/* ===========================
+   RADIAL DIFFUSE MOTION
+   =========================== */
+@keyframes floatDiffuse {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-18px, -22px);
+  }
+  40% {
+    transform: translate(22px, -12px);
+  }
+  60% {
+    transform: translate(-14px, 26px);
+  }
+  80% {
+    transform: translate(20px, 16px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* RIGHT SIDE */
+.messageContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glassBox::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+
+  background: linear-gradient(
+    135deg,
+    transparent,
+    var(--nebula-light),
+    var(--nebula-mid),
+    transparent
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.glassBox {
+  position: relative;
+  max-width: 520px;
+  padding: 38px;
+  border-radius: 28px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(40, 20, 70, 0.6),
+    rgba(15, 8, 30, 0.6)
+  );
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(206, 162, 253, 0.25);
+
+  box-shadow:
+    0 0 50px rgba(137, 104, 205, 0.6),
+    inset 0 0 35px rgba(206, 162, 253, 0.25);
+
+  overflow: hidden;
+}
+
+.glassBox h2 {
+  font-size: 32px;
+  color: var(--nebula-light);
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.06em;
+}
+
+.glassBox p {
+  color: #cfc7f8;
+}
+
+.quote {
+  color: var(--nebula-light);
+  opacity: 0.9;
+  text-shadow: 0 0 18px rgba(206, 162, 253, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+  .bubbleContainer {
+    width: 320px;
+    height: 320px;
+  }
+}
+/* ===========================
+   MOBILE FIX (≤ 768px)
+   =========================== */
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+
+  /* Bubble container */
+  .bubbleContainer {
+    width: 100%;
+    max-width: 340px;
+    height: 500px;
+    margin: 0 auto;
+    margin-top: 0;
+  }
+
+  /* Reduce logo size */
+  .floatingLogo img {
+    width: 72px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  /* Reposition logos for mobile grid */
+  .floatingLogo:nth-child(1) { top: 8%; left: 12%; }
+  .floatingLogo:nth-child(2) { top: 10%; left: 55%; }
+  .floatingLogo:nth-child(3) { top: 35%; left: 10%; }
+  .floatingLogo:nth-child(4) { top: 35%; left: 58%; }
+  .floatingLogo:nth-child(5) { top: 62%; left: 18%; }
+  .floatingLogo:nth-child(6) { top: 65%; left: 62%; }
+  .floatingLogo:nth-child(7) { top: 80%; left: 40%; }
+  .floatingLogo:nth-child(8) { display: none; } /* optional for clarity */
+
+  /* Disable hover scaling on touch */
+  .floatingLogo:hover img {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Message section */
+  .messageContainer {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .glassBox {
+    width: 100%;
+    max-width: 100%;
+    padding: 26px 22px;
+    border-radius: 22px;
+  }
+
+  .glassBox h2 {
+    font-size: 22px;
+  }
+
+  .glassBox p {
+    font-size: 14px;
+  }
+}
+/* ===========================
+   TABLET / TAP VIEW (769px–1024px)
+   =========================== */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .wrapper {
+    gap: 40px;
+    padding: 40px 32px;
+    min-height: auto;
+  }
+
+  /* Bubble container */
+  .bubbleContainer {
+    width: 800px;
+    height: 620px;
+    margin-left: 0;
+    margin-top: 2rem;
+    margin-left: 40px;
+  }
+
+  /* Logo sizing for tap comfort */
+  .floatingLogo img {
+    width: 92px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  /* Tablet logo positions (balanced grid) */
+  .floatingLogo:nth-child(1) { top: 8%;  left: 18%; }
+  .floatingLogo:nth-child(2) { top: 14%; left: 55%; }
+  .floatingLogo:nth-child(3) { top: 32%; left: 14%; }
+  .floatingLogo:nth-child(4) { top: 36%; left: 60%; }
+  .floatingLogo:nth-child(5) { top: 58%; left: 20%; }
+  .floatingLogo:nth-child(6) { top: 64%; left: 62%; }
+  .floatingLogo:nth-child(7) { top: 80%; left: 42%; }
+  .floatingLogo:nth-child(8) { display: none; } /* optional */
+
+  /* Reduce hover intensity (tablet = touch-first) */
+  .floatingLogo:hover img {
+    transform: scale(1.1);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Message section */
+  .messageContainer {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .glassBox {
+    max-width: 660px;
+    padding: 32px;
+    border-radius: 24px;
+  }
+
+  .glassBox h2 {
+    font-size: 26px;
+  }
+
+  .glassBox p {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+}

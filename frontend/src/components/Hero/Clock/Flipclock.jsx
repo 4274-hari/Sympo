@@ -54,10 +54,9 @@ export default function FlipClock() {
   }, [])
 
   return (
-    <div className="max-h-full w-[700px ]   flex   justify-center
-      bg-[radial-gradient(circle_at_top,_#000000,_#000)]">
+    <div className="max-h-full w-[700px ]   flex   justify-center">
 
-      <div className="flex flex-col mt-[300px] ml-40 items-center  ">
+      <div className="flex flex-col mt-[200px] ml-40 items-center  ">
         <h1 className="mb-10 text-white text-lg tracking-[0.3em] font-mono">
           COMING SOON ....
         </h1>
@@ -68,7 +67,7 @@ export default function FlipClock() {
           <FlipCard value={time.minutes} label="MINUTES" />
           <FlipCard value={time.seconds} label="SECONDS" />
         </div>
-        <img src="/robot2.webp" alt="robot image " width={400} height={400} />
+        {/* <img src="/robot2.webp" alt="robot image " width={400} height={400} /> */}
       </div>
     
 

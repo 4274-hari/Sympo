@@ -1,5 +1,11 @@
 {
   "tech": {
+
+  "color": "neonred",
+  "icon":  "/flyicon/iron.png",
+  "img" : "/eventimg/tech.png",
+  "description":"tech desccr",
+  "date": "07/02/2026",
 "AI Workshop": {
   "id": "tech01",
   "title": "AI Workshop",
@@ -133,6 +139,11 @@
   },
 
   "nontech": {
+      "color": "neonblue",
+  "icon":  "/flyicon/cap.png",
+  "img" : "/eventimg/nontech.png",
+  "date": "07/02/2026",
+    "description":"tech desccr",
     "Photography Contest": {
       "id": "nontech01",
       "title": "Photography Contest",
@@ -232,5 +243,34 @@
         { "name": "Lakshmi N", "phone": "9667788990" }
       ]
     }
-  }
+  },
+"workshop": {
+  "color": "neonred",
+  "icon": "/flyicon/spydi.png",
+  "img": "/eventimg/workshop.png",
+  "date": "07/02/2026",
+  "description": "Workshop description",
+
+    "DOthethink": {
+      "id": "nontech05",
+      "title": "Short Film Contest",
+      "sympoImg": "/images/nontech/shortfilm.jpg",
+      "description": "Create and submit an original short film based on the given theme.",
+      "rules": [
+        "Maximum duration: 5 minutes",
+        "Any genre allowed",
+        "Original content only"
+      ],
+      "hurryUp": "Submit early!",
+      "eventLeader": {
+        "name": "Kiran S",
+        "phone": "9554433221"
+      },
+      "coordinators": [
+        { "name": "Lakshmi N", "phone": "9667788990" }
+      ]
+    }
+    
+}
+
 }

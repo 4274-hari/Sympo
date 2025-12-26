@@ -27,9 +27,17 @@ import {
   Cpu,
   Zap
 } from "lucide-react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Prize from "../Prize/prize";
 
-const Eventlanding = ({ eventType, setEventType }) => {
-  const event = eventsData?.[eventType.category]?.[eventType.name];
+
+const Eventlanding = () => {
+  const { category, id } = useParams();
+  const eventType = { category, id };
+  const event = eventsData?.[eventType.category]?.[eventType.id];
+
+const navigate = useNavigate();
 
   if (!event) return <p>Event not found</p>;
 
@@ -60,10 +68,14 @@ const Eventlanding = ({ eventType, setEventType }) => {
           
           {/* Header with back button */}
           <div className={styles.header}>
-            <button onClick={() => setEventType(null)} className={styles.backButton}>
+            <button
+              onClick={() => navigate(-1)}
+              className={styles.backButton}
+            >
               <ArrowLeft size={20} />
               <span>Back to Events</span>
             </button>
+
             <div className={styles.eventCategory}>
               {getCategoryIcon()}
               <span className={styles.categoryLabel}>
@@ -174,36 +186,10 @@ const Eventlanding = ({ eventType, setEventType }) => {
               {/* Detailed Information */}
               <div className={styles.detailsSection}>
                 <h2>
-                  <BookOpen size={20} />
-                  Event Details
+                  <Trophy size={20} />
+                  Event Price
                 </h2>
-                {event.detailedAgenda && (
-                  <div className={styles.detailBlock}>
-                    <h3>Agenda</h3>
-                    <ul>
-                      {event.detailedAgenda.map((item, i) => (
-                        <li key={i}>
-                          <ChevronRight size={16} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {event.learningObjectives && (
-                  <div className={styles.detailBlock}>
-                    <h3>Learning Objectives</h3>
-                    <ul>
-                      {event.learningObjectives.map((item, i) => (
-                        <li key={i}>
-                          <Target size={16} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+               <Prize />
               </div>
             </div>
 
@@ -348,14 +334,16 @@ const Eventlanding = ({ eventType, setEventType }) => {
                     rel="noopener noreferrer"
                     className={styles.registerButton}
                   >
-                    <ExternalLink size={18} />
                     Register Now
                   </a>
                 )}
-                <button onClick={() => setEventType(null)} className={styles.secondaryButton}>
-                  <ArrowLeft size={18} />
-                  Back to Events
-                </button>
+                  <button
+                    onClick={() => navigate("/register")}
+                    className={styles.secondaryButton}
+                  >
+                    Register Now
+                  </button>
+
               </div>
             </div>
           </div>

@@ -1,0 +1,313 @@
+/* ================== prize.module.css ================== */
+/* Google-fonts or other font imports should be in your global CSS or head */
+
+/* ---------------- MAIN VARIABLES ---------------- */
+:root {
+  --accent-primary: #CEA2FD;
+  --accent-secondary: #8968CD;
+  --accent-tertiary: #663399;
+
+  --text-primary: #EAE6FF;
+  --text-secondary: #B6B5D8;
+
+  --glass-bg: rgba(255,255,255,0.10);
+  --glass-border: rgba(206,162,253,0.28);
+
+  --glow-primary: rgba(206,162,253,0.45);
+  --glow-secondary: rgba(137,104,205,0.35);
+
+  --bubble-size-desktop: 240px;
+  --bubble-size-tablet: 180px;
+  --bubble-size-mobile: 140px;
+  --bubble-gap: 80px;
+}
+
+/* ---------------- MAIN WRAPPER ---------------- */
+.wrapper {
+  position: relative;
+  /* min-height: 70vh; */
+  width: 100%;
+  /* overflow: hidden; */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  color: var(--text-primary);
+  padding: 20px;
+}
+
+/* ---------------- BUBBLE CONTAINER (DESKTOP ROW) ---------------- */
+.bubbleContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* ---------------- PRIZE BUBBLES (DEFAULT: DESKTOP) ---------------- */
+.prizeBubble {
+  /* make them sit in a row (not absolute) */
+  position: relative;
+  left: auto;
+  top: auto;
+
+  width: var(--bubble-size-desktop);
+  height: var(--bubble-size-desktop);
+  border-radius: 50%;
+
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px;
+  box-sizing: border-box;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.6),
+    0 0 40px var(--glow-secondary),
+    inset 0 1px 1px rgba(255,255,255,0.25);
+  background:
+  radial-gradient(
+    circle at top left,
+    rgba(206,162,253,0.22),
+    rgba(255,255,255,0.04) 60%
+    );
+    
+  /* floating / zigzag variables */
+  --dir: 1;              /* overridden inline by React style --dir */
+  --i: 0;                /* overridden inline by React style --i */
+  --x: calc(var(--dir) * 70px);
+
+  /* animation */
+  animation: zigZagFloat 7s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.45s);
+  transform-origin: center;
+  will-change: transform;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+/* glass highlight */
+.prizeBubble::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.6),
+    transparent 70%
+  );
+  filter: blur(10px);
+  opacity: 0.7;
+}
+
+/* trophy / image */
+.prizeBubble img {
+  position: absolute;
+  top: -26px;
+  width: 130px;
+  z-index: 3;
+
+  filter:
+    drop-shadow(0 18px 28px rgba(0,0,0,0.55))
+    drop-shadow(0 0 30px var(--glow-primary));
+}
+
+/* text */
+.prizeBubble h3 {
+  margin-top: 44px;
+  margin-bottom: 6px;
+
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+
+  background: linear-gradient(
+    90deg,
+    var(--accent-secondary),
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.prizeBubble span {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  text-shadow: 0 0 12px var(--glow-secondary);
+}
+
+/* subtle hover (desktop) */
+.prizeBubble:hover {
+  transform: translateY(-14px) scale(1.06);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.7),
+    0 0 70px var(--glow-primary),
+    inset 0 1px 1px rgba(255,255,255,0.35);
+}
+
+/* floating zig-zag */
+@keyframes zigZagFloat {
+  0% { transform: translateY(0) translateX(0) rotate(0.01deg); }
+  20% { transform: translateY(-18px) translateX(var(--x)) rotate(0.01deg); }
+  50% { transform: translateY(-36px) translateX(calc(var(--x) * -1)) rotate(0.01deg); }
+  80% { transform: translateY(-18px) translateX(var(--x)) rotate(0.01deg); }
+  100% { transform: translateY(0) translateX(0) rotate(0.01deg); }
+}
+
+/* ---------------- OPTIONAL MESSAGE/GLASS BOX (if used) ---------------- */
+.glassBox {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 40px;
+  border-radius: 20px;
+  width: 720px;
+  height: 300px;
+  margin-left: 70px;
+  box-sizing: border-box;
+}
+
+/* ---------------- ACCESSIBILITY: REDUCE MOTION ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .prizeBubble,
+  .bubbleContainer,
+  .prizeBubble img {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------------- TABLET (stacked one-by-one) ---------------- */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --bubble-gap: 28px;
+  }
+
+  .wrapper {
+    height: auto;
+    /* min-height: 100vh; */
+    padding: 30px 20px;
+    align-items: flex-start;
+  }
+
+  /* bubble container becomes vertical stack */
+  .bubbleContainer {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 28px;
+    padding-top: 30px;
+    height: auto;
+  }
+
+  .prizeBubble {
+    width: var(--bubble-size-tablet);
+    height: var(--bubble-size-tablet);
+    animation: zigZagFloat 6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.4s);
+  }
+
+  .prizeBubble::before { width: 42px; height: 42px; top: 14px; left: 16px; }
+  .prizeBubble img { width: 105px; top: -22px; }
+  .prizeBubble h3 { margin-top: 38px; font-size: 0.95rem; }
+  .prizeBubble span { font-size: 0.85rem; }
+}
+
+/* ---------------- MOBILE (column, smaller bubbles) ---------------- */
+@media (max-width: 768px) {
+  :root {
+    --bubble-gap: 22px;
+  }
+
+  .wrapper {
+    flex-direction: column;
+    height: auto;
+    /* min-height: 100vh; */
+    padding: 28px 16px 60px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .bubbleContainer {
+    width: 100%;
+    margin: 0;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    height: auto;
+  }
+
+  .prizeBubble {
+    position: relative;
+    left: auto;
+    top: auto;
+
+    width: var(--bubble-size-mobile);
+    height: var(--bubble-size-mobile);
+    margin: 10px 0;
+    animation: zigZagFloat 5.5s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.25s);
+  }
+
+  .prizeBubble::before {
+    width: 36px;
+    height: 36px;
+    top: 12px;
+    left: 14px;
+  }
+
+  .prizeBubble img {
+    width: 90px;
+    top: -18px;
+  }
+
+  .prizeBubble h3 {
+    margin-top: 32px;
+    font-size: 0.95rem;
+  }
+
+  .prizeBubble span {
+    font-size: 0.8rem;
+  }
+
+  /* disable hover style on touch */
+  .prizeBubble:hover { transform: none; box-shadow: none; }
+}
+
+/* ---------------- SMALL SCREEN TWEAKS ---------------- */
+@media (max-width: 420px) {
+  :root {
+    --bubble-gap: 18px;
+  }
+
+  .prizeBubble h3 { font-size: 0.9rem; margin-top: 30px; }
+  .prizeBubble span { font-size: 0.78rem; }
+}
+
+@media (max-width: 768px) {
+  .prizeBubble {
+    box-shadow:
+      0 18px 40px rgba(0,0,0,0.55),
+      0 0 30px var(--glow-secondary);
+  }
+}

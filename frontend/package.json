@@ -15,12 +15,12 @@
     "vite": "^7.3.0"
   },
   "dependencies": {
+    "framer-motion": "^12.23.26",
+    "gsap": "^3.14.2",
     "lucide-react": "^0.562.0",
+    "particles.js": "^2.0.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-router-dom": "^7.11.0",
-    "react-tsparticles": "^2.12.2",
-    "tsparticles-engine": "^2.12.0",
-    "tsparticles-slim": "^2.12.0"
+    "react-router-dom": "^7.11.0"
   }
 }
