@@ -30,7 +30,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background: transparent;
   color: var(--text-primary);
   padding: 0;
   font-family: "Orbitron", sans-serif;
@@ -38,6 +37,7 @@
   overflow-x: hidden;
   scrollbar-width: none;
 }
+
 
 .section,
 .leadershipSection,
@@ -444,13 +444,17 @@
 }
 
 /* Leadership Section */
+/* ================= LEADERSHIP SECTION ================= */
+
 .leadershipSection {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: 16px;
   padding: 24px;
+  margin-top: 24px;
 }
 
+/* Section title */
 .leadershipSection h2 {
   display: flex;
   align-items: center;
@@ -460,37 +464,43 @@
   color: var(--text-white);
 }
 
-.leaderCard {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 24px;
-  border: 1px solid var(--glass-border);
-}
-
-.leaderHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.leaderHeader h3 {
-  margin: 0;
-  font-size: 16px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
+/* badge next to title */
 .leaderRole {
-  background: var(--accent-red);
+  background: linear-gradient(135deg, #ff004c, #ff6a00);
   color: white;
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
 }
+
+/* ================= LEADER GRID ================= */
+
+.leaderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+/* ================= LEADER CARD ================= */
+
+.leaderCard {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid var(--glass-border);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  animation: floatCard 5s ease-in-out infinite;
+}
+
+.leaderCard:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(127, 0, 255, 0.25);
+}
+
+
+/* ================= LEADER INFO ================= */
 
 .leaderInfo {
   display: flex;
@@ -504,6 +514,7 @@
   color: var(--text-white);
 }
 
+/* Contact */
 .contactInfo {
   display: flex;
   flex-direction: column;
@@ -525,37 +536,46 @@
   color: var(--accent-purple);
 }
 
+/* ================= COORDINATORS ================= */
+
+.coordinatorsGrid {
+  margin-top: 16px;
+}
+
 .coordinatorsGrid h3 {
   font-size: 16px;
   color: var(--muted);
   margin: 0 0 16px 0;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
 
 .coordinatorsList {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
 }
 
+/* Coordinator card */
 .coordinatorCard {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: 14px 16px;
   border: 1px solid var(--glass-border);
   transition: all 0.3s ease;
 }
 
 .coordinatorCard:hover {
-  background: rgba(127, 0, 255, 0.05);
+  background: rgba(127, 0, 255, 0.06);
   border-color: var(--accent-purple);
+  transform: translateY(-4px);
 }
 
+/* Coordinator info */
 .coordinatorInfo {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .coordinatorName {
@@ -578,6 +598,8 @@
 .coordinatorContact:hover {
   color: var(--accent-cyan);
 }
+
+
 
 /* Certification Section */
 .certificationSection {

@@ -1,3 +1,6 @@
+
+
+
 :root {
   --nebula-purple: #663399;
   --nebula-mid: #8968CD;
@@ -254,33 +257,36 @@
   100% { transform: translateY(5); }
 }
 .registerBtn{ animation: float 4s ease-in-out infinite; }
-
 @media (max-width: 900px) {
   .container {
-    flex-direction: column-reverse;
+    flex-direction: column; /* FIX: keep title first */
     gap: 20px;
   }
 
+  .left,
   .right {
     width: 100%;
   }
 
+  /* Quick Links + Event Links side by side */
   .columns {
-    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
     gap: 14px;
   }
 
+  .columns .group:nth-child(1),
+  .columns .group:nth-child(2) {
+    flex: 0 1 calc(50% - 10px);
+  }
+
+  /* Co-ordinators full width below */
+  .columns .group:nth-child(3) {
+    flex: 1 1 100%;
+  }
+
+  /* Register button on RIGHT */
   .registerWrap {
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
-}
-
-@media (max-width: 420px) {
-  .social {
-    width: 36px;
-    height: 36px;
-  }
-
-  .title { font-size: 20px; }
-  .paragraph { font-size: 14px; }
 }

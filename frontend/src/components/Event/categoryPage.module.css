@@ -27,6 +27,7 @@
   overflow-x: hidden;
   font-family: 'Rajdhani', sans-serif;
   background: transparent;
+  scrollbar-width: none;
 }
 
 /* Banner Styles */
@@ -47,7 +48,7 @@
 .overlay {
   position: absolute;
   width: 100%;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   inset: 0;
   background:
@@ -212,7 +213,8 @@
 
 .card:hover {
   border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+
 }
 
 .cardGlow {
@@ -472,69 +474,129 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 }
-
 /* ================= MOBILE FIXES ================= */
 @media (max-width: 768px) {
-
   .page {
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 
-  /* Banner */
+  /* Banner - Full Screen Cover */
   .banner {
     height: 100vh;
-    /* min-height: 380px; */
-    padding-top: env(safe-area-inset-top);
+    min-height: -webkit-fill-available; /* For iOS Safari */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Add subtle background animation for smoothness */
+  .banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 30% 20%, rgba(206,162,253,0.15), transparent 40%),
+      radial-gradient(circle at 70% 80%, rgba(137,104,205,0.15), transparent 45%),
+      linear-gradient(180deg, var(--nebula-dark) 0%, var(--nebula-mid) 100%);
+    animation: subtlePulse 8s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  .grid {
+    padding-top: 0;
   }
 
   .bannerContent {
-    padding-top: 18vh;
+    padding-top: 28vh;
     padding-left: 16px;
     padding-right: 16px;
   }
 
-  .title {
-    font-size: 2.2rem;
-    letter-spacing: 1.5px;
-    line-height: 1.2;
+  .titleContainer {
+    margin: 0 0 20px;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
   }
 
   .categoryIcon {
-    font-size: 2.8rem;
-    margin-bottom: 12px;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .title {
+    font-size: 2.4rem;
+    letter-spacing: 1.5px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
   }
 
   .desc {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     line-height: 1.5;
     margin-bottom: 30px;
+    padding: 0 10px;
+    animation: fadeInUp 0.8s ease-out 0.6s both;
   }
 
   /* Back Button */
   .backButton {
-    top: 14px;
-    left: 14px;
-    padding: 8px 14px;
-    font-size: 0.75rem;
+    position: fixed;
+    top: max(20px, env(safe-area-inset-top));
+    left: 20px;
+    padding: 10px 18px;
+    font-size: 0.8rem;
     border-radius: 20px;
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(10, 4, 16, 0.8);
+    border: 1px solid rgba(206, 162, 253, 0.3);
+    animation: fadeIn 0.5s ease-out;
   }
 
-  /* Disable heavy parallax on mobile */
-  .banner {
-    transform: none !important;
+  /* Scroll Indicator */
+  .scrollIndicator {
+    bottom: 40px;
+    font-size: 1.8rem;
+    animation: bounce 2s infinite ease-in-out;
   }
 
-  /* Grid */
+  /* Content below banner */
+  .container {
+    padding-top: 60px;
+    animation: fadeIn 1s ease-out 0.8s both;
+  }
+
+  /* Grid adjustments */
   .grid {
     grid-template-columns: 1fr;
     gap: 20px;
-    padding: 0 12px;
+    padding: 0 15px;
   }
 
-  /* Card */
+  /* Card with smooth transitions */
   .card {
     border-radius: 16px;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
   }
+
+  /* Stagger card animations */
+  .card:nth-child(1) { animation-delay: 0.9s; }
+  .card:nth-child(2) { animation-delay: 1s; }
+  .card:nth-child(3) { animation-delay: 1.1s; }
+  .card:nth-child(4) { animation-delay: 1.2s; }
+  .card:nth-child(5) { animation-delay: 1.3s; }
+  .card:nth-child(6) { animation-delay: 1.4s; }
 
   .cardImageContainer {
     height: 180px;
@@ -552,51 +614,379 @@
     padding: 16px;
   }
 
-  .exploreButton {
-    padding: 8px 14px;
-    font-size: 0.75rem;
+  /* Disable heavy parallax on mobile */
+  .banner {
+    transform: none !important;
   }
 
-  .eventId {
-    font-size: 0.7rem;
-  }
-
-  /* Disable hover-only effects on touch devices */
-  .card:hover .cardImg,
-  .card:hover .cardGlow {
-    transform: none;
-    opacity: 1;
+  /* Smooth scrolling for iOS */
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
-
+/* Extra small devices */
 @media (max-width: 480px) {
   .banner {
-    height: 90vh;
-    min-height: 300px;
-    background-image: red;
+    height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  .bannerContent {
+    padding-left: 16px;
+    padding-right: 16px;
   }
   
   .title {
     font-size: 2rem;
   }
   
+  .categoryIcon {
+    font-size: 2.5rem;
+  }
+  
+  .desc {
+    font-size: 1rem;
+    padding: 0;
+  }
+  
   .backButton {
-    top: 15px;
-    left: 15px;
+    left: 16px;
     padding: 8px 16px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Animation keyframes for smoothness */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+/* Smooth scroll behavior for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure no horizontal overflow */
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Add these at the top of your existing CSS file */
+:root {
+  /* ... existing variables ... */
+  
+  /* Performance flags */
+  --will-change-opacity: opacity;
+  --will-change-transform: transform;
+}
+
+/* Base Page - Optimized for performance */
+.page {
+  min-height: 100vh;
+  color: #EAE6FF;
+  position: relative;
+  overflow-x: hidden;
+  font-family: 'Rajdhani', sans-serif;
+  background: linear-gradient(180deg, var(--nebula-dark) 0%, var(--nebula-mid) 100%);
+  /* Disable smooth scroll if performance issues */
+  /* scroll-behavior: smooth; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Banner Styles - Performance Optimized */
+.banner {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Reduce backdrop-filter on all devices for performance */
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  transform: translateZ(0); /* Force GPU acceleration */
+  backface-visibility: hidden;
+  perspective: 1000;
+  will-change: transform, opacity;
+}
+
+/* Remove heavy background gradients from overlay */
+.overlay {
+  position: absolute;
+  width: 100%;
+  margin: 0 auto;
+  inset: 0;
+  /* Simplified gradient for performance */
+  background: linear-gradient(
+    180deg,
+    rgba(10, 4, 16, 0.6) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(10, 4, 16, 0.8) 100%
+  );
+  z-index: 1;
+}
+
+/* Card - Optimized for performance */
+.card {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.02)
+  );
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  /* Reduced backdrop-filter for better performance */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.3), /* Reduced shadow */
+    inset 0 0 20px rgba(206,162,253,0.05);
+  transform: translateZ(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+  contain: content; /* Performance optimization */
+}
+
+/* Card hover state using CSS only */
+.cardHover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 15px 30px rgba(127, 0, 255, 0.25),
+    0 0 40px rgba(206, 162, 253, 0.15);
+}
+
+.cardHover .cardGlow {
+  opacity: 0.7;
+}
+
+.cardHover .cardImg {
+  transform: scale(1.08);
+}
+
+.cardHover .cardDescription {
+  opacity: 1;
+}
+
+.cardHover .exploreButton {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(176, 38, 255, 0.4);
+}
+
+/* Card Image - Optimized transitions */
+.cardImageContainer {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Card Body */
+.cardBody {
+  padding: 20px;
+}
+
+/* Back Button - Performance Optimized */
+.backButton {
+  position: fixed;
+  top: max(20px, env(safe-area-inset-top));
+  left: 20px;
+  padding: 10px 20px;
+  background: rgba(10, 4, 16, 0.85);
+  border: 1px solid rgba(206, 162, 253, 0.3);
+  color: var(--text-secondary);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
+  z-index: 1000;
+  transform: translateZ(0);
+  will-change: transform, background-color;
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  transform: translateX(-3px);
+}
+
+/* Explore Button */
+.exploreButton {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(
+    90deg,
+    var(--accent-tertiary),
+    var(--accent-secondary)
+  );
+  border-radius: 999px;
+  box-shadow: 0 0 20px var(--glow-secondary);
+  will-change: transform, box-shadow;
+}
+
+/* Disable heavy animations on low-power devices */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .backButton,
+  .exploreButton,
+  .cardImg {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .banner {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .page {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Disable parallax and complex animations on mobile */
+  .banner {
+    height: 100vh;
+    min-height: -webkit-fill-available;
+    transform: none !important;
+    will-change: auto;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .banner::before {
+    display: none; /* Remove animated background on mobile */
+  }
+
+  .card {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transform: translateZ(0);
+    transition: none; /* Disable transitions on mobile for better performance */
+  }
+
+  .cardHover {
+    transform: none;
+  }
+
+  .cardImg {
+    transition: none;
+  }
+
+  .backButton {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+  /* Reduce text sizes for mobile */
+  .title {
+    font-size: 2.2rem;
   }
   
   .desc {
     font-size: 1rem;
   }
   
-  .cardBody {
-    padding: 15px;
+  .cardTitle {
+    font-size: 1.2rem;
+  }
+}
+
+/* Extra optimizations for very low-end devices */
+@media (max-width: 480px) and (max-height: 700px) {
+  .bannerContent {
+    padding-top: 22vh;
   }
   
-  .cardTitle {
-    font-size: 1.3rem;
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .grid {
+    gap: 15px;
+  }
+  
+  .card {
+    border-radius: 12px;
+  }
+  
+  .cardImageContainer {
+    height: 150px;
+  }
+}
+
+/* Performance-critical: Limit expensive filters */
+@media (max-device-width: 1024px) {
+  .card,
+  .backButton {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 }
