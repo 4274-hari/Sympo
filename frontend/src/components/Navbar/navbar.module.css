@@ -1,13 +1,13 @@
-/* =================================================================== */
 /* navbar.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
-
 
 :root {
   --island-bg: rgba(255,255,255,0.06);
   --accent: linear-gradient(90deg,#ae00ff,#af002d 50%,#319197 100%);
+  --page-bg: #0b0b0b;
 }
 
+/* ----------------- WRAPPER ----------------- */
 .wrapper {
   position: fixed;
   top: 16px;
@@ -16,69 +16,70 @@
   display: flex;
   justify-content: center;
   z-index: 60;
-  pointer-events: none; /* let inner elements control pointer events */
+  pointer-events: none; 
 }
 
+/* ----------------- NAV ----------------- */
 .nav {
-  width: calc(100% - 48px);
-  max-width: 1100px;
+  width: 100%;
+  max-width: 1000px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 20px;
+  /* gap: 20px; */
   pointer-events: auto;
 }
 
-.NavTitle{
+.NavTitle {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 4px 12px;
   margin-top: 2px;
   border-radius: 999px;
-  border: none;
   background: transparent;
   font-size: larger;
   color: white;
   cursor: pointer;
-  font-family: inherit;
-  transition: background 160ms, transform 160ms;
   font-family: 'Metal Mania', cursive;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: #ffffff;
   text-shadow:
     0 0 6px rgba(255, 255, 255, 0.5),
     0 0 14px rgba(173, 60, 255, 0.7),
     0 0 30px rgba(130, 40, 255, 0.9);
   transform: skewX(-8deg);
+  animation: float 4s ease-in-out infinite;
 }
 
-/* Dynamic island look */
+/* ----------------- DYNAMIC ISLAND ----------------- */
 .dynamicIsland {
-  margin: 0 auto;
+  /* margin: 0 auto; */
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 6px;
+  /* justify-content: center; */
+  padding: 6px ;
   border-radius: 999px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   background: var(--island-bg);
   box-shadow: 0 6px 20px rgba(0,0,0,0.35);
   transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms;
-  /* margin-left: 300px; */
+  position: relative; /* absolute children allowed */
+  overflow: visible; /* allow keychain to hang outside */
 }
 
 .dynamicIsland:hover {
-  transform: translateY(-4px);
+  transform: translateY(4px);
   box-shadow: 0 12px 30px rgba(0,0,0,0.45);
 }
 
+/* ----------------- NAV LIST ----------------- */
 .navList {
   list-style: none;
   display: flex;
-  gap: 2px 8px;
+  gap: 8px;
+  justify-content: center;
   align-items: center;
   margin: 0;
   padding: 6px 12px;
@@ -114,7 +115,7 @@
 }
 
 .icon {
-  display: none; /* hidden on desktop */
+  display: none; /* desktop hidden */
 }
 
 .label {
@@ -133,8 +134,9 @@
   border-radius: 999px;
   background: var(--accent);
   background-size: 200% 200%;
-  color: white;
-  font-weight: 700;
+  color: rgb(92, 39, 97);
+  font-weight: 800;
+  font-size: large;
   text-decoration: none;
   box-shadow: 0 8px 28px rgba(50, 20, 80, 0.35);
   transition: transform 180ms, box-shadow 180ms, background-position 400ms;
@@ -146,30 +148,64 @@
   background-position: 100% 0;
 }
 
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-  100% { transform: translateY(0); }
+/* ----------------- KEYCHAIN / HANG ANCHOR ----------------- */
+.hangAnchor {
+  position: absolute;
+  left: 34.2rem;
+  top: 8.2rem;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 160px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
 }
-.NavTitle { animation: float 4s ease-in-out infinite; }
 
-/* --------------------- Responsive: Mobile -------------------------- */
-@media (max-width: 640px) {
+.keychain {
+  position: absolute;
+  top: 20px;
+  left: 45%;
+  transform: translateX(-50%) rotate(-5deg);
+  width: 76px;
+  height: auto;
+  transform-origin: top center;
+  z-index: 2;
+  pointer-events: auto;
+  transition: transform 240ms ease;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.45));
+  animation: swing 2600ms ease-in-out infinite;
+}
+
+@keyframes swing {
+  0% { transform: translateX(-50%) rotate(-7deg); }
+  50% { transform: translateX(-50%) rotate(7deg); }
+  100% { transform: translateX(-50%) rotate(-7deg); }
+}
+
+/* ----------------- FISHHOOK (UNCHANGED) ----------------- */
+/* keep your fishHook class exactly as is, untouched */
+
+/* ----------------- RESPONSIVE ----------------- */
+
+/* MOBILE: 370px */
+@media (max-width: 467px) {
   .nav {
-    width: calc(100% - 20px);
-    gap: 12px;
+    width: 90%;
+    gap: 4px;
   }
 
   .dynamicIsland {
     padding: 6px 10px;
     min-width: auto;
+    max-width: 340px;
   }
 
-  /* show icons and hide text labels on small screens */
   .icon {
     display: inline-flex;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     align-items: center;
     justify-content: center;
   }
@@ -178,36 +214,157 @@
     display: none;
   }
 
-  /* tighten spacing for mobile */
   .navList {
-    gap: 10px;
-    padding: 6px 6px;
+    gap: 6px;
+    /* padding-left: 48px; */
   }
 
   .navButton {
-    padding: 6px;
-    min-width: 44px;
+    padding: 5px;
+    min-width: 40px;
     justify-content: center;
   }
 
-  /* Keep register btn visible as a full button on mobile */
   .registerBtn {
-    padding: 8px 14px;
-    font-size: 14px;
-  }
-}
-
-/* small polish for very small screens */
-@media (max-width: 380px) {
-  .registerBtn {
-    padding: 8px 10px;
+    padding: 6px 12px;
     font-size: 13px;
   }
+
+  .hangAnchor {
+    left: 6px;
+    top: 125%;
+    width: 56px;
+    height: 120px;
+  }
+
+  .keychain {
+    width: 46px;
+    top: 32px;
+    left: 30%;
+    transform: translateX(-50%) rotate(-4deg);
+  }
 }
 
-/* color for icons/text */
-.navButton svg path {
-  fill: currentColor;
+
+
+/* TABLET: 764px */
+@media (min-width: 467px) and (max-width: 770px) {
+  .nav {
+    width: 90%;
+    gap: 12px;
+  }
+
+  .dynamicIsland {
+    gap: 4px;
+    max-width: 90%;
+    padding: 7px 10px;
+  }
+
+  .icon {
+    /* display: inline-flex; */
+    display: none;
+    width: 20px;
+    height: 22px;
+  }
+
+  .label {
+    display: inline-block;
+    font-size: 13px;
+  }
+
+  .navList {
+    gap: 1px;
+    justify-content: center;
+  }
+
+  .navButton {
+    padding: 6px 10px;
+  }
+
+  .registerBtn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .hangAnchor {
+    left: 8px;
+    top: 130%;
+    width: 64px;
+    height: 140px;
+  }
+
+  .keychain {
+    width: 52px;
+    top: 25px;
+    left: 32%;
+    transform: translateX(-50%) rotate(-4deg);
+  }
 }
 
-/* end of module */
+/* DESKTOP: 1024px */
+@media (min-width: 765px) and (max-width: 1024px) {
+  .nav {
+    width: 80%;
+    gap: 16px;
+  }
+
+  .dynamicIsland {
+    padding: 4px 12px;
+  }
+
+  .icon {
+    display: none;
+  }
+
+  .label {
+    display: inline-block;
+    font-size: 14px;
+  }
+
+  .navList {
+    gap: 10px;
+    /* padding-left: 56px; */
+  }
+
+  .navButton {
+    padding: 8px 12px;
+  }
+
+  .registerBtn {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+
+  .hangAnchor {
+    left: 34.2rem;
+    top: 8.2rem;
+    width: 50px;
+    height: 160px;
+  }
+
+  .keychain {
+    width: 76px;
+    top: 20px;
+    left: 45%;
+  }
+}
+
+@media (min-width : 1024) {
+    
+}
+
+/* ----------------- FLOAT ANIMATION ----------------- */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+.NavTitle {
+  animation: float 4s ease-in-out infinite;
+}
+
+
+
+
+

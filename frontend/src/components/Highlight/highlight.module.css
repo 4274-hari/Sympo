@@ -1,7 +1,13 @@
+:root {
+  --nebula-purple: #663399;
+  --nebula-mid: #8968CD;
+  --nebula-light: #CEA2FD;
+}
+
 .wrapper {
   min-height: 100vh;
   width: 100%;
-  background: #392A48;
+  /* background: #392A48; */
   padding: 75px 9%;
   box-sizing: border-box;
 }
@@ -10,9 +16,11 @@
   text-align: center;
   font-size: 64px;
   margin-bottom: 32px;
-  color: #D8bfd8;
+  color: var(--nebula-light);
   font-weight: 900;
   text-transform: uppercase;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.08em;
 }
 
 /* GRID */
@@ -26,9 +34,57 @@
 /* CARD */
 .card {
   position: relative;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  background: rgba(0,0,0,0.4);
+
+  background: linear-gradient(
+    180deg,
+    rgba(40, 20, 70, 0.55),
+    rgba(15, 8, 30, 0.55)
+  );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(206, 162, 253, 0.25);
+
+  box-shadow:
+    0 0 35px rgba(137, 104, 205, 0.35),
+    inset 0 0 25px rgba(206, 162, 253, 0.15);
+
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+
+  background: linear-gradient(
+    135deg,
+    transparent,
+    var(--nebula-light),
+    var(--nebula-mid),
+    transparent
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow:
+    0 0 70px rgba(137, 104, 205, 0.8),
+    inset 0 0 40px rgba(206, 162, 253, 0.25);
 }
 
 /* IMAGE */
@@ -50,16 +106,10 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0,0,0,0.85),
-    rgba(0,0,0,0.25),
+    rgba(20, 10, 40, 0.9),
+    rgba(30, 15, 60, 0.45),
     transparent
   );
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 20px;
-  opacity: 0;
-  transition: 0.35s ease;
 }
 
 .overlayCard:hover .overlay,
@@ -68,15 +118,12 @@
 }
 
 .overlay h3 {
-  color: #00ff37;
-  font-size: 18px;
-  margin: 0;
+  color: var(--nebula-light);
+  letter-spacing: 0.05em;
 }
 
 .overlay p {
-  color: #ddd;
-  font-size: 13px;
-  margin-top: 6px;
+  color: #cfc7f8;
 }
 
 /* SPANS */
@@ -96,16 +143,17 @@
   justify-content: center;
 }
 
-.statBig {
-  color: #00ff37;
+.statBig,
+.workshopTitle {
+  color: var(--nebula-light);
+  text-shadow: 0 0 20px rgba(206, 162, 253, 0.6);
   font-size: 44px;
-  font-weight: 900;
 }
 
-.statSmall {
-  color: #ccc;
-  font-size: 12px;
-  letter-spacing: 2px;
+.statSmall,
+.workshopSub {
+  color: #c9c5f2;
+  letter-spacing: 3px;
 }
 
 /* WORKSHOP */
@@ -116,17 +164,20 @@
   justify-content: center;
 }
 
-.workshopTitle {
-  color: #00ff37;
-  font-size: 32px;
-  font-weight: 900;
+.card .ambientGlow {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(
+    circle,
+    rgba(206, 162, 253, 0.18),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
-.workshopSub {
-  color: #bbb;
-  letter-spacing: 4px;
-  font-size: 12px;
-  margin-top: 8px;
+.card:hover .ambientGlow {
+  opacity: 1;
 }
 
 /* RESPONSIVE */
