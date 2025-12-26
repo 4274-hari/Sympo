@@ -151,32 +151,35 @@
 /* ----------------- KEYCHAIN / HANG ANCHOR ----------------- */
 .hangAnchor {
   position: absolute;
-  left: 34.2rem;
-  top: 8.2rem;
-  transform: translateY(-50%);
+  left: 96%;
+  top: 80%;
+  transform: translateX(-50%);
   width: 50px;
-  height: 160px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  height: 120px;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 .keychain {
   position: absolute;
-  top: 20px;
-  left: 45%;
-  transform: translateX(-50%) rotate(-5deg);
-  width: 76px;
-  height: auto;
+  top: 0;
+  left: 50%;
+  width: 93px;
+  transform: translateX(-50%) rotate(-6deg);
   transform-origin: top center;
-  z-index: 2;
-  pointer-events: auto;
-  transition: transform 240ms ease;
-  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.45));
-  animation: swing 2600ms ease-in-out infinite;
+  animation: swing 2.6s ease-in-out infinite;
 }
+
+.keychain {
+  cursor: grab;
+  pointer-events: auto; /* allow interaction */
+}
+
+.keychain.dragging {
+  cursor: grabbing;
+  animation: none !important;
+}
+
 
 @keyframes swing {
   0% { transform: translateX(-50%) rotate(-7deg); }
@@ -231,16 +234,14 @@
   }
 
   .hangAnchor {
-    left: 6px;
-    top: 125%;
+    top: 0%;
     width: 56px;
     height: 120px;
   }
 
   .keychain {
-    width: 46px;
+    width: 34px;
     top: 32px;
-    left: 30%;
     transform: translateX(-50%) rotate(-4deg);
   }
 }
@@ -287,8 +288,6 @@
   }
 
   .hangAnchor {
-    left: 8px;
-    top: 130%;
     width: 64px;
     height: 140px;
   }
@@ -296,7 +295,6 @@
   .keychain {
     width: 52px;
     top: 25px;
-    left: 32%;
     transform: translateX(-50%) rotate(-4deg);
   }
 }
@@ -336,14 +334,13 @@
   }
 
   .hangAnchor {
-    left: 34.2rem;
-    top: 8.2rem;
+    top: 40%;
     width: 50px;
     height: 160px;
   }
 
   .keychain {
-    width: 76px;
+    width: 54px;
     top: 20px;
     left: 45%;
   }

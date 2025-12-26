@@ -5,7 +5,7 @@ import styles from "./navbar.module.css";
 
 const navItems = [
   {
-    key: "home",
+    key: "hero",
     label: "Home",
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden>
@@ -46,26 +46,29 @@ const navItems = [
 export default function Navbar() {
   const [active, setActive] = useState("home");
 
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+
+    if(element) {
+      element.scrollIntoView({
+        behavior: 'smooth'
+      })
+    }
+  }
+
   return (
     <header className={styles.wrapper} aria-label="Main navigation">
       <nav className={styles.nav}>
         {/* Dynamic Island container */}
         <div className={styles.dynamicIsland} role="navigation" aria-label="Primary">
-
-          {/* --- HANGING KEYCHAIN (SVG only, no external image) --- */}
-          {/* hangAnchor contains the hole rim + dark aperture + keychain */}
           
 
           <ul className={styles.navList}>
-            {/* <h1 className={styles.NavTitle}>COGNEBULA</h1> */}
             {navItems.map((item) => (
-              
-
               <li key={item.key} className={styles.navItem}>
-               
                 <button
                   className={`${styles.navButton} ${active === item.key ? styles.active : ""}`}
-                  onClick={() => setActive(item.key)}
+                  onClick={() => {setActive(item.key); scrollToSection(item.key)}}
                   aria-current={active === item.key ? "page" : undefined}
                 >
                   <span className={styles.icon} aria-hidden>

@@ -61,9 +61,7 @@
   width: 900px;
   height: 600px;
   margin-left: 100px;
-  /* margin-top: 4rem; */
   backdrop-filter: blur(16px);
-  overflow: hidden;
 }
 
 /* ===========================

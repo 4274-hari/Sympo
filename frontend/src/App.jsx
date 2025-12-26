@@ -14,6 +14,7 @@ import Prize from "./components/Prize/prize.jsx";
 
 import CategoryPage from "./components/Event/CategoryPage";
 import AppBackground from "./components/Background/Background.jsx";
+import EventTimeline from "./components/Timeline/eventTimeline.jsx";
 
 
 const App = () => { 
@@ -29,6 +30,7 @@ const App = () => {
                 <Navbar />
                 <HeroSection />
                 <Event />
+                <EventTimeline />
                 <Highlight />
                 <Contact />
                 <Sponsor />
