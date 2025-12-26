@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { CountdownTimer } from "./Clock/countdown-timer"
 import { Instagram } from "lucide-react"
-import Comet from './Comet';
 import styles from "../Navbar/navbar.module.css";
 import { RandomizedTextEffect } from "../../utils/TextEffect/TextEffect";
 
@@ -91,7 +90,6 @@ export default function HeroSection() {
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden  flex flex-col items-center justify-between px-4 py-8 md:px-8 lg:px-16">
       {/* Background effects */}
-      {/* <Comet/> */}
       <div className="absolute inset-0">
         {/* <div className="absolute inset-0 bg-gradient-to-br from-black via-[#301934] to-[#1a0a1f]" />
         <div className="absolute inset-0 bg-gradient-to-tr from-[#4B0082]/20 via-transparent to-[#663399]/10" /> */}
@@ -275,7 +273,7 @@ export default function HeroSection() {
               <div className="flex items-center justify-center lg:justify-start gap-3 md:gap-4">
                 <div className="h-[2px] w-8 md:w-12 bg-gradient-to-r from-transparent to-[#CEA2FD]" />
                 <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#CEA2FD] font-mono">
-                  <RandomizedTextEffect text="2026" />
+                  {/* <RandomizedTextEffect text="2026" /> */}2026
                 </span>
                 <div className="h-[2px] w-8 md:w-12 bg-gradient-to-l from-transparent to-[#CEA2FD]" />
               </div>
