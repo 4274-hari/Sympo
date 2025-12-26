@@ -117,7 +117,7 @@ export function CountdownTimer({ targetDate }) {
       <div className="relative h-1 bg-[#301934]/50 rounded-full overflow-hidden">
   <div className="absolute inset-0 bg-gradient-to-r
       from-transparent
-      via-white/90
+      via-[#8264b0]
       to-transparent
       bg-[length:150%_100%]
       animate-[beamFlow_3s_linear_infinite]"

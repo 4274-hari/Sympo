@@ -81,6 +81,9 @@ const handleCardClick = (item, index) => {
 
   return (
     <section className={styles.page} id="events">
+      {/* <StormbreakerCinematic />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a1f] via-[#301934] to-black/50" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#4B0082]/20 via-transparent to-[#663399]/10" /> */}
       <header className={styles.header}>
         <h1 className={styles.title}>OUR EVENTS</h1>
         <div className={styles.underline} />

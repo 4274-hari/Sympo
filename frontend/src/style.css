@@ -138,6 +138,10 @@ body {
     animation: float 6s ease-in-out infinite;
   }
 
+  .animate-zoom {
+    animation : zoom 6s ease-in-out infinite;
+  }
+
   .animate-spin-slow {
     animation: spin-slow 20s linear infinite;
   }
@@ -167,6 +171,18 @@ body {
   100% {
     background-position: 200% 0;
   }
+}
+
+@keyframes zoom {
+   0%{
+    scale: 1;
+   }  
+   50%{
+    scale: 1.2;
+   }
+   100%{
+    scale: 1;
+   }
 }
 
 

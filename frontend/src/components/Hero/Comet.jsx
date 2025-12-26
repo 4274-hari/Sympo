@@ -18,7 +18,7 @@ const Comet = () => {
     comet.style.setProperty("--ty", `${r.top + r.height * 0.6}px`);
 
     // Trigger IMPACT exactly when comet arrives
-    const hit = setTimeout(() => setImpact(true), 3000);
+    const hit = setTimeout(() => setImpact(true), 3600);
     return () => clearTimeout(hit);
   }, []);
 
