@@ -4,7 +4,7 @@ async function getAllEventsLiveSlots(req, res) {
   try {
     // 1️⃣ Fetch all events
     const eventsRes = await query(
-      `SELECT id, event_name, event_type, max_teams, max_online_teams
+      `SELECT id, event_name, event_type,event_mode, max_teams, max_online_teams
        FROM events
        ORDER BY event_name`
     );
@@ -58,6 +58,7 @@ async function getAllEventsLiveSlots(req, res) {
       result.push({
         event_name: event.event_name,
         event_type: event.event_type,
+        event_mode: event.event_mode,
         totalSlots: event.max_teams,
         registered: totalRegistered,
         remainingSlots,

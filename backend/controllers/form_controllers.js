@@ -2,6 +2,7 @@ const { query } = require("../config/db");
 const crypto = require("crypto");
 const { sendWelcomeMail } = require("./mail_controllers");
 const { generateFoodToken, generateFoodQRBuffer } = require("./qr_generator_controllers");
+const {appendToGoogleSheet} = require('./excel_controllers')
 
 /* ===============================
    HELPERS
@@ -227,6 +228,20 @@ VALUES ($1,$2,$3,$4,$5,$6)
        COMMIT TRANSACTION
     =============================== */
     await query("COMMIT");
+
+    const eventsList = responseEvents
+  .map(e => e.event_name)
+  .join(", ");
+
+appendToGoogleSheet({
+  email,
+  name,
+  college,
+  year: student_year,
+  events: eventsList,
+  food
+});
+
 
     /* ===============================
        SEND MAIL WITH QR (AFTER COMMIT)

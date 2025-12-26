@@ -6,7 +6,7 @@ const router = express.Router();
 const formroute = require('./form_routes')
 const eventroute = require('./event_routes')
 const foodroute = require('./food_routes')
-
+const paymentroute = require('./payment_routes')
 
 
 // router.get("", (req, res) => {
@@ -16,6 +16,8 @@ const foodroute = require('./food_routes')
 router.use("",formroute)
 router.use("",eventroute)
 router.use('',foodroute)
+router.use('',paymentroute)
+
 
 
 module.exports = router;
