@@ -5,6 +5,7 @@ const router = express.Router();
 
 const formroute = require('./form_routes')
 const eventroute = require('./event_routes')
+const foodroute = require('./food_routes')
 
 
 
@@ -13,8 +14,8 @@ const eventroute = require('./event_routes')
 // });
 
 router.use("",formroute)
-
 router.use("",eventroute)
+router.use('',foodroute)
 
 
 module.exports = router;
