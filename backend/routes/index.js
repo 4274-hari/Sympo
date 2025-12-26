@@ -2,7 +2,11 @@ const express = require("express")
 const router = express.Router();
 
 //Routings import
-const formroute = require('./form')
+
+const formroute = require('./form_routes')
+const eventroute = require('./event_routes')
+const foodroute = require('./food_routes')
+
 
 
 // router.get("", (req, res) => {
@@ -10,5 +14,8 @@ const formroute = require('./form')
 // });
 
 router.use("",formroute)
+router.use("",eventroute)
+router.use('',foodroute)
+
 
 module.exports = router;

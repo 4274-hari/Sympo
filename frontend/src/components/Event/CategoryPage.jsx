@@ -185,9 +185,9 @@ export default function CategoryPage() {
               <h1 className={styles.title}>
                 {CATEGORY_TITLES[category] || category.toUpperCase()}
               </h1>
-              <div className={styles.categoryBadge}>
+              {/* <div className={styles.categoryBadge}>
                 {category.toUpperCase()}
-              </div>
+              </div> */}
             </motion.div>
 
             <motion.p 
@@ -255,7 +255,7 @@ export default function CategoryPage() {
                     className={styles.cardDate}
                     variants={{ hover: { x: 5 } }}
                   >
-                    {event.date}
+                    {event.time}
                   </motion.span>
                 </div>
 

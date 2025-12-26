@@ -252,29 +252,33 @@ const navigate = useNavigate();
                 <h2>
                   <Trophy size={20} />
                   Event Leadership
+            <span className={styles.leaderRole}>Leads</span>
                 </h2>
-                
-                <div className={styles.leaderCard}>
-                  <div className={styles.leaderHeader}>
-                    <h3>Event Leader</h3>
-                    <span className={styles.leaderRole}>Lead</span>
-                  </div>
-                  <div className={styles.leaderInfo}>
-                    <span className={styles.leaderName}>{event.eventLeader.name}</span>
-                    <div className={styles.contactInfo}>
-                      <a href={`tel:${event.eventLeader.phone}`}>
-                        <Phone size={16} />
-                        {event.eventLeader.phone}
-                      </a>
-                      {event.eventLeader.email && (
-                        <a href={`mailto:${event.eventLeader.email}`}>
-                          <Mail size={16} />
-                          {event.eventLeader.email}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
+
+                {/* Event Leadership */}
+{event.eventLeader && event.eventLeader.length > 0 && (
+  <div className={styles.leadershipSection}>
+    <div className={styles.leaderGrid}>
+      {event.eventLeader.map((leader, i) => (
+        <div key={i} className={styles.leaderCard}>
+
+
+          <div className={styles.leaderInfo}>
+            <span className={styles.leaderName}>{leader.name}</span>
+
+            <div className={styles.contactInfo}>
+              <a href={`tel:${leader.phone}`}>
+                <Phone size={16} />
+                {leader.phone}
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
 
                 {/* Coordinators */}
                 {event.coordinators && event.coordinators.length > 0 && (
