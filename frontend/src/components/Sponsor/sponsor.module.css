@@ -61,9 +61,7 @@
   width: 900px;
   height: 600px;
   margin-left: 100px;
-  /* margin-top: 4rem; */
   backdrop-filter: blur(16px);
-  overflow: hidden;
 }
 
 /* ===========================
@@ -223,7 +221,7 @@
 /* Responsive */
 @media (max-width: 900px) {
   .wrapper {
-    flex-direction: column;
+    flex-direction: column-reverse;
     padding: 40px 20px;
   }
   .bubbleContainer {
@@ -236,7 +234,7 @@
    =========================== */
 @media (max-width: 768px) {
   .wrapper {
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 32px;
     padding: 24px 16px;
     border-radius: 16px;
@@ -303,6 +301,7 @@
     gap: 40px;
     padding: 40px 32px;
     min-height: auto;
+    flex-direction: column-reverse;
   }
 
   /* Bubble container */

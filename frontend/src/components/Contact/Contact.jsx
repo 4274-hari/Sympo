@@ -11,7 +11,17 @@ const people = [
     call: '+880123456789',
     mail: 'sadik@example.com',
     img: alien,
-    side: 'left'
+    side: 'left',
+    showImage: true
+  },
+  {
+    role: 'Co-ordinator',
+    name: 'Sadik Ahmed',
+    position: 'Lead Coordinator',
+    call: '+880123456789',
+    mail: 'sadik@example.com',
+    side: 'center',
+    showImage: false   // 👈 center person, no image
   },
   {
     role: 'Co-co-ordinator',
@@ -20,7 +30,8 @@ const people = [
     call: '+880987654321',
     mail: 'jane@example.com',
     img: panther,
-    side: 'right'
+    side: 'right',
+    showImage: true
   }
 ];
 
@@ -36,12 +47,21 @@ export default function ContactTeam() {
         {people.map((p, idx) => (
           <article
             key={idx}
-            className={`${styles.card} ${p.side === 'left' ? styles.left : styles.right}`}
+            className={`${styles.card} ${
+              p.side === 'left'
+                ? styles.left
+                : p.side === 'right'
+                ? styles.right
+                : styles.center
+            }`}
           >
             <div className={styles.ambientGlow} />
-            <div className={styles.peek} aria-hidden>
-              <img src={p.img} alt={`${p.name} illustration`} />
-            </div>
+
+            {p.showImage && (
+              <div className={styles.peek} aria-hidden>
+                <img src={p.img} alt={`${p.name} illustration`} />
+              </div>
+            )}
 
             <div className={styles.info}>
               <div className={styles.role}>{p.role}</div>

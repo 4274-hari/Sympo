@@ -1,142 +1,248 @@
 {
-  "tech": {
-
+"tech": {
   "color": "neonred",
-  "icon":  "/flyicon/iron.png",
-  "img" : "/eventimg/tech.png",
-  "description":"tech desccr",
+  "icon": "/flyicon/iron.png",
+  "img": "/eventimg/tech.png",
+  "description": "Technical events focusing on AI, coding, problem-solving, and innovation.",
   "date": "07/02/2026",
-"AI Workshop": {
-  "id": "tech01",
-  "title": "AI Workshop",
-  "sympoImg": "/images/tech/image.png",
-  "description": "A hands-on workshop introducing Artificial Intelligence concepts, real-world applications, and practical implementation using Python and popular AI libraries.",
-  
-  "highlights": [
-    "Live hands-on coding session",
-    "Introduction to Machine Learning & AI tools",
-    "Real-world use cases and demos",
-    "Certificate of participation"
+
+  "Agent Fusion": {
+    "id": "tech01",
+    "title": "Agent Fusion",
+    "sympoImg": "/images/tech/agent-fusion.png",
+    "description": "A 3-member AI team challenge where participants collaborate using different AI tools in timed rotations to build a complete solution.",
+    
+    "highlights": [
+      "AI-based collaborative challenge",
+      "10-minute rotating work intervals",
+      "Use of ChatGPT, Gemini, and Claude",
+      "Focus on functionality and innovation"
+    ],
+
+    "eligibility": [
+      "Exactly 3 members per team",
+      "Each member must use a different AI tool",
+      "Participants must bring their own laptop"
+    ],
+
+    "rules": [
+      "Total duration: 1 hour",
+      "Each participant works only during their allotted 10-minute slot",
+      "One extension box per team is mandatory",
+      "Use of pre-existing GitHub code or fully autonomous agent tools is prohibited",
+      "Any malpractice leads to disqualification"
+    ],
+
+    "teamlimit": "3 members",
+    "place": "To be announced",
+    "date": "07/02/2026",
+    "time": "1 Hour",
+
+    "registration": {
+      "fee": "To be announced",
+      "lastDate": "05/02/2026",
+      "spotRegistration": false
+    },
+
+    "hurryUp": "Limited slots available!",
+      "eventLeader": [
+    { "name": "Samuel Stephen Deva Paul L", "phone": "9361045927" },
+    { "name": "Priyanka B", "phone": "9500138092" }
   ],
 
-  "eligibility": [
-    "Open to all departments",
-    "Basic programming knowledge preferred",
-    "Beginners are welcome"
-  ],
-
-  "rules": [
-    "Individual or team participation allowed",
-    "Participants must bring their own laptop",
-    "Internet access will be provided",
-    "Follow the instructions given by the mentor"
-  ],
-
-  "teamlimit": "1–4 members",
-  "place": "Main Auditorium",
-  "date": "07/02/2026",
-  "time": "10:00 AM – 01:00 PM",
-
-  "registration": {
-    "fee": "₹200 per team",
-    "lastDate": "05/02/2026",
-    "spotRegistration": true
+    "coordinators": [
+      { "name": "Janavi Shreya R", "phone": "9486570245" },
+      { "name": "Sri Hari M", "phone": "7358286069" }
+    ]
   },
 
-  "hurryUp": "Limited seats available! Register early.",
+  "Paper Podium": {
+    "id": "tech02",
+    "title": "Paper Podium",
+    "sympoImg": "/images/tech/paper-podium.png",
+    "description": "An AI-focused paper presentation event proposing innovative, real-world technical and business solutions.",
 
-  "eventLeader": {
-    "name": "Arjun Kumar",
-    "phone": "9876543210"
+    "highlights": [
+      "Two-level presentation format",
+      "AI-driven societal problem solving",
+      "Business and feasibility-focused evaluation",
+      "Prototype or demo video required"
+    ],
+
+    "eligibility": [
+      "Team of 2–4 members",
+      "Laptop mandatory",
+      "Two PPTs required (Level 1 & Level 2)"
+    ],
+
+    "rules": [
+      "Level 1: 10-minute presentation",
+      "Level 2: 7-minute presentation + 5-minute Q&A",
+      "Prototype or 30–60 sec demo video required for Level 2",
+      "Offline/on-stage presentation only",
+      "Plagiarism or false claims lead to disqualification"
+    ],
+
+    "teamlimit": "2–4 members",
+    "place": "Seminar Hall",
+    "date": "07/02/2026",
+    "time": "As per schedule",
+
+    "registration": {
+      "fee": "To be announced",
+      "lastDate": "05/02/2026",
+      "spotRegistration": false
+    },
+
+    "hurryUp": "Prepare your innovative AI ideas!",
+
+    "coordinators": [
+      { "name": "Arjun V L", "phone": "9360107132" },
+      { "name": "Roshan Varghese Cherian", "phone": "8939084766" }
+    ]
   },
 
-  "coordinators": [
-    { "name": "Priya S", "phone": "9123456789" },
-    { "name": "Rahul M", "phone": "9988776655" }
-  ]
+  "Prompt Craft": {
+    "id": "tech03",
+    "title": "Prompt Craft",
+    "sympoImg": "/images/tech/prompt-craft.png",
+    "description": "A competitive event testing persuasive AI prompting skills and accurate visual replication using generative AI tools.",
+
+    "highlights": [
+      "Two-round AI challenge",
+      "Logic-based prompting",
+      "Image replication using GenAI",
+      "Speed and accuracy focused"
+    ],
+
+    "eligibility": [
+      "Team of 2 members",
+      "Laptop mandatory",
+      "Extension box required"
+    ],
+
+    "rules": [
+      "Total duration: 1 hour",
+      "Round 1 focuses on influencing AI logic",
+      "Round 2 focuses on image replication accuracy",
+      "Predefined prompts are strictly prohibited",
+      "Any misconduct results in disqualification"
+    ],
+
+    "teamlimit": "2 members",
+    "place": "Computer Lab",
+    "date": "07/02/2026",
+    "time": "1 Hour",
+
+    "registration": {
+      "fee": "To be announced",
+      "lastDate": "05/02/2026",
+      "spotRegistration": false
+    },
+
+    "hurryUp": "Show your prompt engineering skills!",
+
+    "coordinators": [
+      { "name": "Sai Vignesh Raj M", "phone": "8838860339" },
+      { "name": "Archana D", "phone": "6381951337" }
+    ]
+  },
+
+  "HackQuest": {
+    "id": "tech04",
+    "title": "HackQuest",
+    "sympoImg": "/images/tech/hackquest.png",
+    "description": "A 3-hour hackathon where teams solve real-world problems using creativity, coding, and AI tools.",
+
+    "highlights": [
+      "3-hour continuous hackathon",
+      "AI-assisted development allowed",
+      "Evaluation on innovation and functionality",
+      "Live presentation required"
+    ],
+
+    "eligibility": [
+      "Maximum 3 members per team",
+      "Laptop and charger mandatory",
+      "One extension box per team"
+    ],
+
+    "rules": [
+      "Use of AI tools like ChatGPT, Claude, Copilot allowed",
+      "Pre-written or reused code is prohibited",
+      "No early start allowed",
+      "Teams must present before judges",
+      "Plagiarism or misconduct leads to disqualification"
+    ],
+
+    "teamlimit": "Up to 3 members",
+    "place": "Lab Hall",
+    "date": "07/02/2026",
+    "time": "3 Hours",
+
+    "registration": {
+      "fee": "To be announced",
+      "lastDate": "05/02/2026",
+      "spotRegistration": false
+    },
+
+    "hurryUp": "Think fast. Build faster!",
+
+    "coordinators": [
+      { "name": "Pranesh Kumar V", "phone": "8072657356" },
+      { "name": "Jayanthi Shree S", "phone": "9094917427" },
+      { "name": "Mohammed Yasir A", "phone": "8754126405" },
+      { "name": "Thiru Sudar S L", "phone": "7092829491" }
+    ]
+  },
+
+  "Query Clash": {
+    "id": "tech05",
+    "title": "Query Clash",
+    "sympoImg": "/images/tech/query-clash.png",
+    "description": "A competitive SQL-based event designed to test logical thinking and query-writing efficiency.",
+
+    "highlights": [
+      "Gamified SQL competition",
+      "Two progressive rounds",
+      "Point-based evaluation",
+      "Speed and accuracy focused"
+    ],
+
+    "eligibility": [
+      "Individual participation only",
+      "Basic SQL knowledge required"
+    ],
+
+    "rules": [
+      "Total duration: 45 minutes",
+      "Two rounds with increasing difficulty",
+      "Points-based scoring system",
+      "Copying or malpractice leads to disqualification"
+    ],
+
+    "teamlimit": "Solo",
+    "place": "Computer Lab",
+    "date": "07/02/2026",
+    "time": "45 Minutes",
+
+    "registration": {
+      "fee": "To be announced",
+      "lastDate": "05/02/2026",
+      "spotRegistration": false
+    },
+
+    "hurryUp": "Test your SQL battle skills!",
+
+    "coordinators": [
+      { "name": "Waatson J", "phone": "8667273132" },
+      { "name": "Sriraam V H", "phone": "7358594362" }
+    ]
+  }
+
+
 }
 ,
-
-    "Machine Learning Hackathon": {
-      "id": "tech02",
-      "title": "Machine Learning Hackathon",
-      "sympoImg": "/images/tech/ml-hackathon.jpg",
-      "description": "Build and train machine learning models to solve real-world problems.",
-      "rules": [
-        "Team of 2–3 members",
-        "Internet allowed",
-        "Pre-trained models not allowed"
-      ],
-      "hurryUp": "Only few teams left!",
-      "eventLeader": {
-        "name": "Sneha R",
-        "phone": "9001122334"
-      },
-      "coordinators": [
-        { "name": "Rahul M", "phone": "9988776655" }
-      ]
-    },
-
-    "webDevChallenge": {
-      "id": "tech03",
-      "title": "Web Development Challenge",
-      "sympoImg": "/images/tech/web-dev.jpg",
-      "description": "Design and develop a responsive web application based on the given theme.",
-      "rules": [
-        "Team of 2 members",
-        "Any frontend framework allowed",
-        "Judging based on UI/UX and functionality"
-      ],
-      "hurryUp": "Registrations closing soon!",
-      "eventLeader": {
-        "name": "Karthik V",
-        "phone": "9011223344"
-      },
-      "coordinators": [
-        { "name": "Meghana L", "phone": "9776655443" }
-      ]
-    },
-
-    "cyberCTF": {
-      "id": "tech04",
-      "title": "Cyber Security CTF",
-      "sympoImg": "/images/tech/ctf.jpg",
-      "description": "Capture the Flag event testing cyber security and ethical hacking skills.",
-      "rules": [
-        "Individual participation",
-        "No collaboration allowed",
-        "Any unfair means leads to disqualification"
-      ],
-      "hurryUp": "High demand event!",
-      "eventLeader": {
-        "name": "Rohit S",
-        "phone": "9887766554"
-      },
-      "coordinators": [
-        { "name": "Vishal K", "phone": "9445566778" }
-      ]
-    },
-
-    "dataScienceSprint": {
-      "id": "tech05",
-      "title": "Data Science Sprint",
-      "sympoImg": "/images/tech/data-science.jpg",
-      "description": "Analyze datasets and extract meaningful insights under time pressure.",
-      "rules": [
-        "Individual or team of 2",
-        "Python preferred",
-        "Final submission mandatory"
-      ],
-      "hurryUp": "Few slots remaining!",
-      "eventLeader": {
-        "name": "Ananya P",
-        "phone": "9345678123"
-      },
-      "coordinators": [
-        { "name": "Naveen R", "phone": "9556677889" }
-      ]
-    }
-  },
 
   "nontech": {
       "color": "neonblue",
