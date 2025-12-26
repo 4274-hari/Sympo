@@ -42,7 +42,7 @@
 /* grid */
 .grid{
   width:100%;
-  max-width:1100px;
+  max-width:1450px;
   display:flex;
   gap:22px;
   padding:8px;
@@ -161,6 +161,16 @@
   margin-right:140px;
   text-align:center;
 }
+
+.center {
+  margin: 0;
+  text-align: center;
+}
+
+.center .info {
+  margin: 0;
+}
+
 /* .info{
   margin-right:140px;
   text-align:left;
@@ -233,18 +243,56 @@
   .grid{
     gap:16px;
     padding:0 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  .left .info{ margin-left:120px }
-  .right .info{ margin-right:120px }
+
+  .card {
+    width: 350px;
+  }
+  
   .peek{ width:190px; height:190px }
-  .left .peek{ left:-72px }
-  .right .peek{ right:-72px }
+  .left .peek{ left:-130px }
+  .right .peek{ right:-140px }
 }
 
 @media (max-width:680px){
   .grid{ flex-direction:column; align-items:stretch; }
   .card{ padding:20px; min-height:160px; }
-  .left .info, .right .info{ margin:0; text-align:left; }
+  .left .info, .right .info{ margin:0; }
   .peek{ left:50% !important; right:50% !important; transform: translate(-50%,-50%); opacity:0.98; width:220px; height:220px; }
   .peek img{ max-width:260px }
+}
+
+@media (max-width:680px){
+  .peek {
+    display: none;
+  }
+
+  .left,
+  .right,
+  .center {
+    margin: 0;
+    text-align: center;
+  }
+
+  .info {
+    margin: 0;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .grid {
+    gap:16px;
+    padding:0 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    width: 450px;
+  }
 }
