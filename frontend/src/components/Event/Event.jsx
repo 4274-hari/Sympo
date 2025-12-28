@@ -12,7 +12,7 @@ const buildTimelineData = (eventsData) =>
 const events = Object.entries(category)
   .filter(([key]) => !CATEGORY_META_KEYS.includes(key))
   .map(([key, ev]) => ({
-    key,      // 🔥 DOthethink
+    key,      
     ...ev
   }));
 
@@ -41,12 +41,13 @@ export default function Event() {
   const navigate = useNavigate();
   const handleCardClick = (item, index) => {
     if (item.type === "workshop") {
-      const firstWorkshopEvent = item.events?.[0];
+      // const firstWorkshopEvent = item.events?.[0];
 
-      if (firstWorkshopEvent?.key) {
-        navigate(`/event/workshop/${firstWorkshopEvent.key}`);
-      }
-      return;
+      // if (firstWorkshopEvent?.key) {
+      //   navigate(`/event/workshop/${firstWorkshopEvent.key}`);
+      // }
+      // return;
+      navigate('/')
     }
 
     toggleCard(index);
@@ -79,7 +80,7 @@ export default function Event() {
       <header className={styles.header}>
         <h1 className={styles.title}>OUR EVENTS</h1>
         <div className={styles.underline} />
-        <p className={styles.subtitle}>// These are our events</p>
+        <p className={styles.subtitle}>// Explore our Events</p>
       </header>
 
       <div className={styles.timelineWrap} ref={wrapRef}>
@@ -129,20 +130,12 @@ export default function Event() {
                 {/* Glow effect */}
                 <div className={styles.ambientGlow} />
                 
-                {/* Date badge with improved styling */}
-                <span className={`${styles.badge} ${styles[item.color]} ${styles.badgeGlow}`}>
-                  <span className={styles.badgeText}>{item.date || "07/02/2026"}</span>
-                  <span className={styles.badgeDeco}></span>
-                </span>
-                
-                {/* Image with overlay effect */}
-              <div className={styles.imageContainer}>
-                <img src={item.img} alt={item.title} className={styles.cardimg} loading="lazy" />
-                <div className={styles.imageOverlay}></div>
-                <div className={styles.imageShine}></div>
-                {/* optional outer ring */}
-                <div className={styles.borderRing}></div>
-              </div>
+                <div className={styles.imageContainer}>
+                  <img src={item.img} alt={item.title} className={styles.cardimg} loading="lazy" />
+                  <div className={styles.imageOverlay}></div>
+                  <div className={styles.imageShine}></div>
+                  <div className={styles.borderRing}></div>
+                </div>
 
                 
                 {/* Content */}

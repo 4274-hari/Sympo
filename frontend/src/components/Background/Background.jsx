@@ -25,7 +25,7 @@ export default function AppBackground({ children }) {
         size: i % 5 === 0 ? 6 : 4,
         color:
           i % 3 === 0 ? "#CEA2FD" : i % 3 === 1 ? "#8968CD" : "#663399",
-        duration: 10 + Math.random() * 20,
+        duration: 1 + Math.random() * 10,
         delay: Math.random() * 5,
       })),
     []
@@ -82,7 +82,7 @@ export default function AppBackground({ children }) {
               return (
                 <div
                   key={p.id}
-                  className="absolute transition-all duration-500"
+                  className="absolute transition-all duration-300"
                   style={{
                     left: `${p.x}%`,
                     top: `${p.y}%`,

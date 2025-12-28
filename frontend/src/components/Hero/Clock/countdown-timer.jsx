@@ -72,7 +72,7 @@ export function CountdownTimer({ targetDate }) {
         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#CEA2FD] to-transparent" />
       </div>
 
-      <div className="flex flex-wrap justify-center lg:justify-start gap-3">
+      <div className="flex justify-center lg:justify-start gap-3">
         {timeUnits.map((unit, index) => (
           <div
             key={unit.label}
@@ -85,16 +85,16 @@ export function CountdownTimer({ targetDate }) {
             <div className="absolute inset-0 bg-gradient-to-br from-[#4B0082]/20 to-[#663399]/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Main card */}
-            <div className="relative glass-card p-5 md:p-6 rounded-2xl min-w-[110px] md:min-w-[130px] group-hover:scale-105 transition-all duration-300">
+            <div className="relative glass-card p-3 md:p-5 rounded-2xl min-w-[80px] sm:min-w-[95px] md:min-w-[120px] group-hover:scale-105 transition-all duration-300">
               <div className="flex flex-col items-center gap-2">
                 {/* Number */}
-                <div className="text-4xl md:text-5xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-b from-[#CEA2FD] via-[#8968CD] to-[#663399] tabular-nums leading-none relative">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-b from-[#CEA2FD] via-[#8968CD] to-[#663399] tabular-nums leading-none relative">
                   {String(unit.value).padStart(2, "0")}
                   <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300 bg-gradient-to-b from-[#CEA2FD] to-[#663399]" />
                 </div>
 
                 {/* Label */}
-                <div className="text-xs md:text-sm text-[#B6B5D8] uppercase tracking-[0.2em] font-semibold">
+                <div className="text-[10px] sm:text-xs md:text-sm text-[#B6B5D8] uppercase tracking-[0.2em] font-semibold">
                   {unit.label}
                 </div>
               </div>

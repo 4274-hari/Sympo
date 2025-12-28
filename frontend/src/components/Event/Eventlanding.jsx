@@ -7,25 +7,19 @@ import {
   Calendar, 
   Clock, 
   MapPin, 
-  Users, 
-  IndianRupee,
-  CheckCircle,
-  UserCheck,
+  Users,
   Award,
   BookOpen,
-  Target,
   AlertCircle,
   ArrowLeft,
   Phone,
-  Mail,
-  ExternalLink,
   ChevronRight,
   Star,
   Trophy,
   Award as CertificateIcon,
   Book,
   Cpu,
-  Zap
+  Zap,
 } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -158,14 +152,16 @@ const navigate = useNavigate();
                   </div>
                 </div>
 
-                {event.registrationFee && (
+                {event.spotRegistration && (
                   <div className={styles.infoItem}>
                     <div className={styles.infoIcon}>
-                      <IndianRupee size={20} />
+                      <Zap size={20} />
                     </div>
                     <div className={styles.infoContent}>
-                      <span className={styles.infoLabel}>Fee</span>
-                      <span className={styles.infoValue}>{event.registrationFee.student}</span>
+                      <span className={styles.infoLabel}>On-Spot Registration</span>
+                      <span className={styles.infoValue}>
+                        {event.spotRegistration ? "Available" : "Not Available"}
+                      </span>
                     </div>
                   </div>
                 )}
@@ -177,7 +173,7 @@ const navigate = useNavigate();
                   <div className={styles.infoContent}>
                     <span className={styles.infoLabel}>Level</span>
                     <span className={styles.infoValue}>
-                      {event.prerequisites ? event.prerequisites[0] : "Beginner Friendly"}
+                      {event.prerequisites ? event.prerequisites : "Beginner Friendly"}
                     </span>
                   </div>
                 </div>
@@ -189,30 +185,13 @@ const navigate = useNavigate();
                   <Trophy size={20} />
                   Event Price
                 </h2>
-               <Prize />
+               {/* <Prize /> */}
+               <p className="text-center">To Be Announced 🤷‍♂️</p>
               </div>
             </div>
 
             {/* Right column */}
             <div className={styles.right}>
-              {/* Highlights */}
-              {event.highlights && (
-                <div className={styles.section}>
-                  <h2>
-                    <Star size={20} />
-                    Highlights
-                  </h2>
-                  <ul>
-                    {event.highlights.map((item, i) => (
-                      <li key={i}>
-                        <CheckCircle size={18} />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
               {/* Rules */}
               <div className={styles.section}>
                 <h2>
@@ -229,70 +208,30 @@ const navigate = useNavigate();
                 </ul>
               </div>
 
-              {/* Prerequisites */}
-              {event.prerequisites && (
-                <div className={styles.section}>
-                  <h2>
-                    <UserCheck size={20} />
-                    Prerequisites
-                  </h2>
-                  <ul>
-                    {event.prerequisites.map((item, i) => (
-                      <li key={i}>
-                        <CheckCircle size={18} />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
               {/* Event Leadership */}
               <div className={styles.leadershipSection}>
                 <h2>
                   <Trophy size={20} />
-                  Event Leadership
-            <span className={styles.leaderRole}>Leads</span>
+                  Event Coordinators
                 </h2>
 
                 {/* Event Leadership */}
-{event.eventLeader && event.eventLeader.length > 0 && (
-  <div className={styles.leadershipSection}>
-    <div className={styles.leaderGrid}>
-      {event.eventLeader.map((leader, i) => (
-        <div key={i} className={styles.leaderCard}>
-
-
-          <div className={styles.leaderInfo}>
-            <span className={styles.leaderName}>{leader.name}</span>
-
-            <div className={styles.contactInfo}>
-              <a href={`tel:${leader.phone}`}>
-                <Phone size={16} />
-                {leader.phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
-
-
-                {/* Coordinators */}
                 {event.coordinators && event.coordinators.length > 0 && (
-                  <div className={styles.coordinatorsGrid}>
-                    <h3>Coordinators</h3>
-                    <div className={styles.coordinatorsList}>
-                      {event.coordinators.map((coord, i) => (
-                        <div key={i} className={styles.coordinatorCard}>
-                          <div className={styles.coordinatorInfo}>
-                            <span className={styles.coordinatorName}>{coord.name}</span>
-                            <a href={`tel:${coord.phone}`} className={styles.coordinatorContact}>
-                              <Phone size={14} />
-                              {coord.phone}
-                            </a>
+                  <div className={styles.leadershipSection}>
+                    <div className={styles.leaderGrid}>
+                      {event.coordinators.map((leader, i) => (
+                        <div key={i} className={styles.leaderCard}>
+
+
+                          <div className={styles.leaderInfo}>
+                            <span className={styles.leaderName}>{leader.name}</span>
+
+                            <div className={styles.contactInfo}>
+                              <a href={`tel:${leader.phone}`}>
+                                <Phone size={16} />
+                                {leader.phone}
+                              </a>
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -300,25 +239,6 @@ const navigate = useNavigate();
                   </div>
                 )}
               </div>
-
-              {/* Certification */}
-              {event.certification && (
-                <div className={styles.certificationSection}>
-                  <h2>
-                    <CertificateIcon size={20} />
-                    Certification
-                  </h2>
-                  <div className={styles.certificateCard}>
-                    <CertificateIcon size={24} />
-                    <div className={styles.certificateInfo}>
-                      <span className={styles.certificateType}>{event.certification.type}</span>
-                      <span className={styles.certificateIssuer}>
-                        Issued by: {event.certification.issuingAuthority}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               {/* Urgent Banner */}
               <div className={styles.urgentBanner}>
@@ -331,23 +251,12 @@ const navigate = useNavigate();
 
               {/* Action Buttons */}
               <div className={styles.actionButtons}>
-                {event.socialMedia?.registrationLink && (
-                  <a 
-                    href={event.socialMedia.registrationLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className={styles.registerButton}
-                  >
-                    Register Now
-                  </a>
-                )}
-                  <button
-                    onClick={() => navigate("/register")}
-                    className={styles.secondaryButton}
-                  >
-                    Register Now
-                  </button>
-
+                <button
+                  onClick={() => navigate("/register")}
+                  className={styles.secondaryButton}
+                >
+                  Register Now
+                </button>
               </div>
             </div>
           </div>
