@@ -9,6 +9,77 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide scrollbar but allow scrolling */
+body {
+  overflow-y: scroll;
+  scrollbar-width: none;          /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none;                  /* Chrome, Safari */
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: radial-gradient(
+    circle at top,
+    #2a0f3d 0%,
+    #1a0a1f 45%,
+    #0f0614 100%
+  );
+  overscroll-behavior-y: none; /* prevents bounce glow */
+}
+
+/* Glass themed toast */
+.glass-toast {
+  background: rgba(26, 10, 31, 0.75) !important;
+  backdrop-filter: blur(16px);
+  border-radius: 18px !important;
+
+  border: 1px solid rgba(206, 162, 253, 0.25);
+  box-shadow:
+    0 0 30px rgba(206, 162, 253, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+
+  color: #f8f4ff;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+/* Toast body text */
+.glass-toast .Toastify__toast-body {
+  font-size: 14px;
+  padding: 15px;
+  line-height: 1.5;
+}
+
+/* Progress bar */
+.glass-progress {
+  background: linear-gradient(90deg, #cea2fd, #8968cd) !important;
+  border-radius: 0 0 18px 18px;
+}
+
+/* Close button */
+.Toastify__close-button {
+  color: #cea2fd !important;
+  opacity: 0.8;
+}
+
+@keyframes barrelRoll {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.do-barrel-roll {
+  animation: barrelRoll 1s ease-in-out;
+}
+
 @keyframes floatSlow {
   0% {
     transform: translateY(0) translateX(0);
@@ -39,6 +110,21 @@ body {
 
 .animate-floatReverse {
   animation: floatReverse 25s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (min-width: 768px) {
+  .float-desktop {
+    animation: float 4s ease-in-out infinite;
+  }
 }
 
 @layer base {
@@ -95,14 +181,15 @@ body {
   }
 
   @keyframes glow {
-    0%,
-    100% {
-      text-shadow: 0 0 20px rgba(137, 104, 205, 0.5), 0 0 40px rgba(137, 104, 205, 0.3), 0 0 60px
-        rgba(137, 104, 205, 0.2);
+    0%, 100% {
+      text-shadow:
+        0 0 12px rgba(242, 242, 242, 0.4),
+        0 0 24px rgba(242, 242, 242, 0.25);
     }
     50% {
-      text-shadow: 0 0 30px rgba(206, 162, 253, 0.6), 0 0 50px rgba(206, 162, 253, 0.4), 0 0 70px
-        rgba(206, 162, 253, 0.3);
+      text-shadow:
+        0 0 22px rgba(242, 242, 242, 0.8),
+        0 0 44px rgba(242, 242, 242, 0.45);
     }
   }
 
@@ -184,6 +271,13 @@ body {
    }
 }
 
+@keyframes swing {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(1.5deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-1.5deg); }
+  100% { transform: rotate(0deg); }
+}
 
 :root {
   --background: oklch(1 0 0);

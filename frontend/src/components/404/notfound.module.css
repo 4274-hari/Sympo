@@ -1,0 +1,85 @@
+.container {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+
+  background: transparent;
+  color: #f8f4ff;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 36px 32px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background: rgba(26, 10, 31, 0.65);
+  border: 1px solid rgba(206, 162, 253, 0.25);
+  border-radius: 26px;
+  backdrop-filter: blur(22px);
+
+  box-shadow: 0 0 60px rgba(137, 104, 205, 0.25);
+}
+
+.card svg {
+  color: #c084fc;
+  filter: drop-shadow(0 0 18px rgba(192, 132, 252, 0.6));
+  margin-bottom: 10px;
+}
+
+.card h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  margin: 8px 0;
+
+  background: linear-gradient(135deg, #cea2fd, #8968cd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #e9ddff;
+  opacity: 0.9;
+  margin-bottom: 26px;
+}
+
+.homeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 12px 22px;
+  border-radius: 14px;
+  text-decoration: none;
+
+  background: linear-gradient(135deg, #cea2fd, #8968cd);
+  color: #1a0a1f;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+
+  box-shadow: 0 0 30px rgba(206, 162, 253, 0.6);
+  transition: all 0.3s ease;
+}
+
+.homeBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(206, 162, 253, 0.85);
+}

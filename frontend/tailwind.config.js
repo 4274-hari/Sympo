@@ -8,28 +8,25 @@ module.exports = {
   theme: {
     extend: {
       keyframes : {
-   float: {
+        float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
         },
-           zoom: {
+          zoom: {
           '0%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.2)' },
           '100%': { transform: 'scale(1)' },
         }
-       
       },
       animation: {
         zoom:   'zoom 0.5s   ease-in-out infinite', // adjust duration/easing as needed
-        float : 'float 0.3s ease-in-out infinite '
+        float : 'float 0.3s ease-in-out infinite ',
+        lightFlow: "lightFlow 3s linear infinite",
       },
       fontFamily: {
-        'orbitron': ['Orbitron', 'sans-serif'],
+        'orbitron': ['Orbitron', 'system-ui', 'sans-serif'],
         'rome': ['Times New Roman', 'ui-sans-serif', 'system-ui'],
         georama: ['Georama', 'sans-serif'],
-      },
-      animation: {
-        lightFlow: "lightFlow 3s linear infinite",
       },
       backgroundSize: {
         "200": "200% 200%",

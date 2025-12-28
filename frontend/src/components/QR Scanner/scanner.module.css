@@ -1,0 +1,127 @@
+.container {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: #f8f4ff;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(26, 10, 31, 0.65);
+  border: 1px solid rgba(206, 162, 253, 0.25);
+  border-radius: 24px;
+  padding: 32px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 60px rgba(137, 104, 205, 0.25);
+  text-align: center;
+}
+
+.title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #cea2fd, #8968cd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: #bfa8ff;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.scanner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* perfect square */
+  max-height: 320px;
+  overflow: hidden;
+
+  border-radius: 18px;
+  border: 2px dashed rgba(206, 162, 253, 0.45);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #c7b8ff;
+  opacity: 0.85;
+}
+
+.success,
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.success svg {
+  color: #22c55e;
+  filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.6));
+}
+
+.error svg {
+  color: #ef4444;
+  filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.6));
+}
+
+.success h2,
+.error h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 22px;
+}
+
+.success p,
+.error p {
+  font-size: 15px;
+  color: #e9ddff;
+}
+
+/* 🔥 CRITICAL FIX */
+.scanner video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.scanner canvas {
+  display: none !important;
+}
+
+.nextBtn {
+  margin-top: 22px;
+  padding: 12px 22px;
+  border-radius: 14px;
+  border: none;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  background: linear-gradient(135deg, #cea2fd, #8968cd);
+  color: #1a0a1f;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+  box-shadow: 0 0 30px rgba(206, 162, 253, 0.6);
+  transition: all 0.3s ease;
+}
+
+.nextBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(206, 162, 253, 0.85);
+}

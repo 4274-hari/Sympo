@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./footer.module.css";
-import { Instagram, Facebook, Mail, Chrome } from "lucide-react";
+import { Instagram, Facebook, Mail, Linkedin } from "lucide-react";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -17,7 +17,7 @@ export default function Footer() {
           </p>
           <div className={styles.socials}>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/cognebula_2k26/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -27,17 +27,17 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://accounts.google.com/"
+              href="https://www.linkedin.com/in/cognebula-ai-ds/"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Google"
+              aria-label="Linkedin"
               className={styles.social}
             >
-              <Chrome size={20} />
+              <Linkedin size={20} />
             </a>
 
             <a
-              href="mailto:info@college.edu"
+              href="mailto:cognebula@velammal.edu.in"
               aria-label="Email"
               className={styles.social}
             >
@@ -45,7 +45,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://facebook.com"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -61,34 +61,43 @@ export default function Footer() {
             <div className={styles.group}>
               <h4 className={styles.groupTitle}>Quick Links</h4>
               <ul className={styles.list}>
-                <li><a href="#about">About</a></li>
-                <li><a href="#committee">Committee</a></li>
-                <li><a href="#schedule">Schedule</a></li>
-                <li><a href="#sponsors">Sponsors</a></li>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#schedules">Schedule</a></li>
+                <li><a href="#contact">Contact</a></li>
               </ul>
             </div>
 
             <div className={styles.group}>
               <h4 className={styles.groupTitle}>Event Links</h4>
               <ul className={styles.list}>
-                <li><a href="#paper">Paper Submission</a></li>
-                <li><a href="#workshops">Workshops</a></li>
-                <li><a href="#competitions">Competitions</a></li>
-                <li><a href="#awards">Awards</a></li>
+                <li><a href="/events/tech">Technical</a></li>
+                <li><a href="/events/nontech">Non Technical</a></li>
+                <li><a href="/workshops">Workshops</a></li>
               </ul>
             </div>
 
             <div className={styles.group}>
-              <h4 className={styles.groupTitle}>Co‑ordinators</h4>
+              <h4 className={styles.groupTitle}>Faculty Co‑ordinators</h4>
               <div className={styles.coordList}>
                 <div className={styles.coordItem}>
                   <div>
-                    <div className={styles.coordName}>Dr. A. Kumar</div>
-                    <div className={styles.coordRole}>Faculty Co‑ordinator</div>
+                    <div className={styles.coordName}>   Mrs. M. Priya</div>
+                    {/* <div className={styles.coordRole}>Faculty Co‑ordinator</div> */}
                   </div>
                   <div className={styles.coordContact}>
-                    <a href="tel:+911234567890">+91 12345 67890</a>
-                    <a href="mailto:akumar@college.edu">akumar@college.edu</a>
+                    <a href="tel:9841170770">+91 98411 70770</a>
+                    <a href="mailto:priya@velammal.edu.in">priya@velammal.edu.in</a>
+                  </div>
+                </div>
+                <div className={styles.coordItem}>
+                  <div>
+                    <div className={styles.coordName}>Mrs. S. Mythili</div>
+                    {/* <div className={styles.coordRole}>Faculty Co‑ordinator</div> */}
+                  </div>
+                  <div className={styles.coordContact}>
+                    <a href="tel:0626901493">+91 96269 01493</a>
+                    <a href="mailto:mythili@velammal.edu.in">mythili@velammal.edu.in</a>
                   </div>
                 </div>
               </div>
@@ -96,12 +105,12 @@ export default function Footer() {
           </div>
 
           <div className={styles.registerWrap}>
-            <a href="#register" className={styles.registerBtn}>Register Now</a>
+            <a href="/register" className={styles.registerBtn}>Register Now</a>
           </div>
         </div>
       </div>
 
-      <div className={styles.bottom}>© {year} College Sympo. All rights reserved.</div>
+      <div className={styles.bottom}>© {year} Cognebula'26. All rights reserved.</div>
     </footer>
   );
 }

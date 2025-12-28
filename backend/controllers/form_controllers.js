@@ -16,13 +16,16 @@ function isValidTeamName(name) {
 }
 
 async function register(req, res) {
+  let email;
   try {
     /* ===============================
        BEGIN TRANSACTION
     =============================== */
     await query("BEGIN");
 
-    const { name, email, phone, college, student_year, food, events, registration_mode } = req.body;
+    const { name, email: reqEmail, phone, college, student_year, food, events, registration_mode } = req.body;
+
+    email = reqEmail;
 
     /* ===============================
        BASIC VALIDATION
@@ -36,8 +39,28 @@ async function register(req, res) {
     }
 
     if (!registration_mode || !["online", "onspot"].includes(registration_mode)) {
-  throw new Error("Invalid registration mode");
-}
+      throw new Error("Invalid registration mode");
+    }
+
+    // ensure reservation exists
+    const resCheck = await query(
+      `SELECT 1 FROM slot_reservations WHERE email = $1`,
+      [email]
+    );
+
+    if (resCheck.rowCount === 0) {
+      throw new Error("Reservation expired. Please try again.");
+    }
+
+    // 🔥 ADD THIS IMMEDIATELY AFTER
+    const reservationMap = await query(
+      `SELECT * FROM slot_reservations WHERE email = $1`,
+      [email]
+    );
+
+    if (reservationMap.rows.length !== events.length) {
+      throw new Error("Reservation mismatch. Please retry registration.");
+    }
 
     /* ===============================
        EMAIL DUPLICATE CHECK
@@ -83,125 +106,23 @@ async function register(req, res) {
 
       const event = eventRes.rows[0];
 
-      const isIndividual = event.event_type === "individual";
-const isTeamLead = event.event_type === "team" && role === "lead";
-
-/* ===============================
-   LIMIT CHECK (INDIVIDUAL OR TEAM LEAD)
-=============================== */
-if (isIndividual || isTeamLead) {
-
-  // 🔒 TOTAL LIMIT
-  const totalRes = await query(
-    `SELECT COUNT(*) FROM registration_events
-     WHERE event_id = $1`,
-    [event.id]
-  );
-
-  const totalCount = parseInt(totalRes.rows[0].count);
-
-  if (totalCount >= event.max_teams) {
-    throw new Error(`"${event_name}" is already full`);
-  }
-
-  // 🌐 ONLINE LIMIT
-  if (registration_mode === "online") {
-    const onlineRes = await query(
-      `SELECT COUNT(*) FROM registration_events
-       WHERE event_id = $1
-         AND registration_mode = 'online'`,
-      [event.id]
-    );
-
-    const onlineCount = parseInt(onlineRes.rows[0].count);
-
-    if (onlineCount >= event.max_online_teams) {
-      throw new Error(
-        `"${event_name}" online slots are full. Please register on-spot.`
+      const reservation = reservationMap.rows.find(
+        r => r.event_id === event.id
       );
-    }
-  }
-}
 
-
-      let finalRole = null;
-      let finalTeamName = null;
-      let finalTeamCode = null;
-
-      if (event.event_type === "team") {
-        if (!role) {
-          throw new Error(`Role required for ${event_name}`);
-        }
-
-        finalRole = role;
-
-        /* 👑 TEAM LEAD */
-        if (role === "lead") {
-          if (!isValidTeamName(team_name)) {
-            throw new Error(`Invalid team name for ${event_name}`);
-          }
-
-          const teamNameExists = await query(
-            `SELECT 1 FROM registration_events
-             WHERE event_id = $1
-               AND LOWER(team_name) = LOWER($2)`,
-            [event.id, team_name.trim()]
-          );
-
-          if (teamNameExists.rowCount > 0) {
-            throw new Error(
-              `Team name "${team_name}" already exists for ${event_name}`
-            );
-          }
-
-
-
-
-          finalTeamName = team_name.trim();
-          finalTeamCode = crypto
-            .randomBytes(3)
-            .toString("hex")
-            .toUpperCase();
-        }
-
-        /* 👤 TEAM MEMBER */
-        if (role === "member") {
-          if (!team_code) {
-            throw new Error(`Team code required for ${event_name}`);
-          }
-
-          const leadRes = await query(
-            `SELECT team_name FROM registration_events
-             WHERE event_id = $1
-               AND team_code = $2
-               AND role = 'lead'`,
-            [event.id, team_code]
-          );
-
-          if (leadRes.rowCount === 0) {
-            throw new Error(`Invalid team code for ${event_name}`);
-          }
-
-          const countRes = await query(
-            `SELECT COUNT(*) FROM registration_events
-             WHERE event_id = $1 AND team_code = $2`,
-            [event.id, team_code]
-          );
-
-          if (parseInt(countRes.rows[0].count) >= event.teammembers) {
-            throw new Error(`Team full for ${event_name}`);
-          }
-
-          finalTeamCode = team_code;
-          finalTeamName = leadRes.rows[0].team_name;
-        }
+      if (!reservation) {
+        throw new Error(`Reservation mismatch for ${event_name}. Please retry.`);
       }
+
+      const finalRole = reservation.role || null;
+      const finalTeamName = reservation.team_name || null;
+      const finalTeamCode = reservation.team_code || null;
 
       await query(
         `INSERT INTO registration_events
-(registration_id,event_id,role,team_name,team_code,registration_mode)
-VALUES ($1,$2,$3,$4,$5,$6)
-`,
+        (registration_id,event_id,role,team_name,team_code,registration_mode)
+        VALUES ($1,$2,$3,$4,$5,$6)
+        `,
         [registrationId, event.id, finalRole, finalTeamName, finalTeamCode, registration_mode]
       );
 
@@ -230,17 +151,17 @@ VALUES ($1,$2,$3,$4,$5,$6)
     await query("COMMIT");
 
     const eventsList = responseEvents
-  .map(e => e.event_name)
-  .join(", ");
+      .map(e => e.event_name)
+      .join(", ");
 
-appendToGoogleSheet({
-  email,
-  name,
-  college,
-  year: student_year,
-  events: eventsList,
-  food
-});
+    appendToGoogleSheet({
+      email,
+      name,
+      college,
+      year: student_year,
+      events: eventsList,
+      food
+    });
 
 
     /* ===============================
@@ -256,6 +177,8 @@ appendToGoogleSheet({
       food
     ).catch(err => console.error("Mail Error:", err));
 
+    await query(`DELETE FROM slot_reservations WHERE email = $1`, [email]);
+
     return res.status(201).json({
       message: "Registration successful",
       registration_id: registrationId,
@@ -263,7 +186,11 @@ appendToGoogleSheet({
     });
 
   } catch (err) {
-    await query("ROLLBACK");
+    try {
+      await query("ROLLBACK");
+    } catch (_) {}
+
+    await query(`DELETE FROM slot_reservations WHERE email = $1`, [email]);
 
     if (err.message === "EMAIL_EXISTS") {
       return res.status(400).json({
@@ -271,6 +198,7 @@ appendToGoogleSheet({
       });
     }
 
+    
     console.error("Registration Error:", err.message);
     return res.status(400).json({
       message: err.message || "Registration failed",
