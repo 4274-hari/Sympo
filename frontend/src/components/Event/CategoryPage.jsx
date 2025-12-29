@@ -28,60 +28,45 @@ const CATEGORY_ICONS = {
   workshop: "⚡"
 };
 
-const CategoryCoordinators = ({ coordinators, title }) => {
+const CategoryCoordinators = ({ coordinators = [], title = "Team" }) => {
   if (!coordinators?.length) return null;
 
   return (
-    <section className="relative mx-auto max-w-6xl px-4 mt-16">
-      
-      {/* Glassmorphic container */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
-        
-        {/* Header */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-white/10">
-          <h2 className="text-xl md:text-2xl font-semibold text-white tracking-wide">
+    <section className={styles.coordsWrap} aria-labelledby="coords-title">
+      <div className={styles.coordsGlass}>
+        <header className={styles.coordsHead}>
+          <h2 id="coords-title" className={styles.coordsTitle}>
             {title} Coordinators
           </h2>
-          <span className="text-sm text-white/60">
-            For general queries
-          </span>
-        </div>
+          <span className={styles.coordsSub}>For general queries</span>
+        </header>
 
-        {/* Coordinator cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-8">
+        <div className={styles.coordsGrid}>
           {coordinators.map((c, i) => (
-            <div
-              key={i}
-              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
-            >
-              {/* Glow */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-purple-500/20 to-pink-500/20 blur-2xl" />
+            <article className={styles.coordsCard} key={i}>
+              <div className={styles.coordsGlow} />
 
-              <div className="relative z-10">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
-                    <User className="text-white/80" size={22} />
+              <div className={styles.coordsBody}>
+                <div className={styles.coordsRow}>
+                  <div className={styles.coordsAvatar}>
+                    <User size={22} />
                   </div>
 
-                  <div>
-                    <p className="text-lg font-medium text-white">
-                      {c.name}
-                    </p>
-                    <p className="text-sm text-white/60">
-                      {c.role}
-                    </p>
+                  <div className={styles.coordsInfo}>
+                    <p className={styles.coordsName}>{c.name}</p>
+                    <p className={styles.coordsRole}>{c.role}</p>
                   </div>
                 </div>
 
                 <a
+                  className={styles.coordsPhone}
                   href={`tel:${c.phone}`}
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-purple-300 hover:text-purple-200 transition"
                 >
                   <Phone size={16} />
-                  {c.phone}
+                  <span className={styles.phoneText}>{c.phone}</span>
                 </a>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -102,49 +87,52 @@ export default function CategoryPage() {
   }, [category]);
 
     // Animation on mount
-  useEffect(() => {
-    if (!bannerRef.current || !gridRef.current) return;
+useEffect(() => {
+  if (!bannerRef.current || !gridRef.current) return;
 
-    const isMobile = window.innerWidth < 768;
+  const isMobile = window.innerWidth < 768;
 
-    if (!isMobile) {
-      gsap.fromTo(
-        bannerRef.current,
-        { scale: 1, y: 0, opacity: 1 },
-        {
-          scale: 0.85,
-          y: -120,
-          opacity: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: bannerRef.current,
-            start: "top top",
-            end: "bottom+=100 top",
-            scrub: true,
-            pin: true,
-            pinSpacing: false,
-          },
-        }
-      );
+  gsap.fromTo(
+    bannerRef.current,
+    {
+      scale: 1,
+      y: 0,
+      opacity: 1,
+    },
+    {
+      scale: isMobile ? 0.95 : 0.85,
+      y: isMobile ? -40 : -120,
+      opacity: 0,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: bannerRef.current,
+        start: "top top",
+        end: isMobile ? "bottom top" : "bottom+=100 top",
+        scrub: true,
+        pin: !isMobile,        // ❗ pin disabled on mobile
+        pinSpacing: false,
+      },
     }
+  );
 
-    gsap.fromTo(
-      cardsRef.current,
-      { opacity: 0, y: 60 },
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.12,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: "top 85%",
-        },
-      }
-    );
+  gsap.fromTo(
+    cardsRef.current,
+    { opacity: 0, y: 60 },
+    {
+      opacity: 1,
+      y: 0,
+      stagger: 0.12,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: gridRef.current,
+        start: "top 90%",
+      },
+    }
+  );
 
-    return () => ScrollTrigger.getAll().forEach(t => t.kill());
-  }, [category]);
+  return () => ScrollTrigger.getAll().forEach(t => t.kill());
+}, [category]);
+
 
 
 
