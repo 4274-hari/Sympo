@@ -877,3 +877,34 @@
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, var(--accent-mag), var(--accent-purple));
 } */
+
+/* =========================================
+   iPhone Portrait (SE → Pro Max)
+   375px – 430px
+   ========================================= */
+@media screen and (max-width: 430px) {
+
+  .mainContent {
+    gap: 24px;
+  }
+
+  .eventHeader h1 {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .infoGrid {
+    gap: 14px;
+  }
+
+  .leaderCard,
+  .section,
+  .leadershipSection,
+  .certificationSection {
+    border-radius: 14px;
+  }
+}
