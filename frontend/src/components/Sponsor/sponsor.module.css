@@ -1,31 +1,67 @@
+:root {
+  --nebula-purple: #663399;
+  --nebula-mid: #8968CD;
+  --nebula-light: #CEA2FD;
+}
+
+.header{
+  text-align:center;
+  margin-bottom:36px;
+  font-family: "Orbitron", sans-serif;
+}
+
+.title{
+  font-size:48px;
+  margin:0;
+  color: var(--nebula-light);
+  letter-spacing:2px;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
+.underline{
+  width:86px;
+  height:8px;
+  background: linear-gradient(90deg,var(--accent-spyred),var(--accent-purple));
+  margin:12px auto;
+  border-radius:4px;
+}
+
+.subtitle{
+  margin-top:10px;
+  font-family: "Roboto Mono", monospace;
+  color:#9fb0d9;
+  letter-spacing:2px;
+  font-size:13px;
+}
+
 .wrapper {
   display: flex;
   gap: 60px;
-  padding: 60px;
+  padding: 80px 60px;
   min-height: 520px;
-  background: linear-gradient(180deg, #071a14, #0c3a2b);
-  border-radius: 18px;
+  font-family: "Orbitron", sans-serif;
+  background: transparent; /* IMPORTANT */
   color: #fff;
-  font-family: Inter, system-ui, sans-serif;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Bubble container */
+
+.bubbleContainer::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+}
+
 .bubbleContainer {
   position: relative;
   width: 900px;
   height: 600px;
   margin-left: 100px;
-  /* border-radius: 40%; */
-  margin-top: 4rem;
-  /* background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 255, 255, 0.06),
-    rgba(255, 255, 255, 0.01)
-  ); */
   backdrop-filter: blur(16px);
-  /* border: 1px solid rgba(255, 255, 255, 0.12); */
-  /* box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); */
-  overflow: hidden;
 }
 
 /* ===========================
@@ -51,12 +87,24 @@
 .floatingLogo img {
   width: 120px;
   padding: 14px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  cursor: pointer;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(40, 20, 70, 0.55),
+    rgba(15, 8, 30, 0.55)
+  );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(206, 162, 253, 0.25);
+
+  box-shadow:
+    0 0 30px rgba(137, 104, 205, 0.45),
+    inset 0 0 18px rgba(206, 162, 253, 0.2);
+
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* Hover: pause + pop */
@@ -67,7 +115,9 @@
 
 .floatingLogo:hover img {
   transform: scale(1.25);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+  box-shadow:
+    0 0 70px rgba(137, 104, 205, 0.9),
+    inset 0 0 30px rgba(206, 162, 253, 0.35);
 }
 
 /* ===========================
@@ -102,42 +152,76 @@
   justify-content: center;
 }
 
+.glassBox::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+
+  background: linear-gradient(
+    135deg,
+    transparent,
+    var(--nebula-light),
+    var(--nebula-mid),
+    transparent
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 .glassBox {
-  position: relative; /* IMPORTANT */
+  position: relative;
   max-width: 520px;
   padding: 38px;
   border-radius: 28px;
+
   background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(255, 255, 255, 0.03)
+    180deg,
+    rgba(40, 20, 70, 0.6),
+    rgba(15, 8, 30, 0.6)
   );
-  backdrop-filter: blur(18px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(206, 162, 253, 0.25);
+
+  box-shadow:
+    0 0 50px rgba(137, 104, 205, 0.6),
+    inset 0 0 35px rgba(206, 162, 253, 0.25);
+
   overflow: hidden;
 }
 
 .glassBox h2 {
-  font-size: 30px;
-  margin-bottom: 14px;
+  font-size: 32px;
+  color: var(--nebula-light);
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.06em;
 }
 
 .glassBox p {
-  font-size: 15px;
-  line-height: 1.6;
+  color: #cfc7f8;
 }
 
 .quote {
-  margin-top: 22px;
-  font-style: italic;
-  opacity: 0.85;
+  color: var(--nebula-light);
+  opacity: 0.9;
+  text-shadow: 0 0 18px rgba(206, 162, 253, 0.5);
 }
 
 /* Responsive */
 @media (max-width: 900px) {
   .wrapper {
-    flex-direction: column;
+    flex-direction: column-reverse;
     padding: 40px 20px;
   }
   .bubbleContainer {
@@ -150,7 +234,7 @@
    =========================== */
 @media (max-width: 768px) {
   .wrapper {
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 32px;
     padding: 24px 16px;
     border-radius: 16px;
@@ -217,6 +301,7 @@
     gap: 40px;
     padding: 40px 32px;
     min-height: auto;
+    flex-direction: column-reverse;
   }
 
   /* Bubble container */

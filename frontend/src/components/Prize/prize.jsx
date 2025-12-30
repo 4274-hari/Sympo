@@ -10,24 +10,7 @@ const prizes = [
 export default function Prize() {
   return (
     <section className={styles.wrapper}>
-      {/* -------- BACKGROUND EFFECTS -------- */}
-      <div className={styles.background}>
-        <div className={styles.stars} />
-        <div className={styles.clouds} />
-      </div>
-
-      {/* -------- LEFT CONTENT -------- */}
-      <div className={styles.messageContainer}>
-        <div className={styles.glassBox}>
-          <h2>Prizes & Rewards</h2>
-          <p>
-            Compete with the best minds and win exciting cash prizes and
-            recognition. Innovation, creativity, and execution will be rewarded.
-          </p>
-        </div>
-      </div>
-
-      {/* -------- RIGHT ZIG-ZAG BUBBLES -------- */}
+      {/* Prize Bubble Row */}
       <div className={styles.bubbleContainer}>
         {prizes.map((p, i) => (
           <div
@@ -35,7 +18,7 @@ export default function Prize() {
             className={styles.prizeBubble}
             style={{
               "--i": i,
-              "--dir": i % 2 === 0 ? 1 : -1, // 🔥 FIX
+              "--dir": i % 2 === 0 ? 1 : -1,
             }}
           >
             <img src={p.img} alt={p.title} />

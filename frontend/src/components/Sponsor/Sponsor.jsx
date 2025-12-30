@@ -15,32 +15,40 @@ const sponsors = [
 
 export default function Sponsor() {
   return (
-    <section className={styles.wrapper}>
-      {/* LEFT: Bubble with floating logos */}
-      <div className={styles.bubbleContainer}>
-        {sponsors.map((s, i) => (
-          <div
-            key={s.name}
-            className={styles.floatingLogo}
-            style={{ "--i": i }}
-          >
-            <img src={s.img} alt={s.name} />
-          </div>
-        ))}
-      </div>
+    <section >
+      <header className={styles.header}>
+        <h1 className={styles.title}>OUR SPONSORS</h1>
+        <div className={styles.underline} />
+        <p className={styles.subtitle}>// These are our sponsors</p>
+      </header>
 
-      {/* RIGHT: Message */}
-      <div className={styles.messageContainer}>
-        <div className={styles.glassBox}>
-          <h2>Our Sponsors</h2>
-          <p>
-            We are deeply thankful to our sponsors for their continued support
-            and belief in our vision. Their partnership makes this symposium
-            possible and empowers innovation, collaboration, and shared growth.
-          </p>
-          <p className={styles.quote}>
-            “Together, we build experiences that matter.”
-          </p>
+      <div className={styles.wrapper}>
+        {/* LEFT: Bubble with floating logos */}
+        <div className={styles.bubbleContainer}>
+          {sponsors.map((s, i) => (
+            <div
+              key={s.name}
+              className={styles.floatingLogo}
+              style={{ "--i": i }}
+            >
+              <img src={s.img} alt={s.name} />
+            </div>
+          ))}
+        </div>
+
+        {/* RIGHT: Message */}
+        <div className={styles.messageContainer}>
+          <div className={styles.glassBox}>
+            <h2>Our Sponsors</h2>
+            <p>
+              We are deeply thankful to our sponsors for their continued support
+              and belief in our vision. Their partnership makes this symposium
+              possible and empowers innovation, collaboration, and shared growth.
+            </p>
+            <p className={styles.quote}>
+              “Together, we build experiences that matter.”
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -9,29 +9,32 @@ import Highlight from "./components/Highlight/Highlight";
 import Event from "./components/Event/Event";
 import Contact from "./components/Contact/Contact";
 import Eventland from "./components/Event/Eventlanding";
-import Register from "./components/Register/Register";
 import Prize from "./components/Prize/prize.jsx";
 
 import CategoryPage from "./components/Event/CategoryPage";
+import AppBackground from "./components/Background/Background.jsx";
+import EventTimeline from "./components/Timeline/eventTimeline.jsx";
+import Scanner from "./components/QR Scanner/Scanner.jsx";
+import NotFound from "./components/404/notfound.jsx";
+import RegisterGate from "./components/Register/RegisterGateWay.jsx";
 
 
-const App = () => {
+const App = () => { 
   return (
     <>
-      <div className="relative z-10">
+      <AppBackground>
         <Routes>
           <Route
             path="/"
             element={
               <>
                 <Navbar />
-                {/* <Hero /> */}
                 <HeroSection />
                 <Event />
+                <EventTimeline />
                 <Highlight />
-                <Prize />
                 <Contact />
-                <Sponsor />
+                {/* <Sponsor /> */}
                 <Footer />
               </>
             }
@@ -45,14 +48,22 @@ const App = () => {
           />
             <Route
             path="/register"
-            element={<Register />}
+            element={<RegisterGate />}
           />
           <Route
             path="/prize"
             element={<Prize />}
           />
+          <Route
+            path="/scanner@1029"
+            element={<Scanner />}
+          />
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
         </Routes>
-      </div>
+      </AppBackground>
     </>
   );
 };

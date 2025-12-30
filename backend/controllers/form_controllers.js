@@ -1,30 +1,82 @@
 const { query } = require("../config/db");
 const crypto = require("crypto");
+const { sendWelcomeMail } = require("./mail_controllers");
+const { generateFoodToken, generateFoodQRBuffer } = require("./qr_generator_controllers");
+const {appendToGoogleSheet} = require('./excel_controllers')
+
+/* ===============================
+   HELPERS
+=============================== */
+function isValidTeamName(name) {
+  return (
+    typeof name === "string" &&
+    name.trim().length >= 3 &&
+    name.trim().length <= 50
+  );
+}
 
 async function register(req, res) {
+  let email;
   try {
-    const { name, email, phone, college, student_year, food, events } =
-      req.body;
+    /* ===============================
+       BEGIN TRANSACTION
+    =============================== */
+    await query("BEGIN");
 
+    const { name, email: reqEmail, phone, college, student_year, food, events, registration_mode } = req.body;
+
+    email = reqEmail;
+
+    /* ===============================
+       BASIC VALIDATION
+    =============================== */
     if (!name || !email || !phone || !college || !student_year || !food) {
-      return res.status(400).json({ message: "Missing registration details" });
+      throw new Error("Missing registration details");
     }
 
     if (!Array.isArray(events) || events.length === 0) {
-      return res.status(400).json({ message: "Select at least one event" });
+      throw new Error("Select at least one event");
     }
 
+    if (!registration_mode || !["online", "onspot"].includes(registration_mode)) {
+      throw new Error("Invalid registration mode");
+    }
+
+    // ensure reservation exists
+    const resCheck = await query(
+      `SELECT 1 FROM slot_reservations WHERE email = $1`,
+      [email]
+    );
+
+    if (resCheck.rowCount === 0) {
+      throw new Error("Reservation expired. Please try again.");
+    }
+
+    // 🔥 ADD THIS IMMEDIATELY AFTER
+    const reservationMap = await query(
+      `SELECT * FROM slot_reservations WHERE email = $1`,
+      [email]
+    );
+
+    if (reservationMap.rows.length !== events.length) {
+      throw new Error("Reservation mismatch. Please retry registration.");
+    }
+
+    /* ===============================
+       EMAIL DUPLICATE CHECK
+    =============================== */
     const emailExists = await query(
       `SELECT 1 FROM registrations WHERE email = $1`,
       [email]
     );
 
     if (emailExists.rowCount > 0) {
-      return res.status(400).json({
-        message: "This email has already been registered",
-      });
+      throw new Error("EMAIL_EXISTS");
     }
 
+    /* ===============================
+       INSERT REGISTRATION
+    =============================== */
     const regRes = await query(
       `INSERT INTO registrations
        (name,email,phone,college,student_year,food)
@@ -37,112 +89,120 @@ async function register(req, res) {
     const responseEvents = [];
 
     /* ===============================
-       STEP 3: PROCESS EACH EVENT
+       PROCESS EVENTS (UNCHANGED)
     =============================== */
     for (const ev of events) {
       const { event_name, role, team_name, team_code } = ev;
 
       const eventRes = await query(
-        `SELECT id, event_type, teammembers
+        `SELECT id, event_type, teammembers, max_teams, max_online_teams
          FROM events WHERE event_name = $1`,
         [event_name]
       );
 
       if (eventRes.rowCount === 0) {
-        return res.status(400).json({
-          message: `Invalid event: ${event_name}`,
-        });
+        throw new Error(`Invalid event: ${event_name}`);
       }
 
       const event = eventRes.rows[0];
-      let finalRole = null;
-      let finalTeamName = null;
-      let finalTeamCode = null;
 
-      /* ========== TEAM EVENT ========== */
-      if (event.event_type === "team") {
-        if (!role || !team_name) {
-          return res.status(400).json({
-            message: `Role and team name required for ${event_name}`,
-          });
-        }
-
-        finalRole = role;
-        finalTeamName = team_name;
-
-        // 👑 TEAM LEAD
-        if (role === "lead") {
-          finalTeamCode = crypto.randomBytes(3).toString("hex").toUpperCase();
-        }
-
-        // 👤 TEAM MEMBER
-        if (role === "member") {
-          if (!team_code) {
-            return res.status(400).json({
-              message: `Team code required for ${event_name}`,
-            });
-          }
-
-          // validate team lead exists
-          const leadCheck = await query(
-            `SELECT 1 FROM registration_events
-             WHERE event_id = $1
-               AND team_code = $2
-               AND role = 'lead'`,
-            [event.id, team_code]
-          );
-
-          if (leadCheck.rowCount === 0) {
-            return res.status(400).json({
-              message: `Invalid team code for ${event_name}`,
-            });
-          }
-
-          // enforce team size
-          const countRes = await query(
-            `SELECT COUNT(*) FROM registration_events
-             WHERE event_id = $1
-               AND team_code = $2`,
-            [event.id, team_code]
-          );
-
-          if (parseInt(countRes.rows[0].count) >= event.teammembers) {
-            return res.status(400).json({
-              message: `Team full for ${event_name}`,
-            });
-          }
-
-          finalTeamCode = team_code;
-        }
-      }
-
-      /* ========== INSERT EVENT ========= */
-      await query(
-        `INSERT INTO registration_events
-         (registration_id,event_id,role,team_name,team_code)
-         VALUES ($1,$2,$3,$4,$5)`,
-        [registrationId, event.id, finalRole, finalTeamName, finalTeamCode]
+      const reservation = reservationMap.rows.find(
+        r => r.event_id === event.id
       );
 
+      if (!reservation) {
+        throw new Error(`Reservation mismatch for ${event_name}. Please retry.`);
+      }
+
+      const finalRole = reservation.role || null;
+      const finalTeamName = reservation.team_name || null;
+      const finalTeamCode = reservation.team_code || null;
+
+      await query(
+        `INSERT INTO registration_events
+        (registration_id,event_id,role,team_name,team_code,registration_mode)
+        VALUES ($1,$2,$3,$4,$5,$6)
+        `,
+        [registrationId, event.id, finalRole, finalTeamName, finalTeamCode, registration_mode]
+      );
 
       responseEvents.push({
         event_name,
-        role: finalRole,
-        team_code: role === "lead" ? finalTeamCode : undefined,
+        role: finalRole || "participant",
+        team_name: finalTeamName,
+        team_code: finalTeamCode,
       });
     }
 
     /* ===============================
-       FINAL RESPONSE
+       🍽️ FOOD TOKEN + QR (NEW)
     =============================== */
+    const foodToken = generateFoodToken();
+
+    await query(
+      `INSERT INTO food_tokens (registration_id, token, food_type)
+       VALUES ($1,$2,$3)`,
+      [registrationId, foodToken, food]
+    );
+
+    /* ===============================
+       COMMIT TRANSACTION
+    =============================== */
+    await query("COMMIT");
+
+    const eventsList = responseEvents
+      .map(e => e.event_name)
+      .join(", ");
+
+    appendToGoogleSheet({
+      email,
+      name,
+      college,
+      year: student_year,
+      events: eventsList,
+      food
+    });
+
+
+    /* ===============================
+       SEND MAIL WITH QR (AFTER COMMIT)
+    =============================== */
+    const qrBuffer = await generateFoodQRBuffer(foodToken);
+
+    sendWelcomeMail(
+      name,
+      email,
+      responseEvents,
+      qrBuffer,
+      food
+    ).catch(err => console.error("Mail Error:", err));
+
+    await query(`DELETE FROM slot_reservations WHERE email = $1`, [email]);
+
     return res.status(201).json({
       message: "Registration successful",
       registration_id: registrationId,
       events: responseEvents,
     });
+
   } catch (err) {
-    console.error("Registration Error:", err);
-    return res.status(500).json({ message: "Server error" });
+    try {
+      await query("ROLLBACK");
+    } catch (_) {}
+
+    await query(`DELETE FROM slot_reservations WHERE email = $1`, [email]);
+
+    if (err.message === "EMAIL_EXISTS") {
+      return res.status(400).json({
+        message: "This email has already been registered",
+      });
+    }
+
+    
+    console.error("Registration Error:", err.message);
+    return res.status(400).json({
+      message: err.message || "Registration failed",
+    });
   }
 }
 

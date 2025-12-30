@@ -1,233 +1,494 @@
 {
   "tech": {
-
-  "color": "neonred",
-  "icon":  "/flyicon/iron.png",
-  "img" : "/eventimg/tech.png",
-  "description":"tech desccr",
-  "date": "07/02/2026",
-"AI Workshop": {
-  "id": "tech01",
-  "title": "AI Workshop",
-  "sympoImg": "/images/tech/image.png",
-  "description": "A hands-on workshop introducing Artificial Intelligence concepts, real-world applications, and practical implementation using Python and popular AI libraries.",
-  
-  "highlights": [
-    "Live hands-on coding session",
-    "Introduction to Machine Learning & AI tools",
-    "Real-world use cases and demos",
-    "Certificate of participation"
-  ],
-
-  "eligibility": [
-    "Open to all departments",
-    "Basic programming knowledge preferred",
-    "Beginners are welcome"
-  ],
-
-  "rules": [
-    "Individual or team participation allowed",
-    "Participants must bring their own laptop",
-    "Internet access will be provided",
-    "Follow the instructions given by the mentor"
-  ],
-
-  "teamlimit": "1–4 members",
-  "place": "Main Auditorium",
-  "date": "07/02/2026",
-  "time": "10:00 AM – 01:00 PM",
-
-  "registration": {
-    "fee": "₹200 per team",
-    "lastDate": "05/02/2026",
-    "spotRegistration": true
-  },
-
-  "hurryUp": "Limited seats available! Register early.",
-
-  "eventLeader": {
-    "name": "Arjun Kumar",
-    "phone": "9876543210"
-  },
-
-  "coordinators": [
-    { "name": "Priya S", "phone": "9123456789" },
-    { "name": "Rahul M", "phone": "9988776655" }
-  ]
-}
-,
-
-    "Machine Learning Hackathon": {
-      "id": "tech02",
-      "title": "Machine Learning Hackathon",
-      "sympoImg": "/images/tech/ml-hackathon.jpg",
-      "description": "Build and train machine learning models to solve real-world problems.",
-      "rules": [
-        "Team of 2–3 members",
-        "Internet allowed",
-        "Pre-trained models not allowed"
-      ],
-      "hurryUp": "Only few teams left!",
-      "eventLeader": {
-        "name": "Sneha R",
-        "phone": "9001122334"
+    "color": "neonred",
+    "icon": "/flyicon/iron.png",
+    "img": "/eventimg/tech.png",
+    "description": "Technical events focusing on AI, coding, problem-solving, and innovation.",
+    "date": "07/02/2026",
+    "coordinators": [
+      {
+        "name": "Samuel Stephen Deva Paul L",
+        "phone": "9361045927",
+        "role": "Tech Events Coordinator"
       },
+      {
+        "name": "Priyanka B",
+        "phone": "9500138092",
+        "role": "Tech Events Coordinator"
+      }
+    ],
+    "Agent Fusion": {
+      "id": "TECH01",
+      "title": "Agent Fusion",
+      "sympoImg": "/images/agentfusion.jpeg",
+      "description": "Agent Fusion is a 3-member AI team challenge where each participant selects a unique AI tool, and in each timed interval only one member works at a time to continue, improve, and complete the shared solution.",
+      "rules": [
+        "Each team must consist of exactly 3 participants.",
+        "The total event duration is 1 hour, with participants rotating and working in 10-minute intervals.",
+        "All participants are required to bring their own laptops, and each team must carry one extension box for the event.",
+        "Participants must use ChatGPT, Gemini, and Claude, with each team member assigned a different tool.",
+        "Evaluation will be based on the functionality and completeness of the final solution, with additional features considered an added advantage.",
+        "Any form of malpractice, including the use of pre-existing GitHub repositories or agentic AI tools that complete the entire task in a single slot, is strictly prohibited."
+      ],
+      "teamlimit": "3 members",
+      "place": "To be announced",
+      "date": "07/02/2026",
+      "time": "1 Hour",
+      "prerequisites": "Beginner Friendly",
+      "spotRegistration": true,
+      "hurryUp": "Limited slots available!",
       "coordinators": [
-        { "name": "Rahul M", "phone": "9988776655" }
+        {
+          "name": "Janavi Shreya R",
+          "phone": "9486570245"
+        },
+        {
+          "name": "Sri Hari M",
+          "phone": "7358286069"
+        }
       ]
     },
-
-    "webDevChallenge": {
-      "id": "tech03",
-      "title": "Web Development Challenge",
-      "sympoImg": "/images/tech/web-dev.jpg",
-      "description": "Design and develop a responsive web application based on the given theme.",
-      "rules": [
-        "Team of 2 members",
-        "Any frontend framework allowed",
-        "Judging based on UI/UX and functionality"
+    "Paper Podium": {
+      "id": "TECH02",
+      "title": "Paper Podium",
+      "sympoImg": "/images/paperpodium.jpeg",
+      "description": "A two-round AI-based paper presentation event where teams propose innovative, end-to-end technical solutions to real-world societal problems, focusing on practicality, impact, and business relevance.",
+      "highlights": [
+        "Two-level presentation format",
+        "AI-driven societal problem solving",
+        "Business and feasibility-focused evaluation",
+        "Prototype or demo video required"
       ],
-      "hurryUp": "Registrations closing soon!",
-      "eventLeader": {
-        "name": "Karthik V",
-        "phone": "9011223344"
+      "rules": [
+        "Team of 2–4 members.",
+        "Level 1 – 10 min presentation | Level 2 – 7 min presentation + 5 min Q&A.",
+        "Laptop, two separate PPTs, and prototype or demo video (30–60 sec) for Level 2.",
+        "Offline/on-stage presentation using PPT with live or video prototype demo.",
+        "Level 1 – Technical design, AI integration & architecture | Level 2 – Real-world application, business value & limitations.",
+        "Evaluation is based on innovation, AI relevance, technical clarity, feasibility, business impact, and presentation.",
+        "Plagiarism, false claims, or rule violations will lead to immediate disqualification."
+      ],
+      "teamlimit": "2–4 members",
+      "place": "Seminar Hall",
+      "date": "07/02/2026",
+      "time": "As per schedule",
+      "registration": {
+        "fee": "To be announced",
+        "lastDate": "05/02/2026",
+        "spotRegistration": false
       },
+      "hurryUp": "Prepare your innovative AI ideas!",
       "coordinators": [
-        { "name": "Meghana L", "phone": "9776655443" }
+        {
+          "name": "Arjun V L",
+          "phone": "9360107132"
+        },
+        {
+          "name": "Roshan Varghese Cherian",
+          "phone": "8939084766"
+        }
       ]
     },
-
-    "cyberCTF": {
-      "id": "tech04",
-      "title": "Cyber Security CTF",
-      "sympoImg": "/images/tech/ctf.jpg",
-      "description": "Capture the Flag event testing cyber security and ethical hacking skills.",
-      "rules": [
-        "Individual participation",
-        "No collaboration allowed",
-        "Any unfair means leads to disqualification"
+    "Prompt Craft": {
+      "id": "TECH03",
+      "title": "Prompt Craft",
+      "sympoImg": "/images/promptcraft.png",
+      "description": "A two-round competition focusing on persuasive AI dialogue and precise image replication.",
+      "highlights": [
+        "Two-round AI challenge",
+        "Logic-based prompting",
+        "Image replication using GenAI",
+        "Speed and accuracy focused"
       ],
-      "hurryUp": "High demand event!",
-      "eventLeader": {
-        "name": "Rohit S",
-        "phone": "9887766554"
+      "rules": [
+        "Teams of 2 members.",
+        "The total event duration is 1 hour.",
+        "All participants are required to bring their own laptops, and each team must carry one extension box for the event.",
+        "The event will be conducted using GenAI models and AI-based technologies as the primary platform.",
+        "Round 1 tests your ability to influence AI logic, and Round 2 requires technical prompting to match a visual target.",
+        "Evaluation will prioritize the fastest team, provided the final solution is accurate and demonstrates innovation.",
+        "Predefined prompts are prohibited and Any misconduct will lead to immediate disqualification."
+      ],
+      "teamlimit": "2 members",
+      "place": "Computer Lab",
+      "date": "07/02/2026",
+      "time": "1 Hour",
+      "registration": {
+        "fee": "To be announced",
+        "lastDate": "05/02/2026",
+        "spotRegistration": false
       },
+      "hurryUp": "Show your prompt engineering skills!",
       "coordinators": [
-        { "name": "Vishal K", "phone": "9445566778" }
+        {
+          "name": "Sai Vignesh Raj M",
+          "phone": "8838860329"
+        },
+        {
+          "name": "Archana D",
+          "phone": "6381951337"
+        }
       ]
     },
-
-    "dataScienceSprint": {
-      "id": "tech05",
-      "title": "Data Science Sprint",
-      "sympoImg": "/images/tech/data-science.jpg",
-      "description": "Analyze datasets and extract meaningful insights under time pressure.",
-      "rules": [
-        "Individual or team of 2",
-        "Python preferred",
-        "Final submission mandatory"
+    "HackQuest": {
+      "id": "TECH04",
+      "title": "HackQuest",
+      "sympoImg": "/images/hackquest.jpeg",
+      "description": "HackQuest is a 3-hour hackathon where teams collaboratively solve real-world problems using coding, creativity, and AI tools.",
+      "highlights": [
+        "3-hour continuous hackathon",
+        "AI-assisted development allowed",
+        "Evaluation on innovation and functionality",
+        "Live presentation required"
       ],
-      "hurryUp": "Few slots remaining!",
-      "eventLeader": {
-        "name": "Ananya P",
-        "phone": "9345678123"
+      "rules": [
+        "Maximum 3 participants per team.",
+        "Mandatory Requirements: All participants must bring a fully charged laptop, charger/power adapter, and a shared extension box or power strip per team.",
+        "The use of AI tools such as ChatGPT, Claude, GitHub Copilot, and similar platforms is permitted and encouraged during the event.",
+        "Solutions will be evaluated based on functionality and completeness, innovation and creativity, code quality, problem-solving approach, presentation, and effective use of technology and AI tools.",
+        "Teams will be disqualified for using pre-existing code, starting early, plagiarism, sharing solutions, misconduct, or failing to present on time."
+      ],
+      "teamlimit": "Up to 3 members",
+      "place": "Lab Hall",
+      "date": "07/02/2026",
+      "time": "3 Hours",
+      "registration": {
+        "fee": "To be announced",
+        "lastDate": "05/02/2026",
+        "spotRegistration": false
       },
+      "hurryUp": "Think fast. Build faster!",
       "coordinators": [
-        { "name": "Naveen R", "phone": "9556677889" }
+        {
+          "name": "Pranesh Kumar V",
+          "phone": "8072657356"
+        },
+        {
+          "name": "Jayanthi Shree S",
+          "phone": "9094917427"
+        },
+        {
+          "name": "Mohammed Yasir A",
+          "phone": "8754126405"
+        },
+        {
+          "name": "Thiru Sudar S L",
+          "phone": "7092829491"
+        }
+      ]
+    },
+    "Query Clash": {
+      "id": "TECH05",
+      "title": "Query Clash",
+      "sympoImg": "/images/queryclash.jpeg",
+      "description": "A SQL-based gamified competitive event aimed at strengthening participants' query-writing and problem-solving skills.",
+      "highlights": [
+        "Gamified SQL competition",
+        "Two progressive rounds",
+        "Point-based evaluation",
+        "Speed and accuracy focused"
+      ],
+      "rules": [
+        "Individual participation (solo event).",
+        "The event duration is 45 minutes.",
+        "The competition consists of two progressive rounds.",
+        "Performance is assessed on a points-based scoring system.",
+        "Any form of misconduct or malpractice, including copying, will result in immediate disqualification."
+      ],
+      "teamlimit": "Solo",
+      "place": "Computer Lab",
+      "date": "07/02/2026",
+      "time": "45 Minutes",
+      "registration": {
+        "fee": "To be announced",
+        "lastDate": "05/02/2026",
+        "spotRegistration": false
+      },
+      "hurryUp": "Test your SQL battle skills!",
+      "coordinators": [
+        {
+          "name": "Waatson J",
+          "phone": "8667273132"
+        },
+        {
+          "name": "Sriraam V H",
+          "phone": "7358594362"
+        }
+      ]
+    },
+    "Shark Tank": {
+      "id": "TECH06",
+      "title": "Shark Tank",
+      "sympoImg": "/images/sharktank.jpeg",
+      "description": "A two-round startup event where teams pitch their business idea and then convince live judges acting as clients to back their vision and financial plan.",
+      "highlights": [
+        "Two-round startup competition",
+        "Business pitch and simulation",
+        "Judge evaluation as clients",
+        "Entrepreneurship-focused"
+      ],
+      "rules": [
+        "Maximum 4 participants per team.",
+        "Round 1 lasts 8 minutes. Round 2 is about 20 minutes, but judges can adjust that time if needed.",
+        "Round 1 will be either online or on-stage, using a PPT presentation. Round 2 will be a simulation-based round for startups.",
+        "Round 1: a 6-slide PPT presentation. Round 2: a simulation where judges act as clients and participants pitch their ideas directly to them.",
+        "Evaluation will be based on timing, the clarity of the idea, and the business use case.",
+        "Plagiarism, rule violations, or false claims will result in immediate disqualification."
+      ],
+      "teamlimit": "Up to 4 members",
+      "place": "Auditorium",
+      "date": "07/02/2026",
+      "time": "To be announced",
+      "registration": {
+        "fee": "To be announced",
+        "lastDate": "05/02/2026",
+        "spotRegistration": false
+      },
+      "hurryUp": "Pitch your startup idea!",
+      "coordinators": [
+        {
+          "name": "Gladson T",
+          "phone": "8072811313"
+        },
+        {
+          "name": "Siva R",
+          "phone": "6374804052"
+        }
       ]
     }
   },
-
   "nontech": {
-      "color": "neonblue",
-  "icon":  "/flyicon/cap.png",
-  "img" : "/eventimg/nontech.png",
-  "date": "07/02/2026",
-    "description":"tech desccr",
-    "Photography Contest": {
-      "id": "nontech01",
-      "title": "Photography Contest",
-      "sympoImg": "/images/nontech/photography.jpg",
-      "description": "Capture creative moments based on the given theme.",
-      "rules": [
-        "Mobile or DSLR allowed",
-        "No editing allowed",
-        "Theme announced on spot"
-      ],
-      "hurryUp": "Limited entries!",
-      "eventLeader": {
-        "name": "Divya K",
-        "phone": "9665544332"
+    "color": "neonblue",
+    "icon": "/flyicon/cap.png",
+    "img": "/eventimg/nontech.png",
+    "date": "07/02/2026",
+    "description": "Non-technical events focusing on creativity, entertainment, and team collaboration.",
+    "coordinators": [
+      {
+        "name": "Beno Dharmaraaj P J",
+        "phone": "8939440781",
+        "role": "Non Tech Events Coordinator"
       },
+      {
+        "name": "Gayathri S Kumar",
+        "phone": "6374294411",
+        "role": "Non Tech Events Coordinator"
+      }
+    ],
+    "Auction Arena": {
+      "id": "NON-TECH01",
+      "title": "Auction Arena",
+      "sympoImg": "/images/autionarena.jpeg",
+      "description": "A competitive, strategy-based cricket event designed to test participants' IPL knowledge, decision-making skills, and auction strategy.",
+      "rules": [
+        "Team participation (4-5 members per team).",
+        "The event consists of two rounds: Rapid Fire and IPL Auction.",
+        "Round 1 (Rapid Fire) focuses on current IPL auction updates, player insights, and general cricket knowledge, testing speed.",
+        "A total of top 10 teams will qualify from the Rapid Fire Round to advance to the next round.",
+        "Round 2 (IPL Auction) challenges teams to build a balanced squad using strategic bidding and budget management.",
+        "Each team will be given a budget of 80 Cr and must select 15 players (11 playing XI + 4 impact substitutes).",
+        "Teams are allowed a maximum of 10 Indian players and 5 foreign players, with only 4 foreign players in the playing XI.",
+        "Teams exceeding the allocated budget will be eliminated immediately.",
+        "Performance will be evaluated based on team combination, player quality, balance, and overall impact."
+      ],
+      "teamlimit": "4-5 members",
+      "place": "To be announced",
+      "date": "07/02/2026",
+      "time": "To be announced",
+      "hurryUp": "Test your IPL strategy!",
       "coordinators": [
-        { "name": "Arun P", "phone": "9112233445" }
+        {
+          "name": "Surendran C",
+          "phone": "6383891788"
+        },
+        {
+          "name": "Mohammed rafik B",
+          "phone": "7010436546"
+        },
+        {
+          "name": "Udhayakumar R",
+          "phone": "9597698379"
+        },
+        {
+          "name": "Vasantha Raja S",
+          "phone": "6374966121"
+        }
       ]
     },
-
-    "treasureHunt": {
-      "id": "nontech02",
-      "title": "Treasure Hunt",
-      "sympoImg": "/images/nontech/treasure.jpg",
-      "description": "Solve clues and race against time to find the hidden treasure.",
+    "Battle Of Thrones": {
+      "id": "NON-TECH02",
+      "title": "Battle Of Thrones",
+      "sympoImg": "/images/battleofthrones.jpeg",
+      "description": "A fast-paced eSports competition where duo teams battle it out in Free Fire and PUBG to prove skill, strategy, and teamwork.",
       "rules": [
-        "Team of 3–4 members",
-        "No external help",
-        "Follow campus rules"
+        "Each team must consist of 2 players (Duo only).",
+        "The total event duration is approximately 2–3 hours, depending on match progress.",
+        "Participants must bring their own mobile device, stable internet connection, earphones, and a fully charged phone.",
+        "The event will be conducted online using Free Fire and PUBG.",
+        "The event consists of multiple knockout rounds, with top-performing duos advancing to the final match.",
+        "Teams are evaluated based on kills, survival time, teamwork, and overall match performance.",
+        "Any use of hacks, cheats, abusive behavior, or unfair play will result in immediate disqualification."
       ],
-      "hurryUp": "Fast filling!",
-      "eventLeader": {
-        "name": "Sanjay M",
-        "phone": "9886655443"
-      },
+      "teamlimit": "2 members (only DUO)",
+      "place": "Online",
+      "date": "07/02/2026",
+      "time": "2-3 Hours",
+      "hurryUp": "Show your gaming skills!",
       "coordinators": [
-        { "name": "Keerthi S", "phone": "9008877665" }
+        {
+          "name": "Thamizharasan D",
+          "phone": "8220634939"
+        },
+        {
+          "name": "Srinivasan S",
+          "phone": "7418331403"
+        }
       ]
     },
-
-    "quiz": {
-      "id": "nontech03",
-      "title": "Quiz",
-      "sympoImg": "/images/nontech/quiz.jpg",
-      "description": "Test your knowledge across multiple domains.",
+    "Beyond The Gate": {
+      "id": "NON-TECH03",
+      "title": "Beyond The Gate",
+      "sympoImg": "/images/beyondthegate.jpeg",
+      "description": "Beyond the Gate is a Stranger Things–themed, non-technical interactive game where teams solve puzzles, decode clues, and complete story-based challenges across multiple rounds.",
       "rules": [
-        "Team of 2",
-        "No mobile phones",
-        "Quiz master's decision is final"
+        "Each team consists of 4–5 members.",
+        "A total of 20 teams will participate in the initial round, with 10 teams in the morning batch and 10 teams in the afternoon batch.",
+        "The event duration is 1 hr 30 mins.",
+        "This is an indoor and outdoor event.",
+        "The game includes 5 eliminator rounds, featuring puzzles, decoding tasks, memory challenges, and story-driven missions.",
+        "The event will be conducted in two batches: morning and afternoon.",
+        "One winning team from each batch will be selected.",
+        "The batch winners will compete in a final task to determine the overall winner.",
+        "A tie-breaker task will be conducted if required.",
+        "Teams will be evaluated based on accuracy, teamwork, communication, effective clue usage, and time management.",
+        "The game concludes with teams attempting to close the Gate, with winners decided by coordination, correctness, and least completion time.",
+        "Any form of misconduct, cheating, or rule violation will lead to immediate disqualification."
       ],
-      "hurryUp": "Open to all!",
-      "eventLeader": {
-        "name": "Harsha V",
-        "phone": "9776655441"
-      },
+      "teamlimit": "4-5 members",
+      "place": "Campus (Indoor & Outdoor)",
+      "date": "07/02/2026",
+      "time": "1 Hr 30 Mins",
+      "hurryUp": "Solve the mystery!",
       "coordinators": [
-        { "name": "Manoj K", "phone": "9332211445" }
+        {
+          "name": "Nithusha Shree T",
+          "phone": "9790844988"
+        },
+        {
+          "name": "Haripriya M.S.",
+          "phone": "9042488559"
+        },
+        {
+          "name": "Anusheya C",
+          "phone": "8637613469"
+        },
+        {
+          "name": "Sumiksha V",
+          "phone": "9345246971"
+        }
       ]
     },
-
-    "debate": {
-      "id": "nontech04",
-      "title": "Debate",
-      "sympoImg": "/images/nontech/debate.jpg",
-      "description": "Express your ideas and argue with confidence.",
+    "Cinefrenzy": {
+      "id": "NON-TECH04",
+      "title": "Cinefrenzy",
+      "sympoImg": "/images/cinefrenzy.jpeg",
+      "description": "A royal fantasy–themed cinematic game designed to test movie knowledge, observation skills, and creative thinking.",
       "rules": [
-        "Individual participation",
-        "Time limit applies",
-        "Language: English"
+        "Team participation with 2–3 members per team.",
+        "The event consists of three progressive rounds:",
+        "Prop-o-pedia: Movies are identified using visual clues displayed on the screen; the fastest team to press the buzzer gets the chance to answer.",
+        "Dialography: One team member reads a famous movie dialogue in a neutral tone while the other identifies the movie.",
+        "Bio to Blockbuster: Movies are presented through an Instagram-style profile with bio, profile picture, and following list as clues.",
+        "Performance is evaluated using a points-based scoring system, with bonus points for speed and accuracy."
       ],
-      "hurryUp": "Limited speakers!",
-      "eventLeader": {
-        "name": "Swetha R",
-        "phone": "9443322110"
-      },
+      "teamlimit": "2-3 members",
+      "place": "Auditorium",
+      "date": "07/02/2026",
+      "time": "To be announced",
+      "hurryUp": "Test your movie knowledge!",
       "coordinators": [
-        { "name": "Ajay P", "phone": "9887700112" }
+        {
+          "name": "Nithishkumar V",
+          "phone": "7010278033"
+        },
+        {
+          "name": "Elakiya C",
+          "phone": "9884084540"
+        }
       ]
     },
-
-    "shortFilm": {
-      "id": "nontech05",
+    "Flashback": {
+      "id": "NON-TECH05",
+      "title": "Flashback",
+      "sympoImg": "/images/flashback.jpeg",
+      "description": "A non-technical, memory-based competitive event aimed at testing participants' visual observation, recall ability, and teamwork skills.",
+      "rules": [
+        "Team participation (2–3 members per team).",
+        "The event consists of three progressive rounds.",
+        "A total of 20 teams will participate in the initial round.",
+        "Performance is assessed based on accuracy, recall, communication, and time efficiency.",
+        "The event concludes with two winning teams.",
+        "Any form of misconduct or violation of event rules will result in immediate disqualification."
+      ],
+      "teamlimit": "2-3 members",
+      "place": "To be announced",
+      "date": "07/02/2026",
+      "time": "To be announced",
+      "hurryUp": "Test your memory!",
+      "coordinators": [
+        {
+          "name": "Ashwatha R",
+          "phone": "7200019769"
+        },
+        {
+          "name": "Chithra B",
+          "phone": "9962254450"
+        }
+      ]
+    },
+    "Rhythmia": {
+      "id": "NON-TECH06",
+      "title": "Rhythmia",
+      "sympoImg": "/images/rhythmia.jpeg",
+      "description": "A non-technical musical event where tunes, lyrics, and rhythm come together in a fun and competitive way.",
+      "rules": [
+        "Each team may have 2–3 participants.",
+        "The event consists of three progressive rounds:",
+        "Round 1: Track the Trio – Listen to the tune and identify the actor, actress, and music director behind it.",
+        "Round 2: Move & Match – No lyrics, no music—just moves! Watch the hook step, match the song, and prove your rhythm sense.",
+        "Round 3: Lyric Quest – Plain lyrics, sometimes translated, are displayed. Participants must recall the tune, identify the song, and sing it.",
+        "Teams that qualify in each round will proceed to the next round.",
+        "The use of mobile phones, smart devices, or any external assistance is strictly prohibited during the event.",
+        "Any form of misconduct or violation of event rules will result in immediate disqualification.",
+        "The judges' decisions are final."
+      ],
+      "teamlimit": "2-3 members",
+      "place": "Auditorium",
+      "date": "07/02/2026",
+      "time": "To be announced",
+      "hurryUp": "Show your musical talent!",
+      "coordinators": [
+        {
+          "name": "Rinthiya S",
+          "phone": "8148886621"
+        },
+        {
+          "name": "Nivedhitha R S",
+          "phone": "9342628294"
+        }
+      ]
+    }
+  },
+  "workshop": {
+    "color": "neonred",
+    "icon": "/flyicon/spydi.png",
+    "img": "/eventimg/workshop.png",
+    "date": "07/02/2026",
+    "description": "Workshop description",
+    "DOthethink": {
+      "id": "WORKSHOP01",
       "title": "Short Film Contest",
-      "sympoImg": "/images/nontech/shortfilm.jpg",
+      "sympoImg": "/images/shortfilm.jpg",
       "description": "Create and submit an original short film based on the given theme.",
       "rules": [
         "Maximum duration: 5 minutes",
@@ -240,16 +501,11 @@
         "phone": "9554433221"
       },
       "coordinators": [
-        { "name": "Lakshmi N", "phone": "9667788990" }
+        {
+          "name": "to be announsed",
+          "phone": "nil"
+        }
       ]
     }
-  },
-  "workshop": {
-    "color": "neonred",
-  "icon":  "/flyicon/spydi.png",
-  "img" : "/eventimg/workshop.png",
-  "date": "07/02/2026",
-    "description":"workshop desccrnnn"
   }
-
 }

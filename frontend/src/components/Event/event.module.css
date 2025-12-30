@@ -1,28 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Roboto+Mono:wght@300;400&display=swap");
 
-:root{
-  --bg:#0b0410;
-  --muted:#9aa0b3;
-  --accent-red: #b6162a;
-  --accent-blue: #0000ff;
-  --accent-spy: #ff0400;
+:root {
+  --nebula-purple: #663399;
+  --nebula-mid: #8968CD;
+  --nebula-light: #CEA2FD;
 }
 
 /* page */
-.page{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent 6%),
-    linear-gradient(180deg, #0a0410,#050008);
-  color:#fff;
-  padding:40px 28px;
+.page {
+  min-height: 100vh;
+  background: transparent;
+  color: #fff;
+  padding: 40px 28px;
   font-family: "Orbitron", sans-serif;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(6, 8, 18, 0.85);
+  /* background: rgba(6, 8, 18, 0.85); */
   backdrop-filter: blur(5px);
 }
 /* header */
@@ -34,7 +30,7 @@
 .title{
   font-size:48px;
   margin:0;
-  color:#fff;
+  color: var(--nebula-light);
   letter-spacing:2px;
   font-weight:700;
   text-transform:uppercase;
@@ -71,9 +67,32 @@
   top:0;
   bottom:0;
   width:2px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--nebula-light),
+    var(--nebula-purple),
+    transparent
+  );
+  box-shadow: 0 0 30px rgba(206, 162, 253, 0.5);
   transform: translateX(-50%);
   z-index:1;
+}
+
+.ambientGlow {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(
+    circle,
+    rgba(206, 162, 253, 0.18),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover .ambientGlow {
+  opacity: 1;
 }
 
 /* row / card layout */
@@ -129,27 +148,68 @@
 .nonTechImg img{ /* Captain - cool blue glow */ }
 
 /* card */
-.card{
-  width:520px;
-  background: linear-gradient(180deg, rgba(18,22,30,0.98), rgba(12,16,24,0.98));
-  border-radius:12px;
-  padding:28px 28px 56px;
-  box-shadow: 0 10px 30px rgba(4,6,8,0.6);
-  border:1px solid rgba(255,255,255,0.03);
-  position:relative;
-  transition: transform .28s ease, box-shadow .28s ease;
+.card {
+  width: 520px;
+  position: relative;
+  border-radius: 18px;
+  padding: 28px 28px 56px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(40, 20, 70, 0.55),
+    rgba(15, 8, 30, 0.55)
+  );
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(206, 162, 253, 0.25);
+
+  box-shadow:
+    0 0 40px rgba(137, 104, 205, 0.35),
+    inset 0 0 30px rgba(206, 162, 253, 0.15);
+
+  transition: transform .45s ease, box-shadow .45s ease;
   font-family: "Roboto Mono", monospace;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+
+  background: linear-gradient(
+    135deg,
+    transparent,
+    #CEA2FD,
+    #8968CD,
+    transparent
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity: 0.65;
+  pointer-events: none;
 }
 
 /* hover lift for card */
-.card:hover{
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 30px rgba(127,0,255,0.06);
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 0 80px rgba(137, 104, 205, 0.8),
+    inset 0 0 45px rgba(206, 162, 253, 0.25);
 }
 
 /* date badge */
 .badge{
-  position:absolute;
+  position:relative;
   top:-16px;
   left:28px;
   padding:8px 14px;
@@ -166,9 +226,9 @@
   margin:8px 0 12px;
   font-size:28px;
   line-height:1;
-  letter-spacing:1px;
+  letter-spacing: 0.04em;
   text-transform:uppercase;
-  color:#fff;
+  color: var(--nebula-light);
   font-weight:700;
 }
 

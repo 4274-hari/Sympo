@@ -2,18 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./event.module.css";
 import { useNavigate } from "react-router-dom";
 import eventsData from "./eventlist.json";
-import StormbreakerCinematic  from "./StormbreakerCinematic.jsx";
 
-
-const CATEGORY_META_KEYS = ["color", "icon", "date", "description", "id"];
+const CATEGORY_META_KEYS = ["color", "icon", "date", "description", "id","img"];
 
 const buildTimelineData = (eventsData) =>
   Object.entries(eventsData).map(([type, category]) => {
     const { color, icon, img, date, description } = category;
 
-    const events = Object.entries(category)
-      .filter(([key]) => !CATEGORY_META_KEYS.includes(key))
-      .map(([_, ev]) => ev);
+const events = Object.entries(category)
+  .filter(([key]) => !CATEGORY_META_KEYS.includes(key))
+  .map(([key, ev]) => ({
+    key,      
+    ...ev
+  }));
 
     return {
       type,
@@ -38,9 +39,20 @@ export default function Event() {
   const wrapRef = useRef(null);
   const [expandedCard, setExpandedCard] = useState(null);
   const navigate = useNavigate();
-  const handleCategoryRedirect = (category) => {
-  navigate(`/events/${category}`);
-};
+  const handleCardClick = (item, index) => {
+    if (item.type === "workshop") {
+      // const firstWorkshopEvent = item.events?.[0];
+
+      // if (firstWorkshopEvent?.key) {
+      //   navigate(`/event/workshop/${firstWorkshopEvent.key}`);
+      // }
+      // return;
+      navigate('/')
+    }
+
+    toggleCard(index);
+    navigate(`/events/${item.type}`);
+  };
 
   const data = buildTimelineData(eventsData);
 
@@ -65,11 +77,10 @@ export default function Event() {
 
   return (
     <section className={styles.page} id="events">
-      <StormbreakerCinematic />
       <header className={styles.header}>
         <h1 className={styles.title}>OUR EVENTS</h1>
         <div className={styles.underline} />
-        <p className={styles.subtitle}>// These are our events</p>
+        <p className={styles.subtitle}>// Explore our Events</p>
       </header>
 
       <div className={styles.timelineWrap} ref={wrapRef}>
@@ -104,64 +115,44 @@ export default function Event() {
               </div>
 
               {/* card */}
-<article 
-  className={`${styles.card} ${expandedCard === i ? styles.cardExpanded : ''} ${styles.cardGlow}`} 
-  tabIndex={0}
-  onClick={() => {
-  toggleCard(i);
-  handleCategoryRedirect(item.type);
-}}
+              <article
+                className={`${styles.card} ${
+                  expandedCard === i ? styles.cardExpanded : ""
+                } ${styles.cardGlow}`}
+                tabIndex={0}
+                role="button"
+                aria-expanded={expandedCard === i}
+                aria-label={`${expandedCard === i ? "Collapse" : "Expand"} ${item.title}`}
+                data-expanded={expandedCard === i}
+                onClick={() => handleCardClick(item, i)}
+              >
+                
+                {/* Glow effect */}
+                <div className={styles.ambientGlow} />
+                
+                <div className={styles.imageContainer}>
+                  <img src={item.img} alt={item.title} className={styles.cardimg} loading="lazy" />
+                  <div className={styles.imageOverlay}></div>
+                  <div className={styles.imageShine}></div>
+                  <div className={styles.borderRing}></div>
+                </div>
 
-  onKeyDown={(e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      toggleCard(i);
-    }
-  }}
-  role="button"
-  aria-expanded={expandedCard === i}
-  aria-label={`${expandedCard === i ? 'Collapse' : 'Expand'} ${item.title}`}
-  data-expanded={expandedCard === i}
->
-  {/* Gradient background overlay */}
-  <div className={styles.cardGradient}></div>
-  
-  {/* Glow effect */}
-  <div className={styles.cardGlowEffect}></div>
-  
-  {/* Date badge with improved styling */}
-  <span className={`${styles.badge} ${styles[item.color]} ${styles.badgeGlow}`}>
-    <span className={styles.badgeText}>{item.date || "07/02/2026"}</span>
-    <span className={styles.badgeDeco}></span>
-  </span>
-  
-  {/* Image with overlay effect */}
-<div className={styles.imageContainer}>
-  <img src={item.img} alt={item.title} className={styles.cardimg} loading="lazy" />
-  <div className={styles.imageOverlay}></div>
-  <div className={styles.imageShine}></div>
-  {/* optional outer ring */}
-  <div className={styles.borderRing}></div>
-</div>
+                
+                {/* Content */}
+                <div className={styles.cardContent}>
+                  <h3 className={styles.cardTitle}>
+                    <span className={styles.titleText}>{item.title}</span>
+                    <span className={styles.titleUnderline}></span>
+                  </h3>
+                  
+                  <div className={styles.cardDescWrapper}>
+                    <p className={styles.cardDesc}>{item.desc}</p>
 
-  
-  {/* Content */}
-  <div className={styles.cardContent}>
-    <h3 className={styles.cardTitle}>
-      <span className={styles.titleText}>{item.title}</span>
-      <span className={styles.titleUnderline}></span>
-    </h3>
-    
-    <div className={styles.cardDescWrapper}>
-      <p className={styles.cardDesc}>{item.desc}</p>
-
-    </div>
-    
-  </div>
-  
-</article>
-
-              
+                  </div>
+                  
+                </div>
+                
+              </article>  
             </div>
           );
         })}

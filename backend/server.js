@@ -4,9 +4,16 @@ const PORT = process.env.PORT || 5000;
 const {ensureDatabaseExists} = require('./migrations/database');
 const {tablecreation} = require('./migrations/table')
 const routes = require("./routes/index")
+const cors = require("cors")
 
 const app = express();
 app.use(express.json());
+
+app.use(cors({
+  origin: "http://localhost:5173", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 app.use(express.urlencoded({ extended: true }));
 
