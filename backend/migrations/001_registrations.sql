@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS registrations (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,  
+  secondary_mail VARCHAR(150),
+  phone VARCHAR(15) NOT NULL,
+  college VARCHAR(150) NOT NULL,
+  student_year INTEGER NOT NULL,
+  amount INTEGER,
+  food VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
