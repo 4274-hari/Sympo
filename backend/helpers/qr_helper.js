@@ -11,7 +11,13 @@ async function generateFoodQRBuffer(token) {
   return await QRCode.toBuffer(token);
 }
 
+/* 🧾 Convert buffer → base64 */
+function bufferToBase64(buffer) {
+  return buffer.toString("base64");
+}
+
 module.exports = {
   generateFoodToken,
-  generateFoodQRBuffer
+  generateFoodQRBuffer,
+  bufferToBase64
 };

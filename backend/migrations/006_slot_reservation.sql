@@ -20,3 +20,7 @@ CREATE INDEX IF NOT EXISTS idx_slot_res_expiry ON slot_reservations(expires_at);
 CREATE UNIQUE INDEX IF NOT EXISTS uniq_team_name_per_event
 ON slot_reservations (event_id, LOWER(team_name))
 WHERE team_name IS NOT NULL;
+
+ ALTER TABLE slot_reservations
+ADD COLUMN session VARCHAR(20)
+CHECK (session IN ('morning', 'afternoon'));

@@ -8,24 +8,35 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendWelcomeMail(name, email, events, qrBuffer, foodType) {
+async function sendWelcomeMail(receipt) {
+
+  const {
+    receipt_id,
+    participant,
+    events,
+    food
+  } = receipt;
+
+  const { name, email } = participant;
+  const { qr_buffer } = food;
+  const foodType = food.type;
 
   const eventsHtml = events.map(ev => {
     let extra = "";
 
     if (ev.role === "lead") {
       extra = `
-        <p><b>Team Name:</b> ${ev.team_name}</p>
-        <p><b>Team Code:</b> ${ev.team_code}</p>
+        <div><b>Team Name:</b> ${ev.team_name}</div>
+        <div><b>Team Code:</b> ${ev.team_code}</div>
       `;
     } else if (ev.role === "member") {
-      extra = `<p><b>Team Name:</b> ${ev.team_name}</p>`;
+      extra = `<div><b>Team Name:</b> ${ev.team_name}</div>`;
     }
 
     return `
       <div class="event-card">
         <h4>${ev.event_name}</h4>
-        <p><b>Role:</b> ${ev.role}</p>
+        <div><b>Role:</b> ${ev.role}</div>
         ${extra}
       </div>
     `;
@@ -34,7 +45,7 @@ async function sendWelcomeMail(name, email, events, qrBuffer, foodType) {
   await transporter.sendMail({
     from: `"COGNEBULA 26 🚀" <${process.env.MAIL_USER}>`,
     to: email,
-    subject: "🎉 You’re Registered for COGNEBULA 26!",
+    subject: "🎉 Registration Confirmed – COGNEBULA 26",
     html: `
 <!DOCTYPE html>
 <html>
@@ -48,7 +59,6 @@ async function sendWelcomeMail(name, email, events, qrBuffer, foodType) {
 
   .wrapper {
     padding: 30px 15px;
-    animation: fadeIn 1.2s ease-in-out;
   }
 
   .card {
@@ -63,28 +73,46 @@ async function sendWelcomeMail(name, email, events, qrBuffer, foodType) {
 
   .hero {
     text-align: center;
-    animation: glow 2.5s infinite alternate;
   }
 
   .hero h1 {
     font-size: 32px;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     color: #d6b4ff;
   }
 
   .hero p {
     font-size: 15px;
     color: #cfcfe6;
+    margin: 0;
   }
 
   .badge {
-    display: inline-block;
     margin-top: 10px;
+    display: inline-block;
     padding: 6px 14px;
     background: linear-gradient(90deg, #8e2de2, #4a00e0);
     border-radius: 20px;
     font-size: 13px;
     letter-spacing: 1px;
+  }
+
+  .receipt-id {
+    margin-top: 14px;
+    padding: 8px 16px;
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border-radius: 12px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #f0e6ff;
+  }
+
+  .content-text {
+    margin-top: 22px;
+    font-size: 15px;
+    color: #e8e8ff;
+    line-height: 1.6;
   }
 
   h3 {
@@ -97,7 +125,6 @@ async function sendWelcomeMail(name, email, events, qrBuffer, foodType) {
     border-radius: 12px;
     padding: 14px;
     margin-bottom: 12px;
-    animation: slideUp 0.6s ease forwards;
   }
 
   .event-card h4 {
@@ -125,21 +152,6 @@ async function sendWelcomeMail(name, email, events, qrBuffer, foodType) {
     color: #b8b8d4;
     text-align: center;
   }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes glow {
-    from { text-shadow: 0 0 10px #8e2de2; }
-    to { text-shadow: 0 0 25px #c77dff; }
-  }
 </style>
 </head>
 
@@ -151,28 +163,31 @@ async function sendWelcomeMail(name, email, events, qrBuffer, foodType) {
         <h1>COGNEBULA 26</h1>
         <p>Where Innovation Meets Intelligence 🌌</p>
         <div class="badge">REGISTRATION CONFIRMED</div>
+        <div class="receipt-id">
+          🎫 Receipt ID: <b>${receipt_id}</b>
+        </div>
       </div>
 
-      <p style="margin-top:25px;">
-        Hey <b>${name}</b>,<br/><br/>
+      <div class="content-text">
+        Hey <b>${name}</b>,<br/>
         You’re officially part of <b>COGNEBULA 26</b> 🚀  
         Get ready for an electrifying symposium experience!
-      </p>
+      </div>
 
       <h3>📌 Your Registered Events</h3>
       ${eventsHtml}
 
       <div class="food">
         <h3>🍽️ Food Pass – ${foodType.toUpperCase()}</h3>
-        <p>Show this QR code at the food counter.<br/>
-        <b>One-time use only</b></p>
+        <div>Show this QR code at the food counter.</div>
+        <div><b>One-time use only</b></div>
 
         <img src="cid:foodqr" width="200" alt="Food QR Code"/>
       </div>
 
       <div class="footer">
         📍 Velammal Engineering College<br/>
-        📅 March 10, 2026<br/><br/>
+        📅 Feb 7, 2026<br/>
         <b>See you at COGNEBULA 26 ✨</b>
       </div>
 
@@ -184,7 +199,7 @@ async function sendWelcomeMail(name, email, events, qrBuffer, foodType) {
     attachments: [
       {
         filename: "food_qr.png",
-        content: qrBuffer,
+        content: qr_buffer,
         cid: "foodqr",
       },
     ],
