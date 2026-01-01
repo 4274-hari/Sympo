@@ -1,19 +1,29 @@
 const { query } = require("../config/db");
+const { ValidationError } = require("../errors/error");
 
-async function getAllEventsLiveSlots(req, res) {
+async function getAllEventsLiveSlots(req, res, next) {
   try {
-    // 1️⃣ Fetch all events
+    /* ===============================
+       FETCH EVENTS
+    =============================== */
     const eventsRes = await query(
-      `SELECT id, event_name, event_type,event_mode, max_teams, max_online_teams
+      `SELECT id, event_name, event_type, event_mode,
+              max_teams, max_online_teams
        FROM events
        ORDER BY event_name`
     );
 
     const events = eventsRes.rows;
 
-    // 2️⃣ Build live slot data for each event
+    if (events.length === 0) {
+      throw ValidationError("No events found");
+    }
+
     const result = [];
 
+    /* ===============================
+       BUILD LIVE SLOT DATA
+    =============================== */
     for (const event of events) {
 
       const countCondition =
@@ -21,17 +31,17 @@ async function getAllEventsLiveSlots(req, res) {
           ? "AND role = 'lead'"
           : "";
 
-      // 🔒 Total registrations
+      /* -------- TOTAL REGISTRATIONS -------- */
       const totalRes = await query(
         `SELECT COUNT(*) FROM registration_events
          WHERE event_id = $1 ${countCondition}`,
         [event.id]
       );
 
-      const totalRegistered = parseInt(totalRes.rows[0].count);
+      const totalRegistered = Number(totalRes.rows[0].count);
       const remainingSlots = event.max_teams - totalRegistered;
 
-      // 🌐 Online registrations
+      /* -------- ONLINE REGISTRATIONS -------- */
       const onlineRes = await query(
         `SELECT COUNT(*) FROM registration_events
          WHERE event_id = $1
@@ -40,10 +50,10 @@ async function getAllEventsLiveSlots(req, res) {
         [event.id]
       );
 
-      const onlineRegistered = parseInt(onlineRes.rows[0].count);
+      const onlineRegistered = Number(onlineRes.rows[0].count);
       const onlineRemaining = event.max_online_teams - onlineRegistered;
 
-      // ⚠️ Status logic
+      /* -------- STATUS LOGIC -------- */
       let status = "AVAILABLE";
       let message = "Slots available";
 
@@ -70,18 +80,17 @@ async function getAllEventsLiveSlots(req, res) {
       });
     }
 
-    res.json({
+    /* ===============================
+       RESPONSE
+    =============================== */
+    return res.status(200).json({
       success: true,
       count: result.length,
       events: result
     });
 
   } catch (err) {
-    console.error("Live Slots Error:", err);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch event slot status"
-    });
+    next(err); // 🔥 centralized error handling
   }
 }
 

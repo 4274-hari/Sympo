@@ -1,32 +1,78 @@
 const fs = require("fs");
 const path = require("path");
-const { db } = require("../config/db");
+const { getClient } = require("../config/db");
 
+/* ===============================
+   RUN SQL MIGRATIONS
+=============================== */
 async function tablecreation() {
-    const migrationsDir = __dirname;
+  const migrationsDir = __dirname;
 
-  // Read all .sql files
   const files = fs
     .readdirSync(migrationsDir)
     .filter(file => file.endsWith(".sql"))
-    .sort(); // IMPORTANT: 001, 002, 003 order
+    .sort();
 
-  console.log("📦 Running migrations...");
-    
-  for (const file of files) {
-    const filePath = path.join(migrationsDir, file);
-    const sql = fs.readFileSync(filePath, "utf8");
-
-    try {
-      await db.query(sql);
-      console.log(`✅ Executed: ${file}`);
-    } catch (err) {
-      console.error(`❌ Migration failed: ${file}`);
-      throw err;
-    }
+  if (files.length === 0) {
+    console.log("ℹ️ No migrations found");
+    return;
   }
 
-  console.log("🎉 All migrations completed");
+  console.log("📦 Running migrations...");
+
+  const client = await getClient(); // 🔒 single connection
+
+  try {
+    /* ===============================
+       MIGRATION LOCK
+    =============================== */
+    await client.query("BEGIN");
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS migrations (
+        id SERIAL PRIMARY KEY,
+        filename TEXT UNIQUE NOT NULL,
+        executed_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    for (const file of files) {
+      const alreadyRun = await client.query(
+        `SELECT 1 FROM migrations WHERE filename = $1`,
+        [file]
+      );
+
+      if (alreadyRun.rowCount > 0) {
+        continue; // skip executed migration
+      }
+
+      const sql = fs.readFileSync(
+        path.join(migrationsDir, file),
+        "utf8"
+      );
+
+      console.log(`➡️ Running ${file}`);
+
+      await client.query(sql);
+
+      await client.query(
+        `INSERT INTO migrations (filename) VALUES ($1)`,
+        [file]
+      );
+
+      console.log(`✅ Executed ${file}`);
+    }
+
+    await client.query("COMMIT");
+    console.log("🎉 All migrations completed");
+
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("❌ Migration failed:", err.message);
+    throw err;
+  } finally {
+    client.release();
+  }
 }
 
-module.exports = {tablecreation};
+module.exports = { tablecreation };

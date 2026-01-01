@@ -37,6 +37,7 @@ VALUES
   ('tech', 'Paper Podium',      'team',       4, 10, 6),
   ('tech',     'Prompt Craft',      'team',       2, 12, 8),
   ('tech',     'HackQuest',         'team',       3, 5, 3),
-  ('tech',     'Query Clash',       'individual', NULL, 50, 30),
+  ('tech',     'HackQuest',         'team',       3, 5, 3),
+  ('tech',     'Shark Tank',       'team', 4, 20, 20),
   ('workshop','workshop','individual',NULL ,50,50)
 ON CONFLICT (event_name) DO NOTHING;
