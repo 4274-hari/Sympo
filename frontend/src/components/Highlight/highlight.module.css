@@ -135,6 +135,10 @@
   grid-row: span 2;
 }
 
+.tall .img, .first .img {
+  object-position: top;
+}
+
 /* STATS */
 .statCard {
   display: flex;

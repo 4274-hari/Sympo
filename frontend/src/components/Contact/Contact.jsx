@@ -7,20 +7,6 @@ import { Card } from './Card';
 const contactGroups = [
   {
     title: "",
-    img: alien,
-    side: "left",
-    members: [
-      {
-        role: "Staff Co-ordinator",
-        name: "Mrs. S. Mythili",
-        phone: "9626901493",
-        email: "mythili@vec.edu",
-        big: true
-      }
-    ]
-  },
-  {
-    title: "",
     img: panther,
     side: "right",
     members: [
@@ -29,6 +15,20 @@ const contactGroups = [
         name: "Mrs. Priya M",
         phone: "9841170770",
         email: "priya@vec.edu",
+        big: true
+      }
+    ]
+  },
+  {
+    title: "",
+    img: alien,
+    side: "left",
+    members: [
+      {
+        role: "Staff Co-ordinator",
+        name: "Mrs. S. Mythili",
+        phone: "9626901493",
+        email: "mythili@vec.edu",
         big: true
       }
     ]

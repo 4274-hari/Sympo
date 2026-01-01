@@ -24,8 +24,6 @@ function EventGroupCard({
   setTeamName,
   setTeamCode,
   gradient,
-  getSelectedSessions,
-  setTeamData
 }) {
   const [expanded, setExpanded] = useState(false)
 
@@ -70,56 +68,23 @@ function EventGroupCard({
                     {full && <span className={styles.fullBadge}>Slot Full</span>}
                     {hurryUp && !full && (
                       <span className={styles.hurryBadge}>
-                        <Clock size={12} /> Hurry
+                        <Clock size={12} /> {event.message}
                       </span>
                     )}
                   </div>
                 </div>
 
-                {selected && event.isBoth && (
-                  <div className={styles.sessionSelect}>
-                    <label className={styles.sessionLabel}>Choose Session</label>
-
-                    <div className={styles.sessionOptions}>
-                      {["morning", "afternoon"].map((session) => {
-                        const selectedSessions = getSelectedSessions();
-                        const isDisabled =
-                          selectedSessions.includes(session) &&
-                          teamData[event.event_name]?.session !== session;
-
-                        return (
-                          <label
-                            key={session}
-                            className={`${styles.sessionOption} ${isDisabled ? styles.disabled : ""}`}
-                          >
-                            <input
-                              type="radio"
-                              name={`session-${event.event_name}`}
-                              value={session}
-                              disabled={isDisabled}
-                              checked={teamData[event.event_name]?.session === session}
-                              onChange={() =>
-                                setTeamData(prev => ({
-                                  ...prev,
-                                  [event.event_name]: {
-                                    ...(prev[event.event_name] || {}),
-                                    session
-                                  }
-                                }))
-                              }
-                            />
-                            <span>{session === "morning" ? "Forenoon" : "Afternoon"}</span>
-                          </label>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
                 <div className={styles.eventMeta}>
                   <span className={styles.metaItem}>
                     {event.event_type === "team" ? <Users size={14} /> : <User size={14} />}
                     {event.event_type === "team" ? "Team Event" : "Solo Event"}
+                  </span>
+                  <span
+                    className={`${styles.sessionBadge} ${
+                      event.isBoth ? styles.multiSession : styles.singleSession
+                    }`}
+                  >
+                    {event.isBoth ? "2 Sessions" : "Single Session"}
                   </span>
                   {event.event_mode === "workshop" && (
                     <span className={`${styles.priceTag} bg-gradient-to-r ${gradient}`}>₹300</span>
@@ -231,6 +196,9 @@ export default function RegisterPage() {
     );
   };
 
+  const isSingleSessionEvent = (event) => !event.isBoth;
+  const isMultiSessionEvent = (event) => event.isBoth;
+
   const getSelectedSessions = () => {
     return selectedEvents
       .map(e => teamData[e.event_name]?.session)
@@ -278,11 +246,7 @@ export default function RegisterPage() {
     return Object.keys(err).length === 0
   }
 
-  const isHurryUp = (event) => {
-    if (!event.onlineSlots || event.onlineSlots === 0) return false
-    const percentageLeft = (event.onlineRemaining / event.onlineSlots) * 100
-    return percentageLeft <= 30
-  }
+  const isHurryUp = (event) => event.status === "HURRY_UP";
 
   const isFull = (event) => event.status === "FULL" || event.remainingSlots === 0
 
@@ -311,6 +275,20 @@ export default function RegisterPage() {
     if (event.isBoth && selectedSessions.length === 1) {
       // Allow selection, but radio button will restrict session choice
       return null;
+    }
+
+    if (selected.length === 1) {
+      const firstEvent = selected[0];
+
+      // If first is single-session, second must be multi-session
+      if (
+        (isSingleSessionEvent(firstEvent) &&
+        isSingleSessionEvent(event)) ||
+        (isMultiSessionEvent(firstEvent) &&
+        isMultiSessionEvent(event))
+      ) {
+        return "If you choose a single-session event, the second event must be a 2-session event";
+      }
     }
 
     return null;
@@ -415,16 +393,6 @@ export default function RegisterPage() {
 
           if (team.role === "member" && !team.teamCode?.trim()) {
             toast.error(`Enter team code for ${event.event_name}`);
-            return;
-          }
-        }
-      }
-
-      for (const event of selectedEvents) {
-        if (event.isBoth) {
-          const session = teamData[event.event_name]?.session;
-          if (!session) {
-            toast.error(`Select session for ${event.event_name}`);
             return;
           }
         }
@@ -570,10 +538,30 @@ export default function RegisterPage() {
 
     const data = buildRegistrationData();
 
-    try {
-      const response = await axios.post("/api/register", data);
+    setLoading(true);
 
-      if (response.status === 201) {
+    try {
+      const response = await axios.post("/api/register", data,{
+        responseType: "blob" 
+      });
+
+      if (response.status === 200) {
+        const blob = new Blob([response.data], {
+          type: "application/pdf"
+        });
+
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "COGNEBULA_Receipt.pdf";
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(url);
+
         doBarrelRoll();
         setTimeout(() => setShowPopup(true), 400);
       }
@@ -581,6 +569,8 @@ export default function RegisterPage() {
     } catch (error) {
       console.error("Error register", error);
       toast.error(error.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false)
     }
   };
 

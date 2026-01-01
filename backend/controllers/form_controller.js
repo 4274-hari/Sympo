@@ -15,6 +15,7 @@ const {
   ValidationError,
   ConflictError
 } = require("../errors/error");
+const { generateReceiptPDF } = require("../services/pdf_service");
 
 /* ===============================
    REGISTER CONTROLLER
@@ -220,10 +221,21 @@ async function register(req, res, next) {
       [email]
     );
 
-    return res.status(201).json({
-      success: true,
-      receipt
+    const pdfBuffer = await generateReceiptPDF(receipt);
+
+    // return res.status(201).json({
+    //   success: true,
+    //   receipt,
+    //   pdf_base64: pdfBuffer.toString("base64")
+    // });
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename=COGNEBULA_${receipt.receipt_id}.pdf`,
+      "Content-Length": pdfBuffer.length
     });
+
+    return res.status(200).send(pdfBuffer);
 
   } catch (err) {
     await client.query("ROLLBACK");

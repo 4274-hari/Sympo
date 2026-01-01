@@ -15,7 +15,10 @@ CREATE TABLE IF NOT EXISTS events (
   max_teams INTEGER NOT NULL,
 
   -- online registrations allowed
-  max_online_teams INTEGER NOT NULL
+  max_online_teams INTEGER NOT NULL,
+
+  -- session
+  isboth BOOLEAN
 );
 
 INSERT INTO events (
@@ -24,22 +27,23 @@ INSERT INTO events (
   event_type,
   teammembers,
   max_teams,
-  max_online_teams
+  max_online_teams,
+  isBoth
 )
 VALUES
-  ('non-tech',     'Auction Arena',     'team',       5, 40, 40),
-  ('non-tech', 'Flashback',         'team',       3, 50, 50),
-  ('non-tech', 'Cinefrenzy',        'team',       3, 40, 40),
-  ('non-tech',     'Battle of Thrones', 'team',       2, 60, 60),
-  ('non-tech',     'Beyond the Gate',   'team',       5, 25, 25),
-  ('non-tech', 'Rhythmia',          'team',       3, 50, 50),
-  ('tech',     'Agent Fusion',      'team',       3, 30, 30),
-  ('tech', 'Paper Podium',      'team',       4, 25, 25),
-  ('tech',     'Prompt Craft',      'team',       2, 44, 44),
-  ('tech',     'HackQuest',         'team',       3, 23, 23),
-  ('tech',     'Query Clash',         'individual',  NULL, 200, 100),
-  ('tech',     'Shark Tank',       'team', 4, 20, 20),
-  ('workshop','workshop','individual',NULL ,1000,1000)
+  ('non-tech',     'Auction Arena',     'team',       5, 40, 40,false),
+  ('non-tech', 'Flashback',         'team',       3, 50, 50,true),
+  ('non-tech', 'Cinefrenzy',        'team',       3, 40, 40,true),
+  ('non-tech',     'Battle of Thrones', 'team',       2, 60, 60,false),
+  ('non-tech',     'Beyond the Gate',   'team',       5, 25, 25,false),
+  ('non-tech', 'Rhythmia',          'team',       3, 50, 50,true),
+  ('tech',     'Agent Fusion',      'team',       3, 30, 30,true),
+  ('tech', 'Paper Podium',      'team',       4, 25, 25,false),
+  ('tech',     'Prompt Craft',      'team',       2, 44, 44,true),
+  ('tech',     'HackQuest',         'team',       3, 23, 23,false),
+  ('tech',     'Query Clash',         'individual',  NULL, 200, 100,true),
+  ('tech',     'Shark Tank',       'team', 4, 20, 20, false),
+  ('workshop','workshop','individual',NULL ,1000,1000,false)
 ON CONFLICT (event_name) DO NOTHING;
 
  ALTER TABLE events

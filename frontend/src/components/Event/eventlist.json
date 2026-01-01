@@ -4,7 +4,7 @@
     "icon": "/flyicon/iron.png",
     "img": "/eventimg/tech.png",
     "description": "Technical events focusing on AI, coding, problem-solving, and innovation.",
-    "date": "07/02/2026",
+    "session": "Single Session",
     "coordinators": [
       {
         "name": "Samuel Stephen Deva Paul L",
@@ -32,7 +32,7 @@
       ],
       "teamlimit": "3 members",
       "place": "To be announced",
-      "date": "07/02/2026",
+      "session": "Morning and Evening",
       "time": "1 Hour",
       "prerequisites": "Beginner Friendly",
       "spotRegistration": true,
@@ -70,7 +70,7 @@
       ],
       "teamlimit": "2–4 members",
       "place": "Seminar Hall",
-      "date": "07/02/2026",
+      "session": "Single Session",
       "time": "As per schedule",
       "registration": {
         "fee": "To be announced",
@@ -111,7 +111,7 @@
       ],
       "teamlimit": "2 members",
       "place": "Computer Lab",
-      "date": "07/02/2026",
+      "session": "Morning and Evening",
       "time": "1 Hour",
       "registration": {
         "fee": "To be announced",
@@ -150,7 +150,7 @@
       ],
       "teamlimit": "Up to 3 members",
       "place": "Lab Hall",
-      "date": "07/02/2026",
+      "session": "Single Session",
       "time": "3 Hours",
       "registration": {
         "fee": "To be announced",
@@ -197,7 +197,7 @@
       ],
       "teamlimit": "Solo",
       "place": "Computer Lab",
-      "date": "07/02/2026",
+      "session": "Morning and Evening",
       "time": "45 Minutes",
       "registration": {
         "fee": "To be announced",
@@ -237,7 +237,7 @@
       ],
       "teamlimit": "Up to 4 members",
       "place": "Auditorium",
-      "date": "07/02/2026",
+      "session": "Single Session",
       "time": "To be announced",
       "registration": {
         "fee": "To be announced",
@@ -261,7 +261,7 @@
     "color": "neonblue",
     "icon": "/flyicon/cap.png",
     "img": "/eventimg/nontech.png",
-    "date": "07/02/2026",
+    "session": "Single Session",
     "description": "Non-technical events focusing on creativity, entertainment, and team collaboration.",
     "coordinators": [
       {
@@ -283,17 +283,15 @@
       "rules": [
         "Team participation (4-5 members per team).",
         "The event consists of two rounds: Rapid Fire and IPL Auction.",
-        "Round 1 (Rapid Fire) focuses on current IPL auction updates, player insights, and general cricket knowledge, testing speed.",
-        "A total of top 10 teams will qualify from the Rapid Fire Round to advance to the next round.",
-        "Round 2 (IPL Auction) challenges teams to build a balanced squad using strategic bidding and budget management.",
-        "Each team will be given a budget of 80 Cr and must select 15 players (11 playing XI + 4 impact substitutes).",
-        "Teams are allowed a maximum of 10 Indian players and 5 foreign players, with only 4 foreign players in the playing XI.",
-        "Teams exceeding the allocated budget will be eliminated immediately.",
-        "Performance will be evaluated based on team combination, player quality, balance, and overall impact."
+        "All registered teams/participants must compulsorily attend Round 1 (Rapid Fire Round).",
+        "Teams eliminated in Round 1 are free to participate in other events and will not proceed further in this event.",
+        "Only the top 10 selected teams from Round 1 will advance to Round 2 (IPL Auction Round).",
+        "The use of smartphones or any electronic devices is strictly prohibited during Round 1.",
+        "<strong>Registered participants</strong> are expected to be aware of other <strong>event timings</strong>. Once a team qualifies for Round 2, they must continue participating throughout the event."
       ],
       "teamlimit": "4-5 members",
       "place": "To be announced",
-      "date": "07/02/2026",
+      "session": "Single Session",
       "time": "To be announced",
       "hurryUp": "Test your IPL strategy!",
       "coordinators": [
@@ -331,7 +329,7 @@
       ],
       "teamlimit": "2 members (only DUO)",
       "place": "Online",
-      "date": "07/02/2026",
+      "session": "Single Session",
       "time": "2-3 Hours",
       "hurryUp": "Show your gaming skills!",
       "coordinators": [
@@ -366,7 +364,7 @@
       ],
       "teamlimit": "4-5 members",
       "place": "Campus (Indoor & Outdoor)",
-      "date": "07/02/2026",
+      "session": "Morning and Evening",
       "time": "1 Hr 30 Mins",
       "hurryUp": "Solve the mystery!",
       "coordinators": [
@@ -403,7 +401,7 @@
       ],
       "teamlimit": "2-3 members",
       "place": "Auditorium",
-      "date": "07/02/2026",
+      "session": "Morning and Evening",
       "time": "To be announced",
       "hurryUp": "Test your movie knowledge!",
       "coordinators": [
@@ -432,7 +430,7 @@
       ],
       "teamlimit": "2-3 members",
       "place": "To be announced",
-      "date": "07/02/2026",
+      "session": "Morning and Evening",
       "time": "To be announced",
       "hurryUp": "Test your memory!",
       "coordinators": [
@@ -464,7 +462,7 @@
       ],
       "teamlimit": "2-3 members",
       "place": "Auditorium",
-      "date": "07/02/2026",
+      "session": "Morning and Evening",
       "time": "To be announced",
       "hurryUp": "Show your musical talent!",
       "coordinators": [
@@ -483,7 +481,7 @@
     "color": "neonred",
     "icon": "/flyicon/spydi.png",
     "img": "/eventimg/workshop.png",
-    "date": "07/02/2026",
+    "session": "Single Session",
     "description": "Workshop description",
     "DOthethink": {
       "id": "WORKSHOP01",

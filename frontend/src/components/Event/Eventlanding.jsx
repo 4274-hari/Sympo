@@ -117,8 +117,8 @@ const navigate = useNavigate();
                     <Calendar size={20} />
                   </div>
                   <div className={styles.infoContent}>
-                    <span className={styles.infoLabel}>Date</span>
-                    <span className={styles.infoValue}>{event.date}</span>
+                    <span className={styles.infoLabel}>Session</span>
+                    <span className={styles.infoValue}>{event.session}</span>
                   </div>
                 </div>
 
@@ -202,7 +202,7 @@ const navigate = useNavigate();
                   {event.rules.map((item, i) => (
                     <li key={i}>
                       <ChevronRight size={16} />
-                      <span>{item}</span>
+                      <span dangerouslySetInnerHTML={{ __html: item }} />
                     </li>
                   ))}
                 </ul>
