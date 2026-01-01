@@ -27,16 +27,36 @@ INSERT INTO events (
   max_online_teams
 )
 VALUES
-  ('non-tech',     'Auction Arena',     'team',       5, 20, 12),
-  ('non-tech', 'Flashback',         'team',       3, 15, 10),
-  ('non-tech', 'Cinefrenzy',        'team',       3, 15, 10),
-  ('non-tech',     'Battle of Thrones', 'team',       2, 12, 8),
-  ('non-tech',     'Beyond the Gate',   'team',       5, 18, 12),
-  ('non-tech', 'Rhythmia',          'team',       3, 20, 15),
-  ('tech',     'Agent Fusion',      'team',       3, 15, 10),
-  ('tech', 'Paper Podium',      'team',       4, 10, 6),
-  ('tech',     'Prompt Craft',      'team',       2, 12, 8),
-  ('tech',     'HackQuest',         'team',       3, 5, 3),
-  ('tech',     'Query Clash',       'individual', NULL, 50, 30),
-  ('workshop','workshop','individual',NULL ,50,50)
+  ('non-tech',     'Auction Arena',     'team',       5, 40, 40),
+  ('non-tech', 'Flashback',         'team',       3, 50, 50),
+  ('non-tech', 'Cinefrenzy',        'team',       3, 40, 40),
+  ('non-tech',     'Battle of Thrones', 'team',       2, 60, 60),
+  ('non-tech',     'Beyond the Gate',   'team',       5, 25, 25),
+  ('non-tech', 'Rhythmia',          'team',       3, 50, 50),
+  ('tech',     'Agent Fusion',      'team',       3, 30, 30),
+  ('tech', 'Paper Podium',      'team',       4, 25, 25),
+  ('tech',     'Prompt Craft',      'team',       2, 44, 44),
+  ('tech',     'HackQuest',         'team',       3, 23, 23),
+  ('tech',     'Query Clash',         'individual',  NULL, 200, 100),
+  ('tech',     'Shark Tank',       'team', 4, 20, 20),
+  ('workshop','workshop','individual',NULL ,1000,1000)
 ON CONFLICT (event_name) DO NOTHING;
+
+ ALTER TABLE events
+ ADD COLUMN is_both BOOLEAN DEFAULT false;
+
+ ALTER TABLE events
+ADD COLUMN default_session VARCHAR(20)
+CHECK (default_session IN ('morning', 'afternoon'));
+
+
+UPDATE events
+SET is_both = true
+WHERE event_name IN (
+  'Rhythmia',
+  'Flashback',
+  'Query Clash',
+  'Agent Fusion',
+  'Prompt Craft',
+  'Beyond the Gate'
+ );

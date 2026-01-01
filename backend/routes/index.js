@@ -3,10 +3,9 @@ const router = express.Router();
 
 //Routings import
 
-const formroute = require('./form_routes')
-const eventroute = require('./event_routes')
-const foodroute = require('./food_routes')
-const paymentroute = require('./payment_routes')
+const formroute = require('./form_route')
+const foodroute = require('./food_route')
+const paymentroute = require('./payment_route')
 
 
 // router.get("", (req, res) => {
@@ -14,7 +13,6 @@ const paymentroute = require('./payment_routes')
 // });
 
 router.use("",formroute)
-router.use("",eventroute)
 router.use('',foodroute)
 router.use('',paymentroute)
 

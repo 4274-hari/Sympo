@@ -30,3 +30,8 @@ CREATE TABLE IF NOT EXISTS registration_events (
 CREATE UNIQUE INDEX IF NOT EXISTS unique_team_code_per_event
 ON registration_events (event_id, team_code)
 WHERE team_code IS NOT NULL;
+
+
+ALTER TABLE registration_events
+ADD COLUMN session VARCHAR(20)
+CHECK (session IN ('morning', 'afternoon'));
