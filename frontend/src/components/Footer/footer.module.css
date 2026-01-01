@@ -256,7 +256,7 @@
   50% { transform: translateY(-15px); }
   100% { transform: translateY(5); }
 }
-.registerBtn{ animation: float 4s ease-in-out infinite; }
+/* .registerBtn{ animation: float 4s ease-in-out infinite; } */
 @media (max-width: 900px) {
   .container {
     flex-direction: column; /* FIX: keep title first */

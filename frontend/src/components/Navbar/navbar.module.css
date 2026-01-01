@@ -240,8 +240,8 @@
   }
 
   .keychain {
-    width: 34px;
-    top: 32px;
+    width: 40px;
+    top: 25px;
     transform: translateX(-50%) rotate(-4deg);
   }
 }

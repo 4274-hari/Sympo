@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { CountdownTimer } from "./Clock/countdown-timer"
 import { Instagram } from "lucide-react"
 import styles from "../Navbar/navbar.module.css";
-import { RandomizedTextEffect } from "../../utils/TextEffect/TextEffect";
+import logo from "../../Assets/NEWLOGO.png"
 
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false)
@@ -89,6 +89,80 @@ export default function HeroSection() {
 
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden  flex flex-col items-center justify-between px-4 py-8 md:px-8 lg:px-16">
+      {/* Hanging College Announcement Board */}
+      <div
+        className={`
+          pointer-events-none
+          hidden lg:block
+          absolute top-0 right-16 z-20
+          transition-all duration-1000 ease-out
+          ${isLoaded ? "translate-y-0 opacity-100" : "-translate-y-40 opacity-0"}
+        `}
+      >
+        {/* Hanging Chain */}
+        <div className="flex justify-center">
+          <div className="w-[2px] h-24 bg-gradient-to-b from-[#CEA2FD]/80 to-transparent" />
+        </div>
+
+        {/* Glass Board */}
+        <div
+          className="
+            relative mt-2
+            px-6 py-4
+            rounded-2xl
+            bg-white/5 backdrop-blur-xl
+            border border-white/15
+            shadow-[0_20px_60px_rgba(206,162,253,0.35)]
+            animate-[swing_6s_ease-in-out_infinite]
+          "
+        >
+          {/* Board Pins */}
+          <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#CEA2FD]" />
+
+          {/* Content */}
+          <div className="flex items-center gap-4">
+            <img
+              src={logo}
+              alt="Velammal Engineering College"
+              className="w-12 h-auto object-contain"
+            />
+
+            <div className="leading-tight text-center">
+              <p className="text-sm font-semibold tracking-wide text-[#CEA2FD]">
+                VELAMMAL
+              </p>
+              <p className="text-xs text-[#B6B5D8]">
+                ENGINEERING COLLEGE
+              </p>
+              <p className="text-[0.65rem] text-[#B6B5D8]/80 italic">
+                Autonomous Institution
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="hidden lg:block absolute bottom-8 right-8 z-20 pointer-events-none">
+        <div className="
+          flex items-center gap-3
+          px-5 py-3
+          rounded-full
+          bg-gradient-to-r from-[#2a103d]/80 to-[#1a0a1f]/80
+          backdrop-blur-xl
+          border border-red-400/30
+          shadow-[0_0_30px_rgba(239,68,68,0.25)]
+        ">
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+          </span>
+
+          <p className="text-sm text-[#E9DDFF]">
+            <span className="font-semibold text-red-400 uppercase">No on-spot registration</span>
+            {/* <span className="opacity-70"> for Cognebula 2026</span> */}
+          </p>
+        </div>
+      </div>
       {/* Background effects */}
       <div className="absolute inset-0">
         {/* <div className="absolute inset-0 bg-gradient-to-br from-black via-[#301934] to-[#1a0a1f]" />
@@ -168,7 +242,7 @@ export default function HeroSection() {
 
       {/* Main content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto flex-1 flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center w-full mt-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center w-full mt-14">
           {/* Left: Text Content */}
           <div
             className={`flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 md:space-y-6 transition-all duration-1000 delay-300 ${
@@ -176,9 +250,33 @@ export default function HeroSection() {
             }`}
           >
             <div className="space-y-3 md:space-y-4">
-              <h1 className=" relative text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-none font-mono">
-                <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#663399] via-[#CEA2FD] to-[#8968CD] animate-glow typing-text">
-                  {/* <RandomizedTextEffect text="COGNEBULA" /> */}
+              <div className="flex items-center justify-center lg:justify-start mb-6 lg:hidden">
+                <div className="flex items-center gap-3 px-5 py-3 rounded-full 
+                                bg-white/5 backdrop-blur-md border border-white/10 
+                                shadow-lg hover:scale-[1.02] transition-all duration-300">
+
+                  <img
+                    src={logo}
+                    alt="Velammal Engineering College"
+                    className="w-10 md:w-12 h-auto object-contain"
+                  />
+
+                  <div className="leading-tight">
+                    <p className="text-xs md:text-sm font-semibold tracking-wider text-[#CEA2FD]">
+                      VELAMMAL ENGINEERING COLLEGE
+                    </p>
+                    <p className="text-[0.65rem] md:text-xs text-[#B6B5D8] italic text-center">
+                      The Wheel of Knowledge rolls on!
+                    </p>
+                    <p className="text-[0.65rem] md:text-xs text-[#B6B5D8] italic text-center">
+                      Autonomous Institution
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+              <h1 className=" relative text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-none font-orbitron">
+                <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#eaeaea] via-[#f2f2f2] to-[#ffffff] animate-glow typing-text">
                   COGNEBULA
                   <span className={styles.hangAnchor}>
                     <svg
@@ -272,8 +370,8 @@ export default function HeroSection() {
               </h1>
               <div className="flex items-center justify-center lg:justify-start gap-3 md:gap-4">
                 <div className="h-[2px] w-8 md:w-12 bg-gradient-to-r from-transparent to-[#CEA2FD]" />
-                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#CEA2FD] font-mono">
-                  {/* <RandomizedTextEffect text="2026" /> */}2026
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#CEA2FD] font-orbitron">
+                  2026
                 </span>
                 <div className="h-[2px] w-8 md:w-12 bg-gradient-to-l from-transparent to-[#CEA2FD]" />
               </div>
@@ -330,7 +428,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-full flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mt-8 md:mt-12">
         {/* Instagram Button */}
         <a
-          href="#"
+          href="https://www.instagram.com/cognebula_2k26/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 md:gap-3 px-4 py-2 md:px-6 md:py-3 glass-card rounded-full hover:scale-105 transition-all duration-300 group border border-[#663399]/30 hover:border-[#CEA2FD]/60"
@@ -363,12 +461,36 @@ export default function HeroSection() {
 
         {/* Register Button */}
         <a
-          href="#register"
+          href="/register"
           className="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-[#4B0082] to-[#663399] text-white font-bold text-base md:text-lg rounded-full shadow-[0_0_40px_rgba(137,104,205,0.6)] hover:shadow-[0_0_60px_rgba(137,104,205,0.9)] hover:scale-110 transition-all duration-300 
-         animate-float"
+          float-desktop"
         >
           REGISTER NOW!
         </a>
+        
+        {/* Mobile alert */}
+        <div className="lg:hidden w-full flex justify-center px-4 mt-4">
+          <div className="
+            flex items-center gap-3
+            w-fit max-w-md
+            px-4 py-3
+            rounded-full
+            bg-gradient-to-r from-[#2a103d]/90 to-[#1a0a1f]/90
+            backdrop-blur-lg
+            border border-red-400/30
+            shadow-[0_0_25px_rgba(239,68,68,0.25)]
+          ">
+            <span className="relative flex h-3 w-3 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            </span>
+
+            <p className="text-xs sm:text-sm text-[#E9DDFF] leading-snug">
+              <span className="font-semibold text-red-400 uppercase">No on-spot registration</span>
+              {/* <span className="opacity-70"> for Cognebula 2026</span> */}
+            </p>
+          </div>
+        </div>
       </div>
         
     </section>

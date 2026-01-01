@@ -13,12 +13,24 @@ const pgSession = require("connect-pg-simple")(session);
 
 const errorHandler = require("./middlewares/error_handler"); // ✅ NEW
 
+const cors = require("cors")
+
+
 const app = express();
+
 
 /* ===============================
    MIDDLEWARES
 =============================== */
 app.use(express.json());
+
+app.use(cors({
+  origin: "http://localhost:5173", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+
 app.use(express.urlencoded({ extended: true }));
 
 /* ===============================
