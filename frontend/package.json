@@ -21,6 +21,7 @@
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.562.0",
     "particles.js": "^2.0.0",
+    "qrcode": "^1.5.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "^7.11.0",

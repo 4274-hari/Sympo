@@ -5,6 +5,7 @@ import { ArrowLeft, CheckCircle, Users, User, Sparkles, Clock, AlertCircle, Cred
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import axios from 'axios'
+import QRCode from "qrcode";
 
 const EVENT_GROUPS = [
   { title: "Technical", mode: "tech", gradient: "from-cyan-500 to-blue-600" },
@@ -162,6 +163,10 @@ export default function RegisterPage() {
   const [paymentSuccess, setPaymentSuccess] = useState(false)
   const [showPopup, setShowPopup] = useState(false)
   const [food, setFood] = useState("")
+  const [txnId, setTxnId] = useState("");
+  const [paymentScreenshot, setPaymentScreenshot] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [qrImage, setQrImage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -367,6 +372,32 @@ export default function RegisterPage() {
     }),
   });
 
+  const getUpiQrUrl = (amount) => {
+    const upiId = import.meta.env.VITE_UPI_ID; 
+    const name = "Cognebula 2026";
+
+    return `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
+        name
+    )}&am=${amount}&cu=INR&tn=${encodeURIComponent(
+        "Event Registration"
+    )}`;
+  };
+
+  useEffect(() => {
+    if (totalAmount > 0) {
+        QRCode.toDataURL(getUpiQrUrl(totalAmount))
+        .then(setQrImage)
+        .catch(console.error);
+    } else {
+        // 🔥 IMPORTANT: clear QR when amount is 0
+        setQrImage("");
+        setTxnId("");
+        setPaymentScreenshot(null);
+        setPreviewImage(null);
+    }
+  }, [totalAmount]);
+
+
 
   const handleRegisterAndPay = async () => {
     try {
@@ -511,6 +542,77 @@ export default function RegisterPage() {
       toast.error("Payment verification error");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleManualPayment = async () => {
+    if (!txnId || !paymentScreenshot) {
+        toast.error("Transaction ID & screenshot required");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("txn_id", txnId);
+    formData.append("email", form.email);
+    formData.append("amount", totalAmount);
+    formData.append("screenshot", paymentScreenshot);
+    formData.append("events", JSON.stringify(buildRegistrationData().events));
+
+    try {
+        setLoading(true);
+
+        if (!validate()) return;
+
+      if (!food) {
+        toast.warn("Please select food preference");
+        return;
+      }
+
+      for (const event of selectedEvents) {
+        if (event.event_type === "team") {
+          const team = teamData[event.event_name];
+
+          if (!team || !team.role) {
+            toast.error(`Select team role for ${event.event_name}`);
+            return;
+          }
+
+          if (team.role === "leader" && !team.teamName?.trim()) {
+            toast.error(`Enter team name for ${event.event_name}`);
+            return;
+          }
+
+          if (team.role === "member" && !team.teamCode?.trim()) {
+            toast.error(`Enter team code for ${event.event_name}`);
+            return;
+          }
+        }
+      }
+
+      // BEFORE create_order
+      await axios.post("/api/reserve-slots", {
+        email: form.email,
+        registration_mode: "online",
+        events: buildRegistrationData().events
+      });
+
+        const res = await axios.post(
+        "/api/manual-payment",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+        );
+
+        if (res.data.success) {
+        toast.success("Payment submitted for verification");
+        setPaymentSuccess(true);
+        } else {
+        toast.error("Payment submission failed");
+        }
+
+    } catch (err) {
+        toast.error("Upload failed");
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -787,19 +889,63 @@ export default function RegisterPage() {
               </div>
 
               {!paymentSuccess ? (
-                <button
-                  className={styles.registerBtn}
-                  onClick={handleRegisterAndPay}
-                  disabled={isPaying || selectedEvents.length === 0}
-                >
-                  {isPaying ? (
-                    "Processing Payment..."
-                  ) : (
-                    <span className="flex items-center justify-center gap-2">
-                      <CreditCard size={18} /> Pay Now
-                    </span>
-                  )}
-                </button>
+                 <>
+                    {/* QR CODE */}
+                    {/* <div className={styles.qrBox}> */}
+                    {totalAmount > 0 && qrImage && (
+                        <>
+                        <div className={styles.qrBox}>
+                            <img src={qrImage} className={styles.qrImage} />
+                            <p className={styles.qrText}>
+                            Scan & Pay ₹{totalAmount}
+                            </p>
+                        </div>
+                    {/* </div> */}
+
+                    {/* TRANSACTION ID */}
+                    <div className={styles.formGroup}>
+                        <label>Transaction UID</label>
+                        <input
+                            type="text"
+                            placeholder="Enter UPI Transaction ID"
+                            value={txnId}
+                            onChange={(e) => setTxnId(e.target.value)}
+                        />
+                    </div>
+
+                    {/* SCREENSHOT UPLOAD */}
+                    <div className={styles.formGroup}>
+                        <label>Upload Payment Screenshot</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                            const file = e.target.files[0];
+                            setPaymentScreenshot(file);
+                            setPreviewImage(URL.createObjectURL(file));
+                            }}
+                        />
+                    </div>
+
+                    {previewImage && (
+                        <img
+                            src={previewImage}
+                            alt="Preview"
+                            className={styles.previewImg}
+                        />
+                    )}
+
+                    <button
+                        className={styles.registerBtn}
+                        onClick={handleManualPayment}
+                        disabled={!txnId || !paymentScreenshot}
+                        >
+                        Submit Payment
+                    </button>
+                    </>
+                        )}
+                    
+                </>
               ) : (
                 <button
                   className={styles.registerBtn}

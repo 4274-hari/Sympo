@@ -3,6 +3,7 @@ const { getClient } = require("../config/db");
 const { sendWelcomeMail } = require("../services/mail_service");
 const { appendToGoogleSheet } = require("../services/excel_service");
 const { resolveTeamRegistration } = require("../services/team_service");
+const { generateReceiptPDF } = require("../services/pdf_service");
 
 const {
   generateFoodToken,
@@ -15,8 +16,6 @@ const {
   ValidationError,
   ConflictError
 } = require("../errors/error");
-
-const { generateReceiptPDF } = require("../services/pdf_service");
 
 
 /* ===============================
@@ -248,6 +247,7 @@ if (utrExists.rowCount > 0) {
     // return res.status(201).json({
     //   success: true,
     //   receipt,
+    //   pdf_base64: pdfBuffer.toString("base64")
     //  pdf_base64: pdfBuffer.toString("base64")
     // });
 
@@ -257,7 +257,7 @@ if (utrExists.rowCount > 0) {
       "Content-Length": pdfBuffer.length
     });
 
-    return res.status(201).send(pdfBuffer);
+    return res.status(200).send(pdfBuffer);
 
   } catch (err) {
     await client.query("ROLLBACK");

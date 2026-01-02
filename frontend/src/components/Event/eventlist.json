@@ -32,10 +32,10 @@
       ],
       "teamlimit": "3 members",
       "place": "To be announced",
-      "session": "Morning and Evening",
+      "session": "Double Session",
       "time": "1 Hour",
       "prerequisites": "Beginner Friendly",
-      "spotRegistration": true,
+      "spotRegistration": false,
       "hurryUp": "Limited slots available!",
       "coordinators": [
         {
@@ -64,12 +64,12 @@
         "Level 1 – 10 min presentation | Level 2 – 7 min presentation + 5 min Q&A.",
         "Laptop, two separate PPTs, and prototype or demo video (30–60 sec) for Level 2.",
         "Offline/on-stage presentation using PPT with live or video prototype demo.",
-        "Level 1 – Technical design, AI integration & architecture | Level 2 – Real-world application, business value & limitations.",
+        "Level 1 – Technical design, AI integration & architecture <br/> Level 2 – Real-world application, business value & limitations.",
         "Evaluation is based on innovation, AI relevance, technical clarity, feasibility, business impact, and presentation.",
         "Plagiarism, false claims, or rule violations will lead to immediate disqualification."
       ],
       "teamlimit": "2–4 members",
-      "place": "Seminar Hall",
+      "place": "To be announced",
       "session": "Single Session",
       "time": "As per schedule",
       "registration": {
@@ -107,11 +107,11 @@
         "The event will be conducted using GenAI models and AI-based technologies as the primary platform.",
         "Round 1 tests your ability to influence AI logic, and Round 2 requires technical prompting to match a visual target.",
         "Evaluation will prioritize the fastest team, provided the final solution is accurate and demonstrates innovation.",
-        "Predefined prompts are prohibited and Any misconduct will lead to immediate disqualification."
+        "Predefined prompts are prohibited and any misconduct will lead to immediate disqualification."
       ],
       "teamlimit": "2 members",
-      "place": "Computer Lab",
-      "session": "Morning and Evening",
+      "place": "To be announced",
+      "session": "Double Session",
       "time": "1 Hour",
       "registration": {
         "fee": "To be announced",
@@ -149,7 +149,7 @@
         "Teams will be disqualified for using pre-existing code, starting early, plagiarism, sharing solutions, misconduct, or failing to present on time."
       ],
       "teamlimit": "Up to 3 members",
-      "place": "Lab Hall",
+      "place": "To be announced",
       "session": "Single Session",
       "time": "3 Hours",
       "registration": {
@@ -181,7 +181,7 @@
       "id": "TECH05",
       "title": "Query Clash",
       "sympoImg": "/images/queryclash.jpeg",
-      "description": "A SQL-based gamified competitive event aimed at strengthening participants' query-writing and problem-solving skills.",
+      "description": "A SQL-based gamified competitive event aimed at strengthening participant's query-writing and problem-solving skills.",
       "highlights": [
         "Gamified SQL competition",
         "Two progressive rounds",
@@ -190,15 +190,15 @@
       ],
       "rules": [
         "Individual participation (solo event).",
-        "The event duration is 45 minutes.",
+        "The event duration is 1.30 Hours.",
         "The competition consists of two progressive rounds.",
         "Performance is assessed on a points-based scoring system.",
         "Any form of misconduct or malpractice, including copying, will result in immediate disqualification."
       ],
       "teamlimit": "Solo",
-      "place": "Computer Lab",
-      "session": "Morning and Evening",
-      "time": "45 Minutes",
+      "place": "To be announced",
+      "session": "Double Session",
+      "time": "1.30 Hours",
       "registration": {
         "fee": "To be announced",
         "lastDate": "05/02/2026",
@@ -230,15 +230,15 @@
       "rules": [
         "Maximum 4 participants per team.",
         "Round 1 lasts 8 minutes. Round 2 is about 20 minutes, but judges can adjust that time if needed.",
-        "Round 1 will be either online or on-stage, using a PPT presentation. Round 2 will be a simulation-based round for startups.",
-        "Round 1: a 6-slide PPT presentation. Round 2: a simulation where judges act as clients and participants pitch their ideas directly to them.",
+        "Round 1 will be on-stage, using a PPT presentation. Round 2 will be a simulation-based round for startups.",
+        "Round 1: A 6-slide PPT presentation. Round 2: A simulation where judges act as clients and participants pitch their ideas directly to them.",
         "Evaluation will be based on timing, the clarity of the idea, and the business use case.",
         "Plagiarism, rule violations, or false claims will result in immediate disqualification."
       ],
       "teamlimit": "Up to 4 members",
-      "place": "Auditorium",
+      "place": "To be announced",
       "session": "Single Session",
-      "time": "To be announced",
+      "time": "As per schedule",
       "registration": {
         "fee": "To be announced",
         "lastDate": "05/02/2026",
@@ -279,7 +279,7 @@
       "id": "NON-TECH01",
       "title": "Auction Arena",
       "sympoImg": "/images/autionarena.jpeg",
-      "description": "A competitive, strategy-based cricket event designed to test participants' IPL knowledge, decision-making skills, and auction strategy.",
+      "description": "A competitive, strategy-based cricket event designed to test participant's IPL knowledge, decision-making skills, and auction strategy.",
       "rules": [
         "Team participation (4-5 members per team).",
         "The event consists of two rounds: Rapid Fire and IPL Auction.",
@@ -287,7 +287,7 @@
         "Teams eliminated in Round 1 are free to participate in other events and will not proceed further in this event.",
         "Only the top 10 selected teams from Round 1 will advance to Round 2 (IPL Auction Round).",
         "The use of smartphones or any electronic devices is strictly prohibited during Round 1.",
-        "<strong>Registered participants</strong> are expected to be aware of other <strong>event timings</strong>. Once a team qualifies for Round 2, they must continue participating throughout the event."
+        "<strong>Registered participants are expected to be aware of other event timings. Once a team qualifies for Round 2, they must continue participating throughout the event.</strong>"
       ],
       "teamlimit": "4-5 members",
       "place": "To be announced",
@@ -300,7 +300,7 @@
           "phone": "6383891788"
         },
         {
-          "name": "Mohammed rafik B",
+          "name": "Mohammed Rafik B",
           "phone": "7010436546"
         },
         {
@@ -328,7 +328,7 @@
         "Any use of hacks, cheats, abusive behavior, or unfair play will result in immediate disqualification."
       ],
       "teamlimit": "2 members (only DUO)",
-      "place": "Online",
+      "place": "To be announced",
       "session": "Single Session",
       "time": "2-3 Hours",
       "hurryUp": "Show your gaming skills!",
@@ -363,8 +363,8 @@
         "Any form of misconduct, cheating, or rule violation will lead to immediate disqualification."
       ],
       "teamlimit": "4-5 members",
-      "place": "Campus (Indoor & Outdoor)",
-      "session": "Morning and Evening",
+      "place": "To be announced",
+      "session": "Double Session",
       "time": "1 Hr 30 Mins",
       "hurryUp": "Solve the mystery!",
       "coordinators": [
@@ -400,8 +400,8 @@
         "Performance is evaluated using a points-based scoring system, with bonus points for speed and accuracy."
       ],
       "teamlimit": "2-3 members",
-      "place": "Auditorium",
-      "session": "Morning and Evening",
+      "place": "To be announced",
+      "session": "Double Session",
       "time": "To be announced",
       "hurryUp": "Test your movie knowledge!",
       "coordinators": [
@@ -419,7 +419,7 @@
       "id": "NON-TECH05",
       "title": "Flashback",
       "sympoImg": "/images/flashback.jpeg",
-      "description": "A non-technical, memory-based competitive event aimed at testing participants' visual observation, recall ability, and teamwork skills.",
+      "description": "A non-technical, memory-based competitive event aimed at testing participant's visual observation, recall ability, and teamwork skills.",
       "rules": [
         "Team participation (2–3 members per team).",
         "The event consists of three progressive rounds.",
@@ -430,7 +430,7 @@
       ],
       "teamlimit": "2-3 members",
       "place": "To be announced",
-      "session": "Morning and Evening",
+      "session": "Double Session",
       "time": "To be announced",
       "hurryUp": "Test your memory!",
       "coordinators": [
@@ -458,11 +458,11 @@
         "Teams that qualify in each round will proceed to the next round.",
         "The use of mobile phones, smart devices, or any external assistance is strictly prohibited during the event.",
         "Any form of misconduct or violation of event rules will result in immediate disqualification.",
-        "The judges' decisions are final."
+        "The judges decisions are final."
       ],
       "teamlimit": "2-3 members",
-      "place": "Auditorium",
-      "session": "Morning and Evening",
+      "place": "To be announced",
+      "session": "Double Session",
       "time": "To be announced",
       "hurryUp": "Show your musical talent!",
       "coordinators": [
@@ -482,7 +482,7 @@
     "icon": "/flyicon/spydi.png",
     "img": "/eventimg/workshop.png",
     "session": "Single Session",
-    "description": "Workshop description",
+    "description": "To be announced",
     "DOthethink": {
       "id": "WORKSHOP01",
       "title": "Short Film Contest",

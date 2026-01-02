@@ -79,7 +79,7 @@ export default function Event() {
       <header className={styles.header}>
         <h1 className={styles.title}>OUR EVENTS</h1>
         <div className={styles.underline} />
-        <p className={styles.subtitle}>// Explore our Events</p>
+        <p className={styles.subtitle}>Explore our Events</p>
       </header>
 
       <div className={styles.timelineWrap} ref={wrapRef}>

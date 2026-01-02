@@ -61,8 +61,8 @@ export default function Highlight() {
         {/* 50+ */}
         <div className={`${styles.card} ${styles.workshopCard}`}>
           <div className={styles.ambientGlow} />
-          <div className={styles.workshopTitle}>Worth 1 Lakh</div>
-          <div className={styles.workshopSub}>Cash prizes</div>
+          <div className={styles.workshopTitle}>1 Lakh Worth</div>
+          <div className={styles.workshopSub}>CASH PRIZE</div>
         </div>
 
         {/* Center image */}

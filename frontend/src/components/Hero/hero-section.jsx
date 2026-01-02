@@ -278,7 +278,7 @@ export default function HeroSection() {
 
                 </div>
               </div>
-              <h1 className=" relative text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-none font-orbitron">
+              <h1 className=" relative text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-none">
                 <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#eaeaea] via-[#f2f2f2] to-[#ffffff] animate-glow typing-text">
                   COGNEBULA
                   <span className={styles.hangAnchor}>

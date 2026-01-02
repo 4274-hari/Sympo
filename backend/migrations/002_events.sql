@@ -31,7 +31,6 @@ INSERT INTO events (
   isBoth
 )
 VALUES
-
   ('non-tech',     'Auction Arena',     'team',       5, 40, 40,false),
   ('non-tech', 'Flashback',         'team',       3, 50, 50,true),
   ('non-tech', 'Cinefrenzy',        'team',       3, 40, 40,true),
@@ -46,10 +45,7 @@ VALUES
   ('tech',     'Shark Tank',       'team', 4, 20, 20, false),
   ('workshop','workshop','individual',NULL ,1000,1000,false)
 
-ON CONFLICT (event_name) DO NOTHING;
-
  ALTER TABLE events
- ADD COLUMN is_both BOOLEAN DEFAULT false;
 
  ALTER TABLE events
 ADD COLUMN default_session VARCHAR(20)

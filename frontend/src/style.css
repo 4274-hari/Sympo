@@ -9,6 +9,8 @@ body {
   overflow-x: hidden;
 }
 
+
+
 /* Hide scrollbar but allow scrolling */
 body {
   overflow-y: scroll;

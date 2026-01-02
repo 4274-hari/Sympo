@@ -1,8 +1,8 @@
 import React from "react";
 import eventsData from "./eventlist.json";
 import styles from "./Eventlanding.module.css";
-import capwall from "../../assets/capwall1.png";
-import ironwall from "../../assets/ironwall2.jpg";
+import capwall from "../../Assets/capwall1.png";
+import ironwall from "../../Assets/ironwall2.jpg";
 import { 
   Calendar, 
   Clock, 
@@ -31,7 +31,7 @@ const Eventlanding = () => {
   const eventType = { category, id };
   const event = eventsData?.[eventType.category]?.[eventType.id];
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   if (!event) return <p>Event not found</p>;
 
