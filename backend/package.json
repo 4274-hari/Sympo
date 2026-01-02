@@ -20,12 +20,15 @@
     "exceljs": "^4.4.0",
     "express": "^5.2.1",
     "express-session": "^1.18.2",
+    "multer": "^2.0.2",
     "nodemailer": "^7.0.12",
     "nodemon": "^3.1.11",
     "pg": "^8.16.3",
     "puppeteer": "^24.34.0",
     "qrcode": "^1.5.4",
     "razorpay": "^2.9.6",
+    "sharp": "^0.34.5",
+    "tesseract.js": "^7.0.0",
     "uuid": "^13.0.0"
   }
 }

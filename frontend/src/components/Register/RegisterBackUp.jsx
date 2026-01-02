@@ -85,7 +85,7 @@ function EventGroupCard({
                       event.isBoth ? styles.multiSession : styles.singleSession
                     }`}
                   >
-                    {event.isBoth ? "2 Sessions" : "Single Session"}
+                    {event.isBoth ? "Double Sessions" : "Single Session"}
                   </span>
                   {event.event_mode === "workshop" && (
                     <span className={`${styles.priceTag} bg-gradient-to-r ${gradient}`}>₹300</span>

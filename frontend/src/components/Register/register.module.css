@@ -18,6 +18,29 @@
   --glow-strong: rgba(137, 104, 205, 0.6);
 }
 
+:root {
+  --bg-dark: #0a0410;
+  --bg-mid: #1a0a1f;
+
+  --text-primary: #EAE6FF;
+  --text-secondary: #B6B5D8;
+  --text-muted: #8E8BBF;
+
+  --accent-primary: #CEA2FD;
+  --accent-secondary: #8968CD;
+  --accent-tertiary: #663399;
+
+  --glow-primary: rgba(206,162,253,0.45);
+  --glow-secondary: rgba(137,104,205,0.35);
+
+  --glass-bg: rgba(255,255,255,0.08);
+  --glass-border: rgba(206,162,253,0.28);
+
+  --glass-shadow:
+    0 10px 40px rgba(0,0,0,0.55),
+    inset 0 1px 1px rgba(255,255,255,0.18);
+}
+
 .container {
   min-height: 100vh;
   /* background handled by AppBackground */
@@ -1076,4 +1099,22 @@ select:focus {
   width: 100%;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.1);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-light);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }

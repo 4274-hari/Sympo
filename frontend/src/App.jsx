@@ -14,9 +14,9 @@ import AppBackground from "./components/Background/Background.jsx";
 import EventTimeline from "./components/Timeline/eventTimeline.jsx";
 import Scanner from "./components/QR Scanner/Scanner.jsx";
 import NotFound from "./components/404/NotFound.jsx";
-import RegisterGate from "./components/Register/RegisterGateWay.jsx";
 import Organizer from "./components/Organizer/Organizer.jsx";
 import Eventlanding from "./components/Event/Eventlanding.jsx";
+import RegistrationStartsSoon from "./components/Register/RegisterStartsSoon.jsx";
 
 
 const App = () => { 
@@ -48,7 +48,7 @@ const App = () => {
           />
             <Route
             path="/register"
-            element={<RegisterGate />}
+            element={<RegistrationStartsSoon />}
           />
           <Route
             path="/prize"

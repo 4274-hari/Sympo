@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./footer.module.css";
 import { Instagram, Facebook, Mail, Linkedin, MessageCircle } from "lucide-react";
+import logo from "../../Assets/cognebula_logo.png"
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -45,13 +46,14 @@ export default function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://chat.whatsapp.com/DZRuIPqd3X4JIW7WnoHwaX"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
               className={styles.social}
             >
-              <MessageCircle size={20} />
+              {/* <MessageCircle size={20} /> */}
+              <i class="fa-brands fa-whatsapp"></i>
             </a>
           </div>
         </div>
@@ -99,6 +101,7 @@ export default function Footer() {
                   </div>
                 </div>
               </div> */}
+              <img src={logo} alt="Logo" className="w-34 hidden lg:block" />
             </div>
           </div>
 

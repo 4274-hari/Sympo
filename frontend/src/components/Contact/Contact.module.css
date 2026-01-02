@@ -170,7 +170,7 @@
   max-width:600px;
   display: flex;
   /* flex-direction: column; */
-  gap: 10%;
+  gap: 5%;
   justify-content: center;
   width: 100%;
   align-items: center;

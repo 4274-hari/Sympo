@@ -3,6 +3,7 @@ const { getClient } = require("../config/db");
 const { sendWelcomeMail } = require("../services/mail_service");
 const { appendToGoogleSheet } = require("../services/excel_service");
 const { resolveTeamRegistration } = require("../services/team_service");
+const { generateReceiptPDF } = require("../services/pdf_service");
 
 const {
   generateFoodToken,
@@ -15,9 +16,6 @@ const {
   ValidationError,
   ConflictError
 } = require("../errors/error");
-const { generateReceiptPDF } = require("../services/pdf_service");
-
-const { generateReceiptPDF } = require("../services/pdf_service");
 
 
 /* ===============================

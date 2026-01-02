@@ -6,7 +6,7 @@ const events = [
   {
     id: 1,
     time: "TBA",
-    title: "Event Starts",
+    title: "Check-in Time",
     description: "Registration & Welcome",
     icon: <Users className="w-5 h-5 text-purple-400" />,
     type: "main",
@@ -22,12 +22,12 @@ const events = [
 {
     id: 3,
     time: "TBA",
-    title: "Parallel Sessions",
+    title: "Event Commencement",
     description: "Tech & Non-Tech Tracks",
     icon: <Zap className="w-5 h-5 text-purple-400" />,
     tracks: [
-      { name: "Tech: AI Ethics", icon: <Terminal className="w-4 h-4" /> },
-      { name: "Non-Tech: Creative Design", icon: <Zap className="w-4 h-4" /> },
+      // { name: "Tech: AI Ethics", icon: <Terminal className="w-4 h-4" /> },
+      // { name: "Non-Tech: Creative Design", icon: <Zap className="w-4 h-4" /> },
     ],
     type: "parallel",
   },
@@ -35,7 +35,7 @@ const events = [
     id: 4,
     time: "TBA",
     title: "Workshop",
-    description: "Hands-on AI Lab",
+    description: "Mind blowing AI Topics",
     icon: <Code className="w-5 h-5 text-purple-400" />,
     type: "workshop",
   },
@@ -233,9 +233,9 @@ function TimelineNode({ event, style, idx, progress, total }) {
               {event.description}
             </p>
 
-            {event.type === "parallel" && (
+            {event.type === "parallel" && event.tracks.length > 0 && (
               <div className="mt-3 pt-3 border-t border-white/5 space-y-1">
-                {event.tracks.map((track, i) => (
+                {event.tracks?.map((track, i) => (
                   <div key={i} className="text-[10px] text-white/60 uppercase">
                     • {track.name}
                   </div>

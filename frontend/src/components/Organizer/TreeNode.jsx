@@ -1,7 +1,6 @@
 export function TreeNode({ title, name, role }) {
   return (
-    <div className="relative flex flex-col items-center animate-[float_8s_ease-in-out_infinite]
-">
+    <div className={`relative flex flex-col items-center animate-[float_8s_ease-in-out_infinite] ${title === "Patron" ? "mt-14 lg:mt-0" : ""}`}>
 
       {/* title */}
       <h2 className="text-2xl tracking-[0.25em] uppercase text-[#CEA2FD]/80 mb-3">
