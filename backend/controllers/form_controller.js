@@ -17,6 +17,9 @@ const {
 } = require("../errors/error");
 const { generateReceiptPDF } = require("../services/pdf_service");
 
+const { generateReceiptPDF } = require("../services/pdf_service");
+
+
 /* ===============================
    REGISTER CONTROLLER
 =============================== */
@@ -38,7 +41,8 @@ async function register(req, res, next) {
       student_year,
       food,
       events,
-      registration_mode
+      registration_mode,
+      utr
     } = req.body;
 
     email = reqEmail;
@@ -57,6 +61,17 @@ async function register(req, res, next) {
     if (!["online", "onspot"].includes(registration_mode)) {
       throw ValidationError("Invalid registration mode");
     }
+
+    /* ===============================
+   UTR VALIDATION
+=============================== */
+if (!utr) {
+  throw ValidationError("UTR is required");
+}
+
+if (!/^[0-9A-Za-z]{6,50}$/.test(utr)) {
+  throw ValidationError("Invalid UTR format");
+}
 
     /* ===============================
        SLOT RESERVATION CHECK (NEW)
@@ -86,16 +101,23 @@ async function register(req, res, next) {
       throw ConflictError("Email already registered");
     }
 
-    /* ===============================
-       INSERT REGISTRATION
-    =============================== */
-    const regRes = await client.query(
-      `INSERT INTO registrations
-       (name, email, phone, college, student_year, food)
-       VALUES ($1,$2,$3,$4,$5,$6)
-       RETURNING id`,
-      [name, email, phone, college, student_year, food]
-    );
+    const utrExists = await client.query(
+  `SELECT 1 FROM registrations WHERE utr = $1`,
+  [utr]
+);
+
+if (utrExists.rowCount > 0) {
+  throw ConflictError("UTR already used");
+}
+
+   const regRes = await client.query(
+  `INSERT INTO registrations
+   (name, email, phone, college, student_year, food, utr)
+   VALUES ($1,$2,$3,$4,$5,$6,$7)
+   RETURNING id`,
+  [name, email, phone, college, student_year, food, utr]
+);
+
 
     const registrationId = regRes.rows[0].id;
     const responseEvents = [];
@@ -221,12 +243,14 @@ async function register(req, res, next) {
       [email]
     );
 
+
     const pdfBuffer = await generateReceiptPDF(receipt);
 
     // return res.status(201).json({
     //   success: true,
     //   receipt,
     //   pdf_base64: pdfBuffer.toString("base64")
+    //  pdf_base64: pdfBuffer.toString("base64")
     // });
 
     res.set({

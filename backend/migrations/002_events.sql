@@ -44,10 +44,8 @@ VALUES
   ('tech',     'Query Clash',         'individual',  NULL, 200, 100,true),
   ('tech',     'Shark Tank',       'team', 4, 20, 20, false),
   ('workshop','workshop','individual',NULL ,1000,1000,false)
-ON CONFLICT (event_name) DO NOTHING;
 
  ALTER TABLE events
- ADD COLUMN is_both BOOLEAN DEFAULT false;
 
  ALTER TABLE events
 ADD COLUMN default_session VARCHAR(20)

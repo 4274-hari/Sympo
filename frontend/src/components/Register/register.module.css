@@ -1049,3 +1049,31 @@ select:focus {
   line-height: 1.6;
   opacity: 0.95;
 }
+
+.qrBox {
+  text-align: center;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.qrImage {
+  width: 220px;
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(206,162,253,0.4);
+}
+
+.qrText {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.previewImg {
+  margin-top: 12px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
