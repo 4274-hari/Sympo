@@ -132,6 +132,30 @@ async function sendWelcomeMail(receipt) {
     color: #e0c3ff;
   }
 
+  .rules {
+    margin-top: 30px;
+    padding: 18px;
+    background: rgba(255, 87, 87, 0.12);
+    border-left: 4px solid #ff6b6b;
+    border-radius: 12px;
+  }
+
+  .rules h3 {
+    margin-top: 0;
+    color: #ffb3b3;
+  }
+
+  .rules ul {
+    padding-left: 18px;
+    margin: 0;
+  }
+
+  .rules li {
+    margin-bottom: 10px;
+    color: #ffecec;
+    line-height: 1.5;
+  }
+
   .food {
     text-align: center;
     margin-top: 30px;
@@ -176,6 +200,20 @@ async function sendWelcomeMail(receipt) {
 
       <h3>📌 Your Registered Events</h3>
       ${eventsHtml}
+
+      <div class="rules">
+        <h3>⚠️ Important Instructions</h3>
+        <ul>
+          <li>
+            🪪 <b>College ID Card is mandatory.</b>  
+            Entry will not be permitted without a valid ID.
+          </li>
+          <li>
+            ⏳ <b>Second event participation is subject to time availability.</b>  
+            Please plan your schedule accordingly.
+          </li>
+        </ul>
+      </div>
 
       <div class="food">
         <h3>🍽️ Food Pass – ${foodType.toUpperCase()}</h3>
