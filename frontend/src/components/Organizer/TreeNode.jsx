@@ -1,6 +1,6 @@
-export function TreeNode({ title, name, role }) {
+export function TreeNode({ title, name, role, dept }) {
   return (
-    <div className={`relative flex flex-col items-center animate-[float_8s_ease-in-out_infinite] ${title === "Patron" ? "mt-14 lg:mt-0" : ""}`}>
+    <div className={`relative flex flex-col items-center animate-[float_8s_ease-in-out_infinite] ${title === "Convener" ? "mt-14 lg:mt-0" : ""}`}>
 
       {/* title */}
       <h2 className="text-2xl tracking-[0.25em] uppercase text-[#CEA2FD]/80 mb-3">
@@ -30,6 +30,9 @@ export function TreeNode({ title, name, role }) {
         </h3>
         <p className="mt-1 text-sm text-white/80">
           {role}
+        </p>
+        <p className="mt-1 text-sm text-white/80">
+          {dept}
         </p>
 
         {/* inner glow */}

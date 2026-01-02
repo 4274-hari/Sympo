@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "./components/Footer/Footer.jsx";
 import HeroSection from "./components/Hero/hero-section.jsx";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
 import Highlight from "./components/Highlight/Highlight";
@@ -20,6 +20,23 @@ import RegistrationStartsSoon from "./components/Register/RegisterStartsSoon.jsx
 
 
 const App = () => { 
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    // Small delay to ensure DOM is ready
+    const timeout = setTimeout(() => {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [location]);
+  
   return (
     <>
       <AppBackground>
