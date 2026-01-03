@@ -465,7 +465,7 @@ export default function RegisterPage() {
         );
 
         if (res.data.success) {
-          toast.success("Payment submitted for verification");
+          toast.success(res.data.message || "Payment submitted for verification");
           setPaymentSuccess(true);
           setShowPaymentWarning(true);
         } else {
@@ -473,7 +473,14 @@ export default function RegisterPage() {
         }
 
     } catch (err) {
-        toast.error("Upload failed");
+      console.error(err);
+
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Payment verification failed";
+
+      toast.error(message);
     } finally {
         setLoading(false);
     }
