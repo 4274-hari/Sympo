@@ -1,5 +1,7 @@
-CREATE TABLE payment_proofs (
+CREATE TABLE if NOT EXISTS payment_proofs (
     id SERIAL PRIMARY KEY,
+
+    email VARCHAR(40) NOT NULL UNIQUE,
 
     uid VARCHAR(20) NOT NULL UNIQUE,
     ocr_uid VARCHAR(20),

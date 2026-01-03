@@ -40,7 +40,6 @@ async function register(req, res, next) {
       food,
       events,
       registration_mode,
-      utr
     } = req.body;
 
     email = reqEmail;
@@ -63,13 +62,13 @@ async function register(req, res, next) {
     /* ===============================
    UTR VALIDATION
 =============================== */
-if (!utr) {
-  throw ValidationError("UTR is required");
-}
+// if (!utr) {
+//   throw ValidationError("UTR is required");
+// }
 
-if (!/^[0-9A-Za-z]{6,50}$/.test(utr)) {
-  throw ValidationError("Invalid UTR format");
-}
+// if (!/^[0-9A-Za-z]{6,50}$/.test(utr)) {
+//   throw ValidationError("Invalid UTR format");
+// }
 
     /* ===============================
        SLOT RESERVATION CHECK (NEW)
@@ -99,21 +98,38 @@ if (!/^[0-9A-Za-z]{6,50}$/.test(utr)) {
       throw ConflictError("Email already registered");
     }
 
-    const utrExists = await client.query(
-  `SELECT 1 FROM registrations WHERE utr = $1`,
-  [utr]
-);
+    const resultUTR = await client.query(
+      `SELECT uid FROM payment_proofs WHERE email = $1`,
+      [email]
+    )
 
-if (utrExists.rowCount > 0) {
-  throw ConflictError("UTR already used");
-}
+    const utr = resultUTR.rows[0].uid
+    
+    const screenShot = await client.query(
+      `SELECT screenshot_hash FROM payment_proofs WHERE email = $1`,
+      [email]
+    )
+
+    const utrExists = await client.query(
+      `SELECT 1 FROM registrations WHERE utr = $1`,
+      [utr]
+    );
+    
+    const screenshotExists = await client.query(
+      `SELECT 1 FROM registrations WHERE screenshot_hash = $1`,
+      [screenShot]
+    );
+
+    if (utrExists.rowCount > 0 || screenshotExists.rowCount > 0) {
+      throw ConflictError("UTR already used");
+    }
 
    const regRes = await client.query(
   `INSERT INTO registrations
-   (name, email, phone, college, student_year, food, utr)
-   VALUES ($1,$2,$3,$4,$5,$6,$7)
+   (name, email, phone, college, student_year, food, utr, screenshot_hash)
+   VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
    RETURNING id`,
-  [name, email, phone, college, student_year, food, utr]
+  [name, email, phone, college, student_year, food, utr, screenShot]
 );
 
 
@@ -165,19 +181,19 @@ if (utrExists.rowCount > 0) {
       });
 
       await client.query(
-  `INSERT INTO registration_events
-   (registration_id, event_id, role, team_name, team_code, session, registration_mode)
-   VALUES ($1,$2,$3,$4,$5,$6,$7)`,
-  [
-    registrationId,
-    event.id,
-    finalRole,
-    finalTeamName,
-    finalTeamCode,
-    reservation.session || null,
-    registration_mode
-  ]
-);
+        `INSERT INTO registration_events
+        (registration_id, event_id, role, team_name, team_code, session, registration_mode)
+        VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+        [
+          registrationId,
+          event.id,
+          finalRole,
+          finalTeamName,
+          finalTeamCode,
+          reservation.session || null,
+          registration_mode
+        ]
+      );
 
 
       responseEvents.push({
