@@ -126,7 +126,7 @@ async function register(req, res, next) {
    (name, email, phone, college, student_year, food, utr, screenshot_hash)
    VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
    RETURNING id`,
-  [name, email, phone, college, student_year, food, utr, screenShot]
+  [name, email, phone, college, student_year, food, utr, screenshot_hash]
 );
 
 

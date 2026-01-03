@@ -453,15 +453,15 @@ export default function RegisterPage() {
         
         // BEFORE create_order
         await axios.post("/api/reserve-slots", {
-        email: form.email,
-        registration_mode: "online",
-        events: buildRegistrationData().events
-      });
+          email: form.email,
+          registration_mode: "online",
+          events: buildRegistrationData().events
+        });
 
         const res = await axios.post(
-        "/api/validate-payment",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+          "/api/validate-payment",
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
 
         if (res.data.success) {
