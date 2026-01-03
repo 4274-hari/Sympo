@@ -96,26 +96,25 @@ async function register(req, res, next) {
       throw ConflictError("Email already registered");
     }
 
-    const resultUTR = await client.query(
-      `SELECT uid FROM payment_proofs WHERE email = $1`,
+    const proofRes = await client.query(
+      `SELECT uid, screenshot_hash FROM payment_proofs WHERE email = $1`,
       [email]
-    )
+    );
 
-    const utr = resultUTR.rows[0].uid
-    
-    const screenShot = await client.query(
-      `SELECT screenshot_hash FROM payment_proofs WHERE email = $1`,
-      [email]
-    )
+    if (proofRes.rowCount === 0) {
+      throw ConflictError("Payment proof not found");
+    }
+
+    const { uid: utr, screenshot_hash } = proofRes.rows[0];
 
     const utrExists = await client.query(
       `SELECT 1 FROM registrations WHERE utr = $1`,
       [utr]
     );
-    
+
     const screenshotExists = await client.query(
       `SELECT 1 FROM registrations WHERE screenshot_hash = $1`,
-      [screenShot]
+      [screenshot_hash]
     );
 
     if (utrExists.rowCount > 0 || screenshotExists.rowCount > 0) {
