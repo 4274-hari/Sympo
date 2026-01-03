@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS registration_events (
 );
 
 -- Unique team code per event (only when team_code exists)
-CREATE UNIQUE INDEX IF NOT EXISTS unique_team_code_per_event
+CREATE UNIQUE INDEX IF NOT EXISTS unique_team_code_per_event_lead
 ON registration_events (event_id, team_code)
-WHERE team_code IS NOT NULL;
+WHERE role = 'lead';
 
 
 ALTER TABLE registration_events

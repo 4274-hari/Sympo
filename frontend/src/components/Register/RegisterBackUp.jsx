@@ -25,6 +25,8 @@ function EventGroupCard({
   setTeamName,
   setTeamCode,
   gradient,
+  handleTeamCodeCheck,
+  teamCodeDetails
 }) {
   const [expanded, setExpanded] = useState(false)
 
@@ -123,13 +125,24 @@ function EventGroupCard({
                     )}
 
                     {teamData[event.event_name]?.role === "member" && (
-                      <div className={styles.teamInputs}>
+                      <div className={`${styles.teamInputs}`}>
                         <input
                           type="text"
                           placeholder="Enter Team Code"
                           value={teamData[event.event_name]?.teamCode || ""}
                           onChange={(e) => setTeamCode(event.event_name, e.target.value)}
                         />
+                        <button
+                          type="button"
+                          onClick={() => handleTeamCodeCheck(event.event_name)}
+                        >
+                          Check
+                        </button>
+                      </div>
+                    )}
+                    {teamCodeDetails && (
+                      <div className="flex justify-center p-4 mb-0">
+                        <p>Reamining Team Member Vacancy : {teamCodeDetails.remainingSlots}</p>
                       </div>
                     )}
                   </div>
@@ -169,6 +182,7 @@ export default function RegisterPage() {
   const [qrImage, setQrImage] = useState("");
   const [showPaymentWarning, setShowPaymentWarning] = useState(false);
   const [warningAccepted, setWarningAccepted] = useState(false);
+  const [teamCodeDetails, setTeamCodedetails] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -290,9 +304,7 @@ export default function RegisterPage() {
       // If first is single-session, second must be multi-session
       if (
         (isSingleSessionEvent(firstEvent) &&
-        isSingleSessionEvent(event)) ||
-        (isMultiSessionEvent(firstEvent) &&
-        isMultiSessionEvent(event))
+        isSingleSessionEvent(event))
       ) {
         return "If you choose a single-session event, the second event must be a 2-session event";
       }
@@ -551,6 +563,66 @@ export default function RegisterPage() {
     }
   };
 
+  const handleTeamCodeCheck = async (eventName) => {
+    const teamCode = teamData[eventName]?.teamCode?.trim();
+
+    if (!teamCode) {
+      toast.warn("Please enter a team code");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post("/api/check-team-code", {
+        team_code: teamCode
+      });
+
+      const { data } = res.data;
+
+      // ❌ Team full
+      if (data.isFull) {
+        toast.error("This team is already full");
+        setTeamCodedetails(null);
+        setTeamCode(eventName, "");
+        return;
+      }
+      
+      // ❌ Team belongs to another event
+      if (data.eventName !== eventName) {
+        toast.error(`This team belongs to ${data.eventName}`);
+        setTeamCode(eventName, "");
+        return;
+      }
+
+      // ✅ Success → attach team info
+      // setTeamData((prev) => ({
+      //   ...prev,
+      //   [eventName]: {
+      //     ...prev[eventName],
+      //     role: "member",
+      //     teamCode,
+      //     teamName: data.teamName,
+      //     teamLeaderName: data.teamLeaderName,
+      //     validated: true
+      //   }
+      // }));
+
+      setTeamCodedetails(data)
+      toast.success(
+        `Joining team "${data.teamName}" | Leader: ${data.teamLeaderName}`
+      );
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        error.response?.data?.message || "Invalid team code"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className={styles.container} style={{ background: "transparent" }}>
@@ -715,6 +787,8 @@ export default function RegisterPage() {
                     gradient={group.gradient}
                     getSelectedSessions={getSelectedSessions}
                     setTeamData={setTeamData}
+                    handleTeamCodeCheck={handleTeamCodeCheck}
+                    teamCodeDetails={teamCodeDetails}
                   />
                 ))}
               </div>
@@ -722,6 +796,21 @@ export default function RegisterPage() {
           </div>
 
           <div className={styles.sidebar}>
+            <div className={styles.infoCard}>
+              <div className="flex items-center gap-4 text-red-400">
+                <AlertCircle size={20} />
+                <h4>Important Notes</h4>
+              </div>
+              <ul>
+                <li>Maximum 2 events per participant</li>
+                <li>2nd event participation is based on time availability</li>
+                <li>Workshop / Hack Quest must be selected alone</li>
+                <li>Food preference is mandatory</li>
+                <li>Team codes are required for team events <br />(Team code will be mailed to Tead Leader)</li>
+                <li>If payment is successful but registration fails, use the same details, UTR and payment screenshot. Do not repay.</li>
+              </ul>
+            </div>
+
             <div className={styles.summaryCard}>
               <h3>Order Summary</h3>
 
@@ -831,20 +920,6 @@ export default function RegisterPage() {
                   {loading ? "Completing..." : "Complete Registration"}
                 </button>
               )}
-            </div>
-
-            <div className={styles.infoCard}>
-              <div className="flex items-center gap-4 text-red-400">
-                <AlertCircle size={20} />
-                <h4>Important Notes</h4>
-              </div>
-              <ul>
-                <li>Maximum 2 events per participant</li>
-                <li>2nd event participation is based on time availability</li>
-                <li>Workshop / Hack Quest must be selected alone</li>
-                <li>Food preference is mandatory</li>
-                <li>Team codes are required for team events <br />(Team code will be mailed to Tead Leader)</li>
-              </ul>
             </div>
           </div>
         </div>

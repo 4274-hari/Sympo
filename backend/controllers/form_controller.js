@@ -122,12 +122,12 @@ async function register(req, res, next) {
     }
 
    const regRes = await client.query(
-  `INSERT INTO registrations
-   (name, email, phone, college, student_year, food, utr, screenshot_hash)
-   VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-   RETURNING id`,
-  [name, email, phone, college, student_year, food, utr, screenshot_hash]
-);
+      `INSERT INTO registrations
+      (name, email, phone, college, student_year, food, utr, screenshot_hash)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+      RETURNING id`,
+      [name, email, phone, college, student_year, food, utr, screenshot_hash]
+    );
 
 
     const registrationId = regRes.rows[0].id;
@@ -140,7 +140,7 @@ async function register(req, res, next) {
       const { event_name } = ev;
 
       const eventRes = await client.query(
-        `SELECT id, event_type
+        `SELECT id, event_type, teammembers
          FROM events WHERE event_name = $1`,
         [event_name]
       );
@@ -201,6 +201,13 @@ async function register(req, res, next) {
       });
     }
 
+    // update the payment proof 
+
+    await client.query(`UPDATE payment_proofs
+      SET status = 'SUCCESS'
+      WHERE uid = $1;
+      `, [utr])
+
     /* ===============================
        FOOD TOKEN
     =============================== */
@@ -237,7 +244,8 @@ async function register(req, res, next) {
 
     sendWelcomeMail(receipt).catch(console.error);
 
-    const screenshot = `${process.env.BASE_URL}${screenshot_path}`
+    const normalizedPath = screenshot_path.replace(/\\/g, "/");
+    const screenshot = `${process.env.BASE_URL}${normalizedPath}`;
 
     appendToGoogleSheet({
       name,
@@ -280,12 +288,12 @@ async function register(req, res, next) {
   } catch (err) {
     await client.query("ROLLBACK");
 
-    if (email) {
-      await client.query(
-        `DELETE FROM slot_reservations WHERE email = $1`,
-        [email]
-      );
-    }
+    // if (email) {
+    //   await client.query(
+    //     `DELETE FROM slot_reservations WHERE email = $1`,
+    //     [email]
+    //   );
+    // }
 
     next(err);
   } finally {

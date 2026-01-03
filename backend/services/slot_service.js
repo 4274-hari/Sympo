@@ -32,7 +32,7 @@ async function reserveSlotsService({ email, events, registration_mode }) {
 
       /* 1️⃣ Get event */
       const eventRes = await client.query(
-        `SELECT id, event_type, max_teams, max_online_teams
+        `SELECT id, event_type, max_teams, max_online_teams, teammembers
          FROM events WHERE event_name = $1`,
         [event_name]
       );
@@ -118,7 +118,7 @@ async function reserveSlotsService({ email, events, registration_mode }) {
         `
         INSERT INTO slot_reservations
         (email, event_id, role, team_name, team_code, registration_mode, session, expires_at)
-        VALUES ($1,$2,$3,$4,$5,$6,$7, NOW() + INTERVAL '10 minutes')
+        VALUES ($1,$2,$3,$4,$5,$6,$7, NOW() + INTERVAL '30 minutes')
         `,
         [
           email,

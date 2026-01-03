@@ -72,11 +72,17 @@ async function resolveTeamRegistration({
       throw ValidationError("Invalid team code");
     }
 
+    await client.query(
+      `SELECT id FROM registration_events
+      WHERE event_id = $1 AND team_code = $2
+      FOR UPDATE`,
+      [event.id, team_code]
+    );
+
+    // 2️⃣ Count safely (no FOR UPDATE)
     const count = await client.query(
       `SELECT COUNT(*) FROM registration_events
-       WHERE event_id = $1
-         AND team_code = $2
-       FOR UPDATE`,
+      WHERE event_id = $1 AND team_code = $2`,
       [event.id, team_code]
     );
 
@@ -194,6 +200,24 @@ async function resolveTeamReservation({
 
     if (team.rowCount === 0) {
       throw ValidationError("Invalid team code");
+    }
+
+    await client.query(
+      `SELECT id FROM registration_events
+      WHERE event_id = $1 AND team_code = $2
+      FOR UPDATE`,
+      [event.id, team_code]
+    );
+
+    // 2️⃣ Count safely (no FOR UPDATE)
+    const count = await client.query(
+      `SELECT COUNT(*) FROM registration_events
+      WHERE event_id = $1 AND team_code = $2`,
+      [event.id, team_code]
+    );
+
+    if (Number(count.rows[0].count) >= event.teammembers) {
+      throw ConflictError("Team is already full");
     }
 
     finalTeamName = team.rows[0].team_name;

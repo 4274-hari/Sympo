@@ -14,6 +14,7 @@ const pgSession = require("connect-pg-simple")(session);
 const errorHandler = require("./middlewares/error_handler"); // ✅ NEW
 
 const cors = require("cors")
+const path = require("path")
 
 
 const app = express();
@@ -62,7 +63,10 @@ app.get("/", (req, res) => {
 
 app.use("/api", routes);
 
-app.use("/uploads", express.static("uploads"));
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
 
 /* ===============================
    GLOBAL ERROR HANDLER (MUST BE LAST)
