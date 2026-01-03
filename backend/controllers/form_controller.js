@@ -246,8 +246,10 @@ async function register(req, res, next) {
 
     const normalizedPath = screenshot_path.replace(/\\/g, "/");
     const screenshot = `${process.env.BASE_URL}${normalizedPath}`;
+    const participantID = `COG26-${registrationId}`
 
     appendToGoogleSheet({
+      participantID,
       name,
       email,
       phone,

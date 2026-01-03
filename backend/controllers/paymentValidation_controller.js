@@ -47,7 +47,7 @@ exports.validatePaymentProof = async (req, res) => {
     await client.query("BEGIN");
 
     const existing = await client.query(
-      `SELECT id, status FROM payment_proofs WHERE uid = $1`,
+      `SELECT id, status, amount FROM payment_proofs WHERE uid = $1`,
       [uid]
     );
 
@@ -61,7 +61,7 @@ exports.validatePaymentProof = async (req, res) => {
         });
       }
       
-      if(payment.amount !== amount) {
+      if (payment.amount != amount) {
         return res.status(409).json({
           success: false,
           message: "Event mismatch with previous selection"

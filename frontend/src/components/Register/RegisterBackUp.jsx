@@ -904,7 +904,7 @@ export default function RegisterPage() {
                         onClick={handleManualPayment}
                         disabled={!txnId || !paymentScreenshot || loading}
                         >
-                        {loading ? "Payment Verifing" : "Submit Payment"}
+                        {loading ? "Payment Verifying" : "Submit Payment"}
                     </button>
                     </>
                         )}
