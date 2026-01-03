@@ -60,8 +60,6 @@ async function register(req, res, next) {
     }
 
     /* ===============================
-   UTR VALIDATION
-=============================== */
 // if (!utr) {
 //   throw ValidationError("UTR is required");
 // }

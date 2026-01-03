@@ -7,8 +7,9 @@ const {
 const { upload } = require("../middlewares/upload");
 const { validatePaymentProof } = require("../controllers/paymaneValidation_controller");
 
-router.post("/create_order", createOrder);
-router.post("/verify", verifyPayment);
+// razor pay method
+// router.post("/create_order", createOrder);
+// router.post("/verify", verifyPayment);
 
 // Manual Payment Verification
 
