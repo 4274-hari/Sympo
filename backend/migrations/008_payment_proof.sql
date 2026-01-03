@@ -9,6 +9,8 @@ CREATE TABLE if NOT EXISTS payment_proofs (
     screenshot_hash TEXT NOT NULL UNIQUE,
     screenshot_path TEXT NOT NULL,
 
+    amount INTEGER NOT NULL,
+
     status VARCHAR(20) DEFAULT 'PENDING',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

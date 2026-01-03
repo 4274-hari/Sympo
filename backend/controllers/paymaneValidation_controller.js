@@ -7,7 +7,7 @@ exports.validatePaymentProof = async (req, res) => {
   const client = await getClient();
 
   try {
-    const { uid, email } = req.body;
+    const { uid, email, amount } = req.body;
 
     if (!uid || !req.file) {
       return res.status(400).json({
@@ -46,17 +46,48 @@ exports.validatePaymentProof = async (req, res) => {
 
     await client.query("BEGIN");
 
-    // ❌ Duplicate UID
-    const uidCheck = await client.query(
-      "SELECT id FROM payment_proofs WHERE uid = $1",
+    const existing = await client.query(
+      `SELECT id, status FROM payment_proofs WHERE uid = $1`,
       [uid]
     );
 
-    if (uidCheck.rowCount > 0) {
-      await client.query("ROLLBACK");
-      return res.status(409).json({
-        success: false,
-        message: "UID already used"
+    if (existing.rowCount > 0) {
+      const payment = existing.rows[0];
+
+      if (payment.status !== 'PENDING') {
+        return res.status(409).json({
+          success: false,
+          message: "Payment already completed. UTR cannot be reused."
+        });
+      }
+      
+      if(payment.amount !== amount) {
+        return res.status(409).json({
+          success: false,
+          message: "Event mismatch with previous selection"
+        });
+      }
+
+      // ✅ Status is PENDING → allow re-registration
+      await client.query(
+        `
+        UPDATE payment_proofs
+        SET
+          email = $1,
+          screenshot_hash = $2,
+          screenshot_path = $3,
+          amount = $4,
+          created_at = NOW()
+        WHERE uid = $5
+        `,
+        [email, screenshotHash, req.file.path, amount, uid]
+      );
+
+      await client.query("COMMIT");
+
+      return res.json({
+        success: true,
+        message: "Pending payment reused successfully"
       });
     }
 
@@ -92,10 +123,10 @@ exports.validatePaymentProof = async (req, res) => {
     await client.query(
       `
       INSERT INTO payment_proofs 
-      (uid, email, screenshot_hash, screenshot_path)
-      VALUES ($1, $2, $3, $4)
+      (uid, email, screenshot_hash, screenshot_path, amount)
+      VALUES ($1, $2, $3, $4, $5)
       `,
-      [uid, email, screenshotHash, req.file.path]
+      [uid, email, screenshotHash, req.file.path, amount]
     );
 
     await client.query("COMMIT");

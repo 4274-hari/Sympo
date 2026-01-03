@@ -501,7 +501,7 @@
 
 .teamInputs {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 10px;
 }
 
@@ -514,6 +514,7 @@
   font-size: 14px;
   outline: none;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 
