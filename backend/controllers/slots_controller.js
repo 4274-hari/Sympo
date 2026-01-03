@@ -12,7 +12,7 @@ async function getAllEventsLiveSlots(req, res, next) {
     =============================== */
     const eventsRes = await query(
       `SELECT id, event_name, event_type, event_mode,
-              max_teams, max_online_teams, isBoth
+              max_teams, max_online_teams, is_both
        FROM events
        ORDER BY event_name`
     );
@@ -81,7 +81,7 @@ async function getAllEventsLiveSlots(req, res, next) {
         onlineRemaining,
         status,
         message,
-        isBoth: event.isboth
+        is_both: event.is_both
       });
     }
 

@@ -5,7 +5,7 @@ import { ArrowLeft, CheckCircle, Users, User, Sparkles, Clock, AlertCircle, Cred
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import axios from 'axios'
-import QRCode from "qrcode";
+import QRCode from 'qrcode';
 
 const EVENT_GROUPS = [
   { title: "Technical", mode: "tech", gradient: "from-cyan-500 to-blue-600" },

@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS registrations (
   student_year INTEGER NOT NULL,
   amount INTEGER,
   food VARCHAR(50) NOT NULL,
-  utr VARCHAR(50) UNIQUE NOT NULL,
-  screenshot_hash VARCHAR(64) UNIQUE NOT NULL
+  blacklist BOOLEAN DEFAULT false,
+  checkin_status BOOLEAN DEFAULT false
 );
