@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS registrations (
   amount INTEGER,
   food VARCHAR(50) NOT NULL,
   blacklist BOOLEAN DEFAULT false,
-  checkin_status BOOLEAN DEFAULT false,
+  checkin_status BOOLEAN DEFAULT false
 );
