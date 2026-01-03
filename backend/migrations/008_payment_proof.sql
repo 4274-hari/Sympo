@@ -12,5 +12,8 @@ CREATE TABLE if NOT EXISTS payment_proofs (
     amount INTEGER NOT NULL,
 
     status VARCHAR(20) DEFAULT 'PENDING',
+    
+    is_verified BOOLEAN NOT NULL DEFAULT FALSE,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { ArrowLeft, CheckCircle, Users, User, Sparkles, Clock, AlertCircle, CreditCard } from "lucide-react"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import Tesseract from "tesseract.js";
 import axios from 'axios'
 import QRCode from 'qrcode';
 
@@ -140,9 +141,12 @@ function EventGroupCard({
                         </button>
                       </div>
                     )}
-                    {teamCodeDetails && (
-                      <div className="flex justify-center p-4 mb-0">
-                        <p>Reamining Team Member Vacancy : {teamCodeDetails.remainingSlots}</p>
+                    {teamCodeDetails?.[event.event_name] && (
+                      <div className="flex justify-center p-4 mb-0 items-center text-center">
+                        <p>
+                          Remaining Team Member Vacancy :{" "}
+                          {teamCodeDetails[event.event_name].remainingSlots}
+                        </p>
                       </div>
                     )}
                   </div>
@@ -172,7 +176,6 @@ export default function RegisterPage() {
   })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
-  const [isPaying, setIsPaying] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
   const [showPopup, setShowPopup] = useState(false)
   const [food, setFood] = useState("")
@@ -182,7 +185,7 @@ export default function RegisterPage() {
   const [qrImage, setQrImage] = useState("");
   const [showPaymentWarning, setShowPaymentWarning] = useState(false);
   const [warningAccepted, setWarningAccepted] = useState(false);
-  const [teamCodeDetails, setTeamCodedetails] = useState(null);
+  const [teamCodeDetails, setTeamCodeDetails] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -323,6 +326,11 @@ export default function RegisterPage() {
         delete copy[event.event_name]
         return copy
       })
+      setTeamCodeDetails((prev) => {
+        const copy = { ...prev };
+        delete copy[event.event_name];
+        return copy;
+      });
       setTotalAmount(calculateAmount(updated))
       setPaymentSuccess(false)
       return
@@ -417,11 +425,49 @@ export default function RegisterPage() {
         return;
     }
 
+    let extractedUid = null;
+
+    try {
+      setLoading(true)
+      const { data: { text } } = await Tesseract.recognize(
+        paymentScreenshot,
+        "eng",
+        { logger: (m) => console.log(m) }
+      );
+
+      const cleanText = text
+        .replace(/\n/g, " ")
+        .replace(/[^a-zA-Z0-9 ]/g, " ")
+        .replace(/\s+/g, " ")
+        .toLowerCase();
+
+      // 1️⃣ PRIORITY: UTR
+      const utrMatch = cleanText.match(/utr[:\s]*([0-9]{10,18})/i);
+      if (utrMatch) {
+        extractedUid = utrMatch[1];
+      } else {
+        // 2️⃣ FALLBACK
+        const numbers = cleanText.match(/\b\d{10,18}\b/g) || [];
+        const filtered = numbers.filter((num) => {
+          if (/^[6-9]\d{9}$/.test(num)) return false;
+          if (/^91[6-9]\d{9}$/.test(num)) return false;
+          return true;
+        });
+        extractedUid = filtered[0] || null;
+      }
+
+    } catch (e) {
+      console.warn("OCR failed");
+    } finally {
+      setLoading(false)
+    }
+    
     const formData = new FormData();
     formData.append("uid", txnId);
     formData.append("email", form.email);
     formData.append("amount", totalAmount);
     formData.append("screenshot", paymentScreenshot);
+    formData.append("rawUid", extractedUid)
     formData.append("events", JSON.stringify(buildRegistrationData().events));
 
     if (!validate()) {
@@ -477,9 +523,14 @@ export default function RegisterPage() {
         );
 
         if (res.data.success) {
-          toast.success(res.data.message || "Payment submitted for verification");
-          setPaymentSuccess(true);
+          toast.success(res.data.message || "Payment submitted");
+
+          if (res.data.warning) {
+            toast.warn(res.data.warning); 
+          }
+
           setShowPaymentWarning(true);
+          setPaymentSuccess(true);
         } else {
           toast.error("Payment submission failed");
         }
@@ -583,7 +634,11 @@ export default function RegisterPage() {
       // ❌ Team full
       if (data.isFull) {
         toast.error("This team is already full");
-        setTeamCodedetails(null);
+        setTeamCodeDetails(prev => {
+          const copy = { ...prev };
+          delete copy[eventName];
+          return copy;
+        });
         setTeamCode(eventName, "");
         return;
       }
@@ -608,7 +663,10 @@ export default function RegisterPage() {
       //   }
       // }));
 
-      setTeamCodedetails(data)
+      setTeamCodeDetails(prev => ({
+        ...prev,
+        [eventName]: data
+      }));
       toast.success(
         `Joining team "${data.teamName}" | Leader: ${data.teamLeaderName}`
       );
