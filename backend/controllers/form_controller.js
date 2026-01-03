@@ -97,7 +97,7 @@ async function register(req, res, next) {
     }
 
     const proofRes = await client.query(
-      `SELECT uid, screenshot_hash FROM payment_proofs WHERE email = $1`,
+      `SELECT uid, screenshot_hash, screenshot_path FROM payment_proofs WHERE email = $1`,
       [email]
     );
 
@@ -105,7 +105,7 @@ async function register(req, res, next) {
       throw ConflictError("Payment proof not found");
     }
 
-    const { uid: utr, screenshot_hash } = proofRes.rows[0];
+    const { uid: utr, screenshot_hash, screenshot_path } = proofRes.rows[0];
 
     const utrExists = await client.query(
       `SELECT 1 FROM registrations WHERE utr = $1`,
@@ -237,13 +237,18 @@ async function register(req, res, next) {
 
     sendWelcomeMail(receipt).catch(console.error);
 
+    const screenshot = `${process.env.BASE_URL}${screenshot_path}`
+
     appendToGoogleSheet({
-      email,
       name,
+      email,
+      phone,
       college,
       year: student_year,
       events: responseEvents.map(e => e.event_name).join(", "),
-      food
+      food,
+      utr,
+      screenshot_path: screenshot
     }).catch(console.error);
 
     /* ===============================

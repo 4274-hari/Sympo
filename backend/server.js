@@ -62,6 +62,8 @@ app.get("/", (req, res) => {
 
 app.use("/api", routes);
 
+app.use("/uploads", express.static("uploads"));
+
 /* ===============================
    GLOBAL ERROR HANDLER (MUST BE LAST)
 =============================== */
