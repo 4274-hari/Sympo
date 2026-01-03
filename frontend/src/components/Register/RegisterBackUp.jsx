@@ -167,6 +167,8 @@ export default function RegisterPage() {
   const [paymentScreenshot, setPaymentScreenshot] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [qrImage, setQrImage] = useState("");
+  const [showPaymentWarning, setShowPaymentWarning] = useState(false);
+  const [warningAccepted, setWarningAccepted] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -360,8 +362,8 @@ export default function RegisterPage() {
       const team = teamData[event.event_name];
 
       return {
-        event_name: event.event_name,
-        ...(event.isBoth && { session: team.session }),
+        event_name: event.event_name === "workshop" ? "Workshop" : event.event_name,
+        ...(event.isBoth && team?.session && { session: team.session }),
 
         ...(event.event_type === "team" && {
           role: team?.role === "leader" ? "lead" : "member",
@@ -397,154 +399,6 @@ export default function RegisterPage() {
     }
   }, [totalAmount]);
 
-
-
-  const handleRegisterAndPay = async () => {
-    try {
-      if (!validate()) return;
-
-      if (!food) {
-        toast.warn("Please select food preference");
-        return;
-      }
-
-      for (const event of selectedEvents) {
-        if (event.event_type === "team") {
-          const team = teamData[event.event_name];
-
-          if (!team || !team.role) {
-            toast.error(`Select team role for ${event.event_name}`);
-            return;
-          }
-
-          if (team.role === "leader" && !team.teamName?.trim()) {
-            toast.error(`Enter team name for ${event.event_name}`);
-            return;
-          }
-
-          if (team.role === "member" && !team.teamCode?.trim()) {
-            toast.error(`Enter team code for ${event.event_name}`);
-            return;
-          }
-        }
-      }
-
-      // BEFORE create_order
-      await axios.post("/api/reserve-slots", {
-        email: form.email,
-        registration_mode: "online",
-        events: buildRegistrationData().events
-      });
-
-      setLoading(true);
-      setIsPaying(true);
-
-      const res = await axios.post(
-        "/api/create_order",
-        {
-          email: form.email,
-          events: selectedEvents.map(e => ({
-            event_name: e.event_name
-          }))
-        }
-      );
-
-      if (!res.data.success) {
-        // release reservation if order creation fails
-        await axios.post("/api/release-reservation", {
-          email: form.email
-        });
-
-        toast.error("Order creation failed");
-        setLoading(false);
-        setIsPaying(false);
-        return;
-      }
-
-      openRazorpayCheckout(res.data.order, res.data.amount);
-
-    } catch (err) {
-      console.error(err);
-      try {
-        await axios.post("/api/release-reservation", {
-          email: form.email
-        });
-      } catch (_) {}
-
-      toast.error(
-        err.response?.data?.message || "Unable to proceed with payment"
-      );
-      setLoading(false);
-      setIsPaying(false)
-    }
-  };
-
-
-  const openRazorpayCheckout = (order, amount) => {
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID, // 🔑 Razorpay Key ID
-      amount: order.amount,
-      currency: "INR",
-      name: "Sync Up 2k25",
-      description: `Cognebula'26 Registration Fee ₹${amount}`,
-      order_id: order.id,
-
-      handler: async function (response) {
-        await verifyPayment(response);
-      },
-
-      prefill: {
-        name: form.name,
-        email: form.email,
-        contact: form.mobile,
-      },
-
-      modal: {
-        ondismiss: async () => {
-          await axios.post("/api/release-reservation", {
-            email: form.email
-          });
-          toast.info("Payment cancelled. Reservation released.");
-          setIsPaying(false)
-        }
-      },
-
-      theme: {
-        color: "#6a1b9a",
-      },
-    };
-
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  };
-
-
-  const verifyPayment = async (paymentResponse) => {
-    try {
-      const res = await axios.post(
-        "/api/verify",
-        {
-          razorpay_order_id: paymentResponse.razorpay_order_id,
-          razorpay_payment_id: paymentResponse.razorpay_payment_id,
-          razorpay_signature: paymentResponse.razorpay_signature,
-        }
-      );
-
-      if (res.data.success) {
-        setPaymentSuccess(true);
-        toast.success("Payment successful 🎉");
-      } else {
-        toast.error("Payment verification failed");
-      }
-
-    } catch (err) {
-      console.error(err);
-      toast.error("Payment verification error");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleManualPayment = async () => {
     if (!txnId || !paymentScreenshot) {
         toast.error("Transaction ID & screenshot required");
@@ -552,61 +406,70 @@ export default function RegisterPage() {
     }
 
     const formData = new FormData();
-    formData.append("txn_id", txnId);
+    formData.append("uid", txnId);
     formData.append("email", form.email);
     formData.append("amount", totalAmount);
     formData.append("screenshot", paymentScreenshot);
     formData.append("events", JSON.stringify(buildRegistrationData().events));
 
-    try {
-        setLoading(true);
-
-        if (!validate()) return;
-
-      if (!food) {
-        toast.warn("Please select food preference");
-        return;
-      }
-
-      for (const event of selectedEvents) {
-        if (event.event_type === "team") {
-          const team = teamData[event.event_name];
-
-          if (!team || !team.role) {
-            toast.error(`Select team role for ${event.event_name}`);
-            return;
-          }
-
-          if (team.role === "leader" && !team.teamName?.trim()) {
-            toast.error(`Enter team name for ${event.event_name}`);
-            return;
-          }
-
-          if (team.role === "member" && !team.teamCode?.trim()) {
-            toast.error(`Enter team code for ${event.event_name}`);
-            return;
-          }
+    if (!validate()) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    
+    
+    if (!food) {
+      toast.warn("Please select food preference");
+      return;
+    }
+    
+    for (const event of selectedEvents) {
+      if (event.event_type === "team") {
+        const team = teamData[event.event_name];
+        
+        if (!team || !team.role) {
+          toast.error(`Select team role for ${event.event_name}`);
+          return;
+        }
+        
+        if (team.role === "leader" && !team.teamName?.trim()) {
+          toast.error(`Enter team name for ${event.event_name}`);
+          return;
+        }
+        
+        if (team.role === "member" && !team.teamCode?.trim()) {
+          toast.error(`Enter team code for ${event.event_name}`);
+          return;
         }
       }
-
-      // BEFORE create_order
-      await axios.post("/api/reserve-slots", {
+    }
+    
+    if (selectedEvents.length === 0) {
+        toast.warn("Please select at least one event");
+        return;
+      }
+      try {
+        setLoading(true);
+        
+        // BEFORE create_order
+        await axios.post("/api/reserve-slots", {
         email: form.email,
         registration_mode: "online",
         events: buildRegistrationData().events
       });
 
         const res = await axios.post(
-        "/api/manual-payment",
+        "/api/validate-payment",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
         );
 
         if (res.data.success) {
-        toast.success("Payment submitted for verification");
-        setPaymentSuccess(true);
+          toast.success("Payment submitted for verification");
+          setPaymentSuccess(true);
+          setShowPaymentWarning(true);
         } else {
-        toast.error("Payment submission failed");
+          toast.error("Payment submission failed");
         }
 
     } catch (err) {
@@ -620,6 +483,11 @@ export default function RegisterPage() {
 
     if (!paymentSuccess) {
       toast.warn("Please complete payment before registering.");
+      return;
+    }
+
+    if (!warningAccepted) {
+      toast.warn("Please acknowledge the payment verification notice");
       return;
     }
     
@@ -938,9 +806,9 @@ export default function RegisterPage() {
                     <button
                         className={styles.registerBtn}
                         onClick={handleManualPayment}
-                        disabled={!txnId || !paymentScreenshot}
+                        disabled={!txnId || !paymentScreenshot || loading}
                         >
-                        Submit Payment
+                        {loading ? "Payment Verifing" : "Submit Payment"}
                     </button>
                     </>
                         )}
@@ -951,7 +819,7 @@ export default function RegisterPage() {
                   className={styles.registerBtn}
                   style={{ background: "linear-gradient(135deg, #10b981, #059669)" }}
                   onClick={handleRegister}
-                  disabled={loading}
+                  disabled={loading || !warningAccepted}
                 >
                   {loading ? "Completing..." : "Complete Registration"}
                 </button>
@@ -973,6 +841,35 @@ export default function RegisterPage() {
             </div>
           </div>
         </div>
+
+        {showPaymentWarning && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <div className="flex items-center gap-3 text-yellow-400 mb-4">
+                <AlertCircle size={28} />
+                <h2 className="text-xl font-semibold">Payment Verification Notice</h2>
+              </div>
+
+              <p className="text-slate-300 leading-relaxed mb-6">
+                The <strong>UTR you have entered will be cross-verified</strong> with our
+                payment records.
+                <br /><br />
+                In the event that <strong>any fraudulent entry is detected</strong>, you
+                will be required to <strong>pay the due amount on the day of the symposium</strong>.
+              </p>
+
+              <button
+                className={styles.registerBtn}
+                onClick={() => {
+                  setWarningAccepted(true);
+                  setShowPaymentWarning(false);
+                }}
+              >
+                I Understand & Proceed
+              </button>
+            </div>
+          </div>
+        )}
 
         {showPopup && (
           <div className={styles.modalOverlay}>
