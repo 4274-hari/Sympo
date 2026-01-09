@@ -1,23 +1,24 @@
 import React, { useEffect } from "react";
-import Footer from "./components/Footer/Footer.jsx";
-import HeroSection from "./components/Hero/hero-section.jsx";
+import Footer from "./components/Phase_1/Footer/Footer.jsx";
+import HeroSection from "./components/phase_1/Hero/hero-section.jsx";
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import Navbar from "./components/Navbar/Navbar";
-import Highlight from "./components/Highlight/Highlight";
-import Event from "./components/Event/Event";
-import Contact from "./components/Contact/Contact";
+import Navbar from "../src/components/Phase_1/Navbar/Navbar.jsx"
+import Highlight from "./components/Phase_1/Highlight/Highlight";
+import Event from "./components/Phase_1/Event/Event";
+import Contact from "./components/Phase_1/Contact/Contact";
 import Prize from "./components/Prize/prize.jsx";
 
 import CategoryPage from "./components/Event/CategoryPage";
 import AppBackground from "./components/Background/Background.jsx";
-import EventTimeline from "./components/Timeline/eventTimeline.jsx";
-import Scanner from "./components/QR Scanner/Scanner.jsx";
-import NotFound from "./components/404/NotFound.jsx";
-import Organizer from "./components/Organizer/Organizer.jsx";
+import EventTimeline from "./components/Phase_1/Timeline/eventTimeline.jsx";
+import Scanner from "./components/Phase_1/QR Scanner/Scanner.jsx";
+import NotFound from "./components/Phase_1/404/NotFound.jsx";
+import Organizer from "./components/Phase_1/Organizer/Organizer.jsx";
 import Eventlanding from "./components/Event/Eventlanding.jsx";
-import RegisterPage from "./components/Register/RegisterBackUp.jsx";
-import UploadAndExtractUID from "./components/OCR.jsx";
+import RegisterPage from "./components/Phase_1/Register/RegisterBackUp.jsx";
+import UploadAndExtractUID from "./components/Phase_1/OCR.jsx";
+
 
 
 const App = () => { 
