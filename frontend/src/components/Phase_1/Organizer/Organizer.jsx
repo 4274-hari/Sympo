@@ -1,4 +1,4 @@
-import useInViewOnce from "../../hooks/useOnceView";
+import useInViewOnce from "../../../hooks/useOnceView";
 import { TreeNode } from "./TreeNode";
 
 export default function Organizer() {

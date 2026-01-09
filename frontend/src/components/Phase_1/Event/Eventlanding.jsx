@@ -1,8 +1,8 @@
 import React from "react";
 import eventsData from "./eventlist.json";
 import styles from "./Eventlanding.module.css";
-import capwall from "../../Assets/capwall1.png";
-import ironwall from "../../Assets/ironwall2.jpg";
+import capwall from "../../../Assets/capwall1.png";
+import ironwall from "../../../Assets/ironwall2.jpg";
 import { 
   Calendar, 
   Clock, 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { CountdownTimer } from "./Clock/countdown-timer"
 import { Instagram } from "lucide-react"
 import styles from "../Navbar/navbar.module.css";
-import logo from "../../Assets/NEWLOGO.png"
+import logo from "../../../Assets/NEWLOGO.png"
 
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false)
