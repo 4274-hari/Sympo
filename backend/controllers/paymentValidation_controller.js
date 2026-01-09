@@ -7,7 +7,7 @@ exports.validatePaymentProof = async (req, res) => {
   const client = await getClient();
 
   try {
-    const { uid, email, amount } = req.body;
+    const { uid, email, amount, rawUid } = req.body;
 
     if (!uid || !req.file) {
       return res.status(400).json({
@@ -26,7 +26,7 @@ exports.validatePaymentProof = async (req, res) => {
 
     const screenshotHash = getFileHash(req.file.path);
 
-    // 🧠 OCR extraction
+    // // 🧠 OCR extraction
     // let ocrUid = null;
 
     // try {
@@ -34,8 +34,9 @@ exports.validatePaymentProof = async (req, res) => {
     // } catch (e) {
     //     console.warn("OCR failed, manual review required");
     // }
+    // console.log("Ajith",ocrUid, rawUid);
 
-    // ❌ If OCR found UID but mismatch
+    // // ❌ If OCR found UID but mismatch
     // if (ocrUid && ocrUid !== uid) {
     //   return res.status(400).json({
     //     success: false,
@@ -44,10 +45,23 @@ exports.validatePaymentProof = async (req, res) => {
     //   });
     // }
 
+    let isVerified = false;
+    let warning = null;
+
+    if (rawUid) {
+      if (rawUid === uid) {
+        isVerified = true;
+      } else {
+        warning = "Entered UID does not match screenshot UID. Manual review required.";
+      }
+    } else {
+      warning = "Could not auto-verify UID from screenshot.";
+    }
+
     await client.query("BEGIN");
 
     const existing = await client.query(
-      `SELECT id, status FROM payment_proofs WHERE uid = $1`,
+      `SELECT id, status, amount FROM payment_proofs WHERE uid = $1`,
       [uid]
     );
 
@@ -61,7 +75,7 @@ exports.validatePaymentProof = async (req, res) => {
         });
       }
       
-      if(payment.amount !== amount) {
+      if (payment.amount != amount) {
         return res.status(409).json({
           success: false,
           message: "Event mismatch with previous selection"
@@ -77,17 +91,20 @@ exports.validatePaymentProof = async (req, res) => {
           screenshot_hash = $2,
           screenshot_path = $3,
           amount = $4,
+          is_verified = $5,
           created_at = NOW()
-        WHERE uid = $5
+        WHERE uid = $6
         `,
-        [email, screenshotHash, req.file.path, amount, uid]
+        [email, screenshotHash, req.file.path, amount, isVerified, uid]
       );
 
       await client.query("COMMIT");
 
-      return res.json({
+      return res.status(200).json({
         success: true,
-        message: "Pending payment reused successfully"
+        message: "Pending payment reused successfully",
+        verified: isVerified,
+        warning
       });
     }
 
@@ -123,10 +140,10 @@ exports.validatePaymentProof = async (req, res) => {
     await client.query(
       `
       INSERT INTO payment_proofs 
-      (uid, email, screenshot_hash, screenshot_path, amount)
-      VALUES ($1, $2, $3, $4, $5)
+      (uid, email, screenshot_hash, screenshot_path, amount, is_verified, ocr_uid)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
       `,
-      [uid, email, screenshotHash, req.file.path, amount]
+      [uid, email, screenshotHash, req.file.path, amount, isVerified, rawUid]
     );
 
     await client.query("COMMIT");
@@ -134,6 +151,8 @@ exports.validatePaymentProof = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Payment proof submitted",
+      verified: isVerified,
+      warning
     });
 
   } catch (err) {

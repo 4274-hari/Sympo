@@ -19,10 +19,13 @@ const extractUidFromImage = async (imagePath) => {
     const text = result.data.text;
     console.log("OCR TEXT:", text);
 
-    const match = text.match(/[0-9IO]{12,16}/);
+    const match = text.match(/UPI transaction ID[:\s]*([A-Za-z0-9\-]+)/i);
     if (!match) return null;
 
-    return match[0]
+    console.log("Match",match);
+    
+
+    return match[1]
       .replace(/I/g, "1")
       .replace(/O/g, "0");
 
