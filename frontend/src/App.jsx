@@ -7,15 +7,15 @@ import Navbar from "../src/components/Phase_1/Navbar/Navbar.jsx"
 import Highlight from "./components/Phase_1/Highlight/Highlight";
 import Event from "./components/Phase_1/Event/Event";
 import Contact from "./components/Phase_1/Contact/Contact";
-import Prize from "./components/Prize/prize.jsx";
+import Prize from "./components/Phase_1/Prize/prize.jsx";
 
-import CategoryPage from "./components/Event/CategoryPage";
-import AppBackground from "./components/Background/Background.jsx";
+import CategoryPage from "./components/Phase_1/Event/CategoryPage";
+import AppBackground from "./components/Phase_1/Background/Background.jsx";
 import EventTimeline from "./components/Phase_1/Timeline/eventTimeline.jsx";
 import Scanner from "./components/Phase_1/QR Scanner/Scanner.jsx";
 import NotFound from "./components/Phase_1/404/NotFound.jsx";
 import Organizer from "./components/Phase_1/Organizer/Organizer.jsx";
-import Eventlanding from "./components/Event/Eventlanding.jsx";
+import Eventlanding from "./components/Phase_1/Event/Eventlanding.jsx";
 import RegisterPage from "./components/Phase_1/Register/RegisterBackUp.jsx";
 import UploadAndExtractUID from "./components/Phase_1/OCR.jsx";
 
