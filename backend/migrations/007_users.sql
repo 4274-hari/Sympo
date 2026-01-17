@@ -11,23 +11,23 @@ CREATE TABLE IF NOT EXISTS users (
         'food',
 
         -- non-tech
-        'auction_arena',
-        'flashback',
-        'cinefrenzy',
-        'battle_of_thrones',
-        'beyond_the_gate',
-        'rhythmia',
+        'Auction Arena',
+        'Flashback',
+        'Cinefrenzy',
+        'Battle of Thrones',
+        'Beyond the Gate',
+        'Rhythmia',
 
         -- tech
-        'agent_fusion',
-        'paper_podium',
-        'prompt_craft',
-        'hackquest',
-        'query_clash',
-        'shark_tank',
+        'Agent Fusion',
+        'Paper Podium',
+        'Prompt Craft',
+        'HackQuest',
+        'Query Clash',
+        'Shark Tank',
 
         -- workshop
-        'workshop'
+        'Workshop'
       )
     )
     NOT NULL,
