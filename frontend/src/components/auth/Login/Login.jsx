@@ -6,7 +6,7 @@ import styles from "./login.module.css";
 
 const RoleLogin = () => {
   const [email, setEmail] = useState("");
-  const [dob, setDob] = useState(""); // YYYY-MM-DD
+  const [dob, setDob] = useState(""); 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const RoleLogin = () => {
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       if (role === "general") {
-        navigate("/admin/general/events");
+        navigate("/admin/general");
       } else {
         setError(`Unsupported role: ${role}`);
       }

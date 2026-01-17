@@ -3,7 +3,7 @@ import eventsData from "./EventDashcount.json";
 import styles from "./EventDashboard.module.css";
 import { ChevronDown, User, X } from "lucide-react";
 
-const Dashboard = () => {
+const EventDashboard = () => {
   const [activeCategory, setActiveCategory] = useState(null);
 
   const openPopup = (categoryKey) => {
@@ -109,4 +109,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default EventDashboard;
