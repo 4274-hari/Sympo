@@ -1,23 +1,36 @@
 import React, { useEffect } from "react";
-import Footer from "./components/Footer/Footer.jsx";
-import HeroSection from "./components/Hero/hero-section.jsx";
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import Navbar from "./components/Navbar/Navbar";
-import Highlight from "./components/Highlight/Highlight";
-import Event from "./components/Event/Event";
-import Contact from "./components/Contact/Contact";
-import Prize from "./components/Prize/prize.jsx";
+// ==============================================================
+//                              Public
+// ==============================================================
+import Footer from "./components/public/Footer/Footer.jsx";
+import HeroSection from "./components/public/Hero/hero-section.jsx";
+import Navbar from "./components/public/Navbar/Navbar";
+import Highlight from "./components/public/Highlight/Highlight";
+import Event from "./components/public/Event/Event";
+import Contact from "./components/public/Contact/Contact";
+import Prize from "./components/public/Prize/prize.jsx";
+import Organizer from "./components/public/Organizer/Organizer.jsx";
+import Eventlanding from "./components/public/Event/Eventlanding.jsx";
+import RegisterPage from "./components/public/Register/RegisterBackUp.jsx";
+import EventTimeline from "./components/public/Timeline/eventTimeline.jsx";
+import CategoryPage from "./components/public/Event/CategoryPage";
 
-import CategoryPage from "./components/Event/CategoryPage";
-import AppBackground from "./components/Background/Background.jsx";
-import EventTimeline from "./components/Timeline/eventTimeline.jsx";
-import Scanner from "./components/QR Scanner/Scanner.jsx";
-import NotFound from "./components/404/NotFound.jsx";
-import Organizer from "./components/Organizer/Organizer.jsx";
-import Eventlanding from "./components/Event/Eventlanding.jsx";
-import RegisterPage from "./components/Register/RegisterBackUp.jsx";
-import UploadAndExtractUID from "./components/OCR.jsx";
+// ==============================================================
+//                              Common
+// ==============================================================
+import AppBackground from "./components/common/Background/Background.jsx";
+import NotFound from "./components/common/404/NotFound.jsx";
+
+// ==============================================================
+//                              Admin
+// ==============================================================
+import Scanner from "./components/admin/QR Scanner/Scanner.jsx";
+import RoleLogin from "./components/auth/Login/Login.jsx";
+import Dashboard from "./components/admin/General Dash/Dashboard.jsx";
+import CheckInStatus from "./components/admin/Check In/CheckInStatus.jsx";
+import Participants from "./components/admin/Participant Dashboard/Participants.jsx";
 
 
 const App = () => { 
@@ -42,6 +55,7 @@ const App = () => {
     <>
       <AppBackground>
         <Routes>
+          {/* Public */}
           <Route
             path="/"
             element={
@@ -57,14 +71,15 @@ const App = () => {
               </>
             }
           />
-
-          {/* 🎯 EVENT LANDING PAGE */}
-          <Route path="/events/:category" element={<CategoryPage />} />
+          <Route 
+            path="/events/:category" 
+            element={<CategoryPage />}
+          />
           <Route
             path="/event/:category/:id"
             element={<Eventlanding />}
           />
-            <Route
+          <Route
             path="/register"
             element={<RegisterPage />}
           />
@@ -72,17 +87,31 @@ const App = () => {
             path="/prize"
             element={<Prize />}
           />
+          {/* Admin */}
           <Route
             path="/scanner@1029"
             element={<Scanner />}
           />
           <Route
-            path="*"
-            element={<NotFound />}
+            path="/login"
+            element={<RoleLogin />}
           />
           <Route
-            path="/1"
-            element={<UploadAndExtractUID />}
+            path="/admin/general/events"
+            element={<Dashboard />}
+          />
+          <Route
+            path="/coordinator/dashboard"
+            element={<Participants />}
+          />
+          <Route
+            path="checkin"
+            element={<CheckInStatus />}
+          />
+          {/* Common */}
+          <Route
+            path="*"
+            element={<NotFound />}
           />
         </Routes>
       </AppBackground>

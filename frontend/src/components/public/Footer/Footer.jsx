@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./footer.module.css";
 import { Instagram, Facebook, Mail, Linkedin, MessageCircle } from "lucide-react";
-import logo from "../../Assets/cognebula_logo.png"
+import logo from "../../../Assets/cognebula_logo.png"
 
 export default function Footer() {
   const year = new Date().getFullYear();
