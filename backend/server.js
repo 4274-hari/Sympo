@@ -8,14 +8,12 @@ const { tablecreation } = require("./migrations/table");
 
 const routes = require("./routes/index");
 
-const session = require("express-session");
-const pgSession = require("connect-pg-simple")(session);
-
 const errorHandler = require("./middlewares/error_handler"); // ✅ NEW
 
 const cors = require("cors")
 const path = require("path")
 
+const sessionMiddleware = require("./config/session");
 
 const app = express();
 
@@ -37,22 +35,8 @@ app.use(express.urlencoded({ extended: true }));
 /* ===============================
    SESSION CONFIG
 =============================== */
-app.use(
-  session({
-    store: new pgSession({
-      conString: process.env.DATABASE_URL, // or pg config
-      tableName: "session"
-    }),
-    secret: process.env.SESSION_SECRET || "sympo_secret_key",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,        // set true in HTTPS
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 // 1 hour
-    }
-  })
-);
+app.use(sessionMiddleware); // ✅ THIS IS REQUIRED
+
 
 /* ===============================
    ROUTES
@@ -67,6 +51,15 @@ app.use(
   "/uploads",
   express.static(path.join(__dirname, "uploads"))
 );
+
+//TESTING FOR SESSION
+app.get("/_session-test", (req, res) => {
+  res.json({
+    sessionExists: !!req.session,
+    sessionId: req.sessionID
+  });
+});
+
 
 /* ===============================
    GLOBAL ERROR HANDLER (MUST BE LAST)

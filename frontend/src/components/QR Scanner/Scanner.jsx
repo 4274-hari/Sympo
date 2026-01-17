@@ -82,7 +82,7 @@ export default function Scanner() {
   /* 🔍 Verify QR */
   const verifyQR = async (token) => {
     try {
-      const res = await axios.post("/api/scanqr", { token });
+      const res = await axios.post("/api/food/scan", { token });
 
       if (res.data.valid) {
         setFoodType(res.data.food_type);

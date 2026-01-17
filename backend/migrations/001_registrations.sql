@@ -11,3 +11,6 @@ CREATE TABLE IF NOT EXISTS registrations (
   utr BIGINT UNIQUE NOT NULL,
   screenshot_hash TEXT UNIQUE NOT NULL
 );
+
+ALTER TABLE registrations
+ADD COLUMN blacklist BOOLEAN DEFAULT FALSE;

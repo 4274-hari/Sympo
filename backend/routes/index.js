@@ -4,8 +4,8 @@ const router = express.Router();
 //Routings import
 
 const formroute = require('./form_route')
-const foodroute = require('./food_route')
 const paymentroute = require('./payment_route')
+const authroute = require('./auth_routes')
 
 
 // router.get("", (req, res) => {
@@ -13,8 +13,8 @@ const paymentroute = require('./payment_route')
 // });
 
 router.use("",formroute)
-router.use('',foodroute)
 router.use('',paymentroute)
+router.use('',authroute)
 
 
 
