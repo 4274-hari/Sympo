@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom"
 import { ArrowLeft, CheckCircle, Users, User, Sparkles, Clock, AlertCircle, CreditCard } from "lucide-react"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import Tesseract from "tesseract.js";
 import axios from 'axios'
+import QRCode from 'qrcode';
 
 const EVENT_GROUPS = [
   { title: "Technical", mode: "tech", gradient: "from-cyan-500 to-blue-600" },
@@ -24,6 +26,8 @@ function EventGroupCard({
   setTeamName,
   setTeamCode,
   gradient,
+  handleTeamCodeCheck,
+  teamCodeDetails
 }) {
   const [expanded, setExpanded] = useState(false)
 
@@ -122,13 +126,27 @@ function EventGroupCard({
                     )}
 
                     {teamData[event.event_name]?.role === "member" && (
-                      <div className={styles.teamInputs}>
+                      <div className={`${styles.teamInputs}`}>
                         <input
                           type="text"
                           placeholder="Enter Team Code"
                           value={teamData[event.event_name]?.teamCode || ""}
                           onChange={(e) => setTeamCode(event.event_name, e.target.value)}
                         />
+                        <button
+                          type="button"
+                          onClick={() => handleTeamCodeCheck(event.event_name)}
+                        >
+                          Check
+                        </button>
+                      </div>
+                    )}
+                    {teamCodeDetails?.[event.event_name] && (
+                      <div className="flex justify-center p-4 mb-0 items-center text-center">
+                        <p>
+                          Remaining Team Member Vacancy :{" "}
+                          {teamCodeDetails[event.event_name].remainingSlots}
+                        </p>
                       </div>
                     )}
                   </div>
@@ -158,10 +176,16 @@ export default function RegisterPage() {
   })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
-  const [isPaying, setIsPaying] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
   const [showPopup, setShowPopup] = useState(false)
   const [food, setFood] = useState("")
+  const [txnId, setTxnId] = useState("");
+  const [paymentScreenshot, setPaymentScreenshot] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [qrImage, setQrImage] = useState("");
+  const [showPaymentWarning, setShowPaymentWarning] = useState(false);
+  const [warningAccepted, setWarningAccepted] = useState(false);
+  const [teamCodeDetails, setTeamCodeDetails] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -283,9 +307,7 @@ export default function RegisterPage() {
       // If first is single-session, second must be multi-session
       if (
         (isSingleSessionEvent(firstEvent) &&
-        isSingleSessionEvent(event)) ||
-        (isMultiSessionEvent(firstEvent) &&
-        isMultiSessionEvent(event))
+        isSingleSessionEvent(event))
       ) {
         return "If you choose a single-session event, the second event must be a 2-session event";
       }
@@ -304,6 +326,11 @@ export default function RegisterPage() {
         delete copy[event.event_name]
         return copy
       })
+      setTeamCodeDetails((prev) => {
+        const copy = { ...prev };
+        delete copy[event.event_name];
+        return copy;
+      });
       setTotalAmount(calculateAmount(updated))
       setPaymentSuccess(false)
       return
@@ -355,8 +382,8 @@ export default function RegisterPage() {
       const team = teamData[event.event_name];
 
       return {
-        event_name: event.event_name,
-        ...(event.isBoth && { session: team.session }),
+        event_name: event.event_name === "workshop" ? "Workshop" : event.event_name,
+        ...(event.isBoth && team?.session && { session: team.session }),
 
         ...(event.event_type === "team" && {
           role: team?.role === "leader" ? "lead" : "member",
@@ -367,150 +394,158 @@ export default function RegisterPage() {
     }),
   });
 
+  const getUpiQrUrl = (amount) => {
+    const upiId = import.meta.env.VITE_UPI_ID; 
+    const name = "Cognebula 2026";
 
-  const handleRegisterAndPay = async () => {
-    try {
-      if (!validate()) return;
+    return `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
+        name
+    )}&am=${amount}&cu=INR&tn=${encodeURIComponent(
+        "Event Registration"
+    )}`;
+  };
 
-      if (!food) {
-        toast.warn("Please select food preference");
-        return;
-      }
-
-      for (const event of selectedEvents) {
-        if (event.event_type === "team") {
-          const team = teamData[event.event_name];
-
-          if (!team || !team.role) {
-            toast.error(`Select team role for ${event.event_name}`);
-            return;
-          }
-
-          if (team.role === "leader" && !team.teamName?.trim()) {
-            toast.error(`Enter team name for ${event.event_name}`);
-            return;
-          }
-
-          if (team.role === "member" && !team.teamCode?.trim()) {
-            toast.error(`Enter team code for ${event.event_name}`);
-            return;
-          }
-        }
-      }
-
-      // BEFORE create_order
-      await axios.post("/api/reserve-slots", {
-        email: form.email,
-        registration_mode: "online",
-        events: buildRegistrationData().events
-      });
-
-      setLoading(true);
-      setIsPaying(true);
-
-      const res = await axios.post(
-        "/api/create_order",
-        {
-          email: form.email,
-          events: selectedEvents.map(e => ({
-            event_name: e.event_name
-          }))
-        }
-      );
-
-      if (!res.data.success) {
-        // release reservation if order creation fails
-        await axios.post("/api/release-reservation", {
-          email: form.email
-        });
-
-        toast.error("Order creation failed");
-        setLoading(false);
-        setIsPaying(false);
-        return;
-      }
-
-      openRazorpayCheckout(res.data.order, res.data.amount);
-
-    } catch (err) {
-      console.error(err);
-      try {
-        await axios.post("/api/release-reservation", {
-          email: form.email
-        });
-      } catch (_) {}
-
-      toast.error(
-        err.response?.data?.message || "Unable to proceed with payment"
-      );
-      setLoading(false);
-      setIsPaying(false)
+  useEffect(() => {
+    if (totalAmount > 0) {
+        QRCode.toDataURL(getUpiQrUrl(totalAmount))
+        .then(setQrImage)
+        .catch(console.error);
+    } else {
+        // 🔥 IMPORTANT: clear QR when amount is 0
+        setQrImage("");
+        setTxnId("");
+        setPaymentScreenshot(null);
+        setPreviewImage(null);
     }
-  };
+  }, [totalAmount]);
 
-
-  const openRazorpayCheckout = (order, amount) => {
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID, // 🔑 Razorpay Key ID
-      amount: order.amount,
-      currency: "INR",
-      name: "Sync Up 2k25",
-      description: `Cognebula'26 Registration Fee ₹${amount}`,
-      order_id: order.id,
-
-      handler: async function (response) {
-        await verifyPayment(response);
-      },
-
-      prefill: {
-        name: form.name,
-        email: form.email,
-        contact: form.mobile,
-      },
-
-      modal: {
-        ondismiss: async () => {
-          await axios.post("/api/release-reservation", {
-            email: form.email
-          });
-          toast.info("Payment cancelled. Reservation released.");
-          setIsPaying(false)
+  const handleManualPayment = async () => {
+    if (!txnId || !paymentScreenshot) {
+      toast.error("Transaction ID & screenshot required");
+      return;
+    }
+      
+    if (!validate()) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    
+    
+    if (!food) {
+      toast.warn("Please select food preference");
+      return;
+    }
+    
+    for (const event of selectedEvents) {
+      if (event.event_type === "team") {
+        const team = teamData[event.event_name];
+        
+        if (!team || !team.role) {
+          toast.error(`Select team role for ${event.event_name}`);
+          return;
         }
-      },
+        
+        if (team.role === "leader" && !team.teamName?.trim()) {
+          toast.error(`Enter team name for ${event.event_name}`);
+          return;
+        }
+        
+        if (team.role === "member" && !team.teamCode?.trim()) {
+          toast.error(`Enter team code for ${event.event_name}`);
+          return;
+        }
+      }
+    }
+    
+    if (selectedEvents.length === 0) {
+      toast.warn("Please select at least one event");
+      return;
+    }
 
-      theme: {
-        color: "#6a1b9a",
-      },
-    };
+    let extractedUid = null;
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  };
-
-
-  const verifyPayment = async (paymentResponse) => {
     try {
-      const res = await axios.post(
-        "/api/verify",
-        {
-          razorpay_order_id: paymentResponse.razorpay_order_id,
-          razorpay_payment_id: paymentResponse.razorpay_payment_id,
-          razorpay_signature: paymentResponse.razorpay_signature,
-        }
+      setLoading(true)
+      const { data: { text } } = await Tesseract.recognize(
+        paymentScreenshot,
+        "eng",
+        { logger: (m) => console.log(m) }
       );
 
-      if (res.data.success) {
-        setPaymentSuccess(true);
-        toast.success("Payment successful 🎉");
+      const cleanText = text
+        .replace(/\n/g, " ")
+        .replace(/[^a-zA-Z0-9 ]/g, " ")
+        .replace(/\s+/g, " ")
+        .toLowerCase();
+
+      // 1️⃣ PRIORITY: UTR
+      const utrMatch = cleanText.match(/utr[:\s]*([0-9]{10,18})/i);
+      if (utrMatch) {
+        extractedUid = utrMatch[1];
       } else {
-        toast.error("Payment verification failed");
+        // 2️⃣ FALLBACK
+        const numbers = cleanText.match(/\b\d{10,18}\b/g) || [];
+        const filtered = numbers.filter((num) => {
+          if (/^[6-9]\d{9}$/.test(num)) return false;
+          if (/^91[6-9]\d{9}$/.test(num)) return false;
+          return true;
+        });
+        extractedUid = filtered[0] || null;
       }
+
+    } catch (e) {
+      console.warn("OCR failed");
+    } finally {
+      setLoading(false)
+    }
+    
+    const formData = new FormData();
+    formData.append("uid", txnId);
+    formData.append("email", form.email);
+    formData.append("amount", totalAmount);
+    formData.append("screenshot", paymentScreenshot);
+    formData.append("rawUid", extractedUid)
+    formData.append("events", JSON.stringify(buildRegistrationData().events));
+      try {
+        setLoading(true);
+        
+        // BEFORE create_order
+        await axios.post("/api/reserve-slots", {
+          email: form.email,
+          registration_mode: "online",
+          events: buildRegistrationData().events
+        });
+
+        const res = await axios.post(
+          "/api/validate-payment",
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+
+        if (res.data.success) {
+          toast.success(res.data.message || "Payment submitted");
+
+          if (res.data.warning) {
+            toast.warn(res.data.warning); 
+          }
+
+          setShowPaymentWarning(true);
+          setPaymentSuccess(true);
+        } else {
+          toast.error("Payment submission failed");
+        }
 
     } catch (err) {
       console.error(err);
-      toast.error("Payment verification error");
+
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Payment verification failed";
+
+      toast.error(message);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
 
@@ -518,6 +553,11 @@ export default function RegisterPage() {
 
     if (!paymentSuccess) {
       toast.warn("Please complete payment before registering.");
+      return;
+    }
+
+    if (!warningAccepted) {
+      toast.warn("Please acknowledge the payment verification notice");
       return;
     }
     
@@ -571,6 +611,73 @@ export default function RegisterPage() {
       toast.error(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false)
+    }
+  };
+
+  const handleTeamCodeCheck = async (eventName) => {
+    const teamCode = teamData[eventName]?.teamCode?.trim();
+
+    if (!teamCode) {
+      toast.warn("Please enter a team code");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post("/api/check-team-code", {
+        team_code: teamCode
+      });
+
+      const { data } = res.data;
+
+      // ❌ Team full
+      if (data.isFull) {
+        toast.error("This team is already full");
+        setTeamCodeDetails(prev => {
+          const copy = { ...prev };
+          delete copy[eventName];
+          return copy;
+        });
+        setTeamCode(eventName, "");
+        return;
+      }
+      
+      // ❌ Team belongs to another event
+      if (data.eventName !== eventName) {
+        toast.error(`This team belongs to ${data.eventName}`);
+        setTeamCode(eventName, "");
+        return;
+      }
+
+      // ✅ Success → attach team info
+      // setTeamData((prev) => ({
+      //   ...prev,
+      //   [eventName]: {
+      //     ...prev[eventName],
+      //     role: "member",
+      //     teamCode,
+      //     teamName: data.teamName,
+      //     teamLeaderName: data.teamLeaderName,
+      //     validated: true
+      //   }
+      // }));
+
+      setTeamCodeDetails(prev => ({
+        ...prev,
+        [eventName]: data
+      }));
+      toast.success(
+        `Joining team "${data.teamName}" | Leader: ${data.teamLeaderName}`
+      );
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        error.response?.data?.message || "Invalid team code"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -738,6 +845,8 @@ export default function RegisterPage() {
                     gradient={group.gradient}
                     getSelectedSessions={getSelectedSessions}
                     setTeamData={setTeamData}
+                    handleTeamCodeCheck={handleTeamCodeCheck}
+                    teamCodeDetails={teamCodeDetails}
                   />
                 ))}
               </div>
@@ -745,6 +854,21 @@ export default function RegisterPage() {
           </div>
 
           <div className={styles.sidebar}>
+            <div className={styles.infoCard}>
+              <div className="flex items-center gap-4 text-red-400">
+                <AlertCircle size={20} />
+                <h4>Important Notes</h4>
+              </div>
+              <ul>
+                <li>Maximum 2 events per participant</li>
+                <li>2nd event participation is based on time availability</li>
+                <li>Workshop / Hack Quest must be selected alone</li>
+                <li>Food preference is mandatory</li>
+                <li>Team codes are required for team events <br />(Team code will be mailed to Tead Leader)</li>
+                <li>If payment is successful but registration fails, use the same details, UTR and payment screenshot. Do not repay.</li>
+              </ul>
+            </div>
+
             <div className={styles.summaryCard}>
               <h3>Order Summary</h3>
 
@@ -787,46 +911,105 @@ export default function RegisterPage() {
               </div>
 
               {!paymentSuccess ? (
-                <button
-                  className={styles.registerBtn}
-                  onClick={handleRegisterAndPay}
-                  disabled={isPaying || selectedEvents.length === 0}
-                >
-                  {isPaying ? (
-                    "Processing Payment..."
-                  ) : (
-                    <span className="flex items-center justify-center gap-2">
-                      <CreditCard size={18} /> Pay Now
-                    </span>
-                  )}
-                </button>
+                 <>
+                    {/* QR CODE */}
+                    {/* <div className={styles.qrBox}> */}
+                    {totalAmount > 0 && qrImage && (
+                        <>
+                        <div className={styles.qrBox}>
+                            <img src={qrImage} className={styles.qrImage} />
+                            <p className={styles.qrText}>
+                            Scan & Pay ₹{totalAmount}
+                            </p>
+                        </div>
+                    {/* </div> */}
+
+                    {/* TRANSACTION ID */}
+                    <div className={styles.formGroup}>
+                        <label>Transaction UID</label>
+                        <input
+                            type="text"
+                            placeholder="Enter UPI Transaction ID"
+                            value={txnId}
+                            onChange={(e) => setTxnId(e.target.value)}
+                        />
+                    </div>
+
+                    {/* SCREENSHOT UPLOAD */}
+                    <div className={styles.formGroup}>
+                        <label className="p-4">Upload the payment screenshot clearly showing the transaction ID. In case of any mismatch, our team will contact you for verification and payment settlement.</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                            const file = e.target.files[0];
+                            setPaymentScreenshot(file);
+                            setPreviewImage(URL.createObjectURL(file));
+                            }}
+                        />
+                    </div>
+
+                    {previewImage && (
+                        <img
+                            src={previewImage}
+                            alt="Preview"
+                            className={styles.previewImg}
+                        />
+                    )}
+
+                    <button
+                        className={styles.registerBtn}
+                        onClick={handleManualPayment}
+                        disabled={!txnId || !paymentScreenshot || loading}
+                        >
+                        {loading ? "Payment Verifying" : "Submit Payment"}
+                    </button>
+                    </>
+                        )}
+                    
+                </>
               ) : (
                 <button
                   className={styles.registerBtn}
                   style={{ background: "linear-gradient(135deg, #10b981, #059669)" }}
                   onClick={handleRegister}
-                  disabled={loading}
+                  disabled={loading || !warningAccepted}
                 >
                   {loading ? "Completing..." : "Complete Registration"}
                 </button>
               )}
             </div>
-
-            <div className={styles.infoCard}>
-              <div className="flex items-center gap-4 text-red-400">
-                <AlertCircle size={20} />
-                <h4>Important Notes</h4>
-              </div>
-              <ul>
-                <li>Maximum 2 events per participant</li>
-                <li>2nd event participation is based on time availability</li>
-                <li>Workshop / Hack Quest must be selected alone</li>
-                <li>Food preference is mandatory</li>
-                <li>Team codes are required for team events <br />(Team code will be mailed to Tead Leader)</li>
-              </ul>
-            </div>
           </div>
         </div>
+
+        {showPaymentWarning && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <div className="flex items-center gap-3 text-yellow-400 mb-4">
+                <AlertCircle size={28} />
+                <h2 className="text-xl font-semibold">Payment Verification Notice</h2>
+              </div>
+
+              <p className="text-slate-300 leading-relaxed mb-6">
+                The <strong>UTR you have entered will be cross-verified</strong> with our
+                payment records.
+                <br /><br />
+                In the event that <strong>any fraudulent entry is detected</strong>, you
+                will be required to <strong>pay the due amount on the day of the symposium</strong>.
+              </p>
+
+              <button
+                className={styles.registerBtn}
+                onClick={() => {
+                  setWarningAccepted(true);
+                  setShowPaymentWarning(false);
+                }}
+              >
+                I Understand & Proceed
+              </button>
+            </div>
+          </div>
+        )}
 
         {showPopup && (
           <div className={styles.modalOverlay}>

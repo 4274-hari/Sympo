@@ -13,7 +13,7 @@ import Contact from "./components/public/Contact/Contact";
 import Prize from "./components/public/Prize/prize.jsx";
 import Organizer from "./components/public/Organizer/Organizer.jsx";
 import Eventlanding from "./components/public/Event/Eventlanding.jsx";
-import RegisterPage from "./components/public/Register/RegisterBackUp.jsx";
+import RegisterPage from "./components/public/Register/Register.jsx";
 import EventTimeline from "./components/public/Timeline/eventTimeline.jsx";
 import CategoryPage from "./components/public/Event/CategoryPage";
 
