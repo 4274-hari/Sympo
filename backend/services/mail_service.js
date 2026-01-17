@@ -212,6 +212,9 @@ async function sendWelcomeMail(receipt) {
             ⏳ <b>Second event participation is subject to time availability.</b>  
             Please plan your schedule accordingly.
           </li>
+          <li>
+            📝 <b>Please note that this confirmation email is provisional and subject to manual verification of your payment. If there are any discrepancies, our registration team will contact you before the symposium. In the event of a verification issue, you will need to settle the amount or provide clarification on the day of the event.</b>
+          </li>
         </ul>
       </div>
 

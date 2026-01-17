@@ -17,9 +17,9 @@ CREATE INDEX IF NOT EXISTS idx_slot_res_event ON slot_reservations(event_id);
 CREATE INDEX IF NOT EXISTS idx_slot_res_expiry ON slot_reservations(expires_at);
 
 -- Unique team name protection
-CREATE UNIQUE INDEX IF NOT EXISTS uniq_team_name_per_event
-ON slot_reservations (event_id, LOWER(team_name))
-WHERE team_name IS NOT NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS unique_team_code_per_event_lead
+ON registration_events (event_id, team_code)
+WHERE role = 'lead';
 
  ALTER TABLE slot_reservations
 ADD COLUMN session VARCHAR(20)

@@ -16,8 +16,8 @@ import Scanner from "./components/QR Scanner/Scanner.jsx";
 import NotFound from "./components/404/NotFound.jsx";
 import Organizer from "./components/Organizer/Organizer.jsx";
 import Eventlanding from "./components/Event/Eventlanding.jsx";
-import RegistrationStartsSoon from "./components/Register/RegisterStartsSoon.jsx";
-import Register from "./components/Register/RegisterBackUp.jsx"
+import RegisterPage from "./components/Register/RegisterBackUp.jsx";
+import UploadAndExtractUID from "./components/OCR.jsx";
 
 
 const App = () => { 
@@ -66,7 +66,7 @@ const App = () => {
           />
             <Route
             path="/register"
-            element={<Register />}
+            element={<RegisterPage />}
           />
           <Route
             path="/prize"
@@ -79,6 +79,10 @@ const App = () => {
           <Route
             path="*"
             element={<NotFound />}
+          />
+          <Route
+            path="/1"
+            element={<UploadAndExtractUID />}
           />
         </Routes>
       </AppBackground>

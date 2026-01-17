@@ -1,5 +1,7 @@
-CREATE TABLE payment_proofs (
+CREATE TABLE if NOT EXISTS payment_proofs (
     id SERIAL PRIMARY KEY,
+
+    email VARCHAR(40) NOT NULL UNIQUE,
 
     uid VARCHAR(20) NOT NULL UNIQUE,
     ocr_uid VARCHAR(20),
@@ -7,6 +9,11 @@ CREATE TABLE payment_proofs (
     screenshot_hash TEXT NOT NULL UNIQUE,
     screenshot_path TEXT NOT NULL,
 
+    amount INTEGER NOT NULL,
+
     status VARCHAR(20) DEFAULT 'PENDING',
+    
+    is_verified BOOLEAN NOT NULL DEFAULT FALSE,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

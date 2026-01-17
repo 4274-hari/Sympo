@@ -6,6 +6,7 @@ const {
   validateReserveSlots,
   validateReleaseReservation
 } = require("../validators/slot_validator");
+const { getTeamSlots } = require('../controllers/check_team_code_controller');
 
 
 
@@ -16,6 +17,7 @@ const {
 
 router.post('/register',register)
 router.get('/events/live_slots',getAllEventsLiveSlots)
+router.post('/check-team-code', getTeamSlots)
 router.post("/reserve-slots", validateReserveSlots, reserveSlots);
 router.post("/release-reservation", validateReleaseReservation, releaseReservation);
 

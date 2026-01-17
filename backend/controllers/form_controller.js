@@ -60,6 +60,15 @@ async function register(req, res, next) {
     }
 
     /* ===============================
+// if (!utr) {
+//   throw ValidationError("UTR is required");
+// }
+
+// if (!/^[0-9A-Za-z]{6,50}$/.test(utr)) {
+//   throw ValidationError("Invalid UTR format");
+// }
+
+    /* ===============================
        SLOT RESERVATION CHECK (NEW)
     =============================== */
     const reservationRes = await client.query(
@@ -87,15 +96,38 @@ async function register(req, res, next) {
       throw ConflictError("Email already registered");
     }
 
-    
+    const proofRes = await client.query(
+      `SELECT uid, screenshot_hash, screenshot_path,is_verified FROM payment_proofs WHERE email = $1`,
+      [email]
+    );
+
+    if (proofRes.rowCount === 0) {
+      throw ConflictError("Payment proof not found");
+    }
+
+    const { uid: utr, screenshot_hash, screenshot_path, is_verified } = proofRes.rows[0];
+
+    const utrExists = await client.query(
+      `SELECT 1 FROM registrations WHERE utr = $1`,
+      [utr]
+    );
+
+    const screenshotExists = await client.query(
+      `SELECT 1 FROM registrations WHERE screenshot_hash = $1`,
+      [screenshot_hash]
+    );
+
+    if (utrExists.rowCount > 0 || screenshotExists.rowCount > 0) {
+      throw ConflictError("UTR already used");
+    }
 
    const regRes = await client.query(
-  `INSERT INTO registrations
-   (name, email, phone, college, student_year, food)
-   VALUES ($1,$2,$3,$4,$5,$6)
-   RETURNING id`,
-  [name, email, phone, college, student_year, food]
-);
+      `INSERT INTO registrations
+      (name, email, phone, college, student_year, food, utr, screenshot_hash)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+      RETURNING id`,
+      [name, email, phone, college, student_year, food, utr, screenshot_hash]
+    );
 
 
     const registrationId = regRes.rows[0].id;
@@ -108,7 +140,7 @@ async function register(req, res, next) {
       const { event_name } = ev;
 
       const eventRes = await client.query(
-        `SELECT id, event_type
+        `SELECT id, event_type, teammembers
          FROM events WHERE event_name = $1`,
         [event_name]
       );
@@ -146,19 +178,19 @@ async function register(req, res, next) {
       });
 
       await client.query(
-  `INSERT INTO registration_events
-   (registration_id, event_id, role, team_name, team_code, session, registration_mode)
-   VALUES ($1,$2,$3,$4,$5,$6,$7)`,
-  [
-    registrationId,
-    event.id,
-    finalRole,
-    finalTeamName,
-    finalTeamCode,
-    reservation.session || null,
-    registration_mode
-  ]
-);
+        `INSERT INTO registration_events
+        (registration_id, event_id, role, team_name, team_code, session, registration_mode)
+        VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+        [
+          registrationId,
+          event.id,
+          finalRole,
+          finalTeamName,
+          finalTeamCode,
+          reservation.session || null,
+          registration_mode
+        ]
+      );
 
 
       responseEvents.push({
@@ -168,6 +200,13 @@ async function register(req, res, next) {
         team_code: finalTeamCode
       });
     }
+
+    // update the payment proof 
+
+    await client.query(`UPDATE payment_proofs
+      SET status = 'SUCCESS'
+      WHERE uid = $1;
+      `, [utr])
 
     /* ===============================
        FOOD TOKEN
@@ -205,13 +244,22 @@ async function register(req, res, next) {
 
     sendWelcomeMail(receipt).catch(console.error);
 
+    const normalizedPath = screenshot_path.replace(/\\/g, "/");
+    const screenshot = `${process.env.BASE_URL}${normalizedPath}`;
+    const participantID = `COG26-${registrationId}`
+
     appendToGoogleSheet({
-      email,
+      participantID,
       name,
+      email,
+      phone,
       college,
       year: student_year,
       events: responseEvents.map(e => e.event_name).join(", "),
-      food
+      food,
+      utr,
+      screenshot_path: screenshot,
+      is_verified
     }).catch(console.error);
 
     /* ===============================
@@ -243,12 +291,12 @@ async function register(req, res, next) {
   } catch (err) {
     await client.query("ROLLBACK");
 
-    if (email) {
-      await client.query(
-        `DELETE FROM slot_reservations WHERE email = $1`,
-        [email]
-      );
-    }
+    // if (email) {
+    //   await client.query(
+    //     `DELETE FROM slot_reservations WHERE email = $1`,
+    //     [email]
+    //   );
+    // }
 
     next(err);
   } finally {

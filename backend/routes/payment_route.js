@@ -5,7 +5,7 @@ const {
   verifyPayment
 } = require("../controllers/payment_controller");
 const { upload } = require("../middlewares/upload");
-const { validatePaymentProof } = require("../controllers/paymaneValidation_controller");
+const { validatePaymentProof } = require("../controllers/paymentValidation_controller");
 
 // razor pay method
 // router.post("/create_order", createOrder);

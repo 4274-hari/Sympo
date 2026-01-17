@@ -81,7 +81,7 @@ async function getAllEventsLiveSlots(req, res, next) {
         onlineRemaining,
         status,
         message,
-        is_both: event.is_both
+        isBoth: event.is_both
       });
     }
 
