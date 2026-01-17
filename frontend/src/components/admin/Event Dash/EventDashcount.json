@@ -1,0 +1,38 @@
+{
+  "tech": {
+    "categoryName": "Technical Events",
+    "dropdown": true,
+    "events": [
+      { "name": "Agent Fusion", "type": "Team Event", "session": "Double Session", "totalParticipants":20 },
+      { "name": "HackQuest", "type": "Team Event", "session": "Single Session", "totalParticipants": 80 },
+      { "name": "Paper Podium", "type": "Team Event", "session": "Single Session", "totalParticipants": 65 },
+      { "name": "Prompt Craft", "type": "Team Event", "session": "Double Session", "totalParticipants": 90 },
+      { "name": "Query Clash", "type": "Solo Event", "session": "Double Session", "totalParticipants": 110 },
+      { "name": "Shark Tank", "type": "Team Event", "session": "Single Session", "totalParticipants": 70 }
+    ],
+    "totalEvents": 6
+  },
+
+  "nonTech": {
+    "categoryName": "Non-Technical Events",
+    "dropdown": true,
+    "events": [
+      { "name": "Auction Arena", "type": "Team Event", "session": "Single Session", "totalParticipants": 100 },
+      { "name": "Battle of Thrones", "type": "Team Event", "session": "Single Session", "totalParticipants": 85 },
+      { "name": "Beyond the Gate", "type": "Team Event", "session": "Double Session", "totalParticipants": 95 },
+      { "name": "Cinefrenzy", "type": "Team Event", "session": "Double Session", "totalParticipants": 130 },
+      { "name": "Flashback", "type": "Team Event", "session": "Double Session", "totalParticipants": 90 },
+      { "name": "Rhythmia", "type": "Team Event", "session": "Double Session", "totalParticipants": 150 }
+    ],
+    "totalEvents": 6
+  },
+
+  "workshop": {
+    "categoryName": "Workshops",
+    "dropdown": false,
+    "events": [
+      { "name": "Workshop", "type": "Solo Event", "session": "Single Session", "totalParticipants": 200 }
+    ],
+    "totalEvents": 1
+  }
+}

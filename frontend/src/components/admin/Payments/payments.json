@@ -1,0 +1,62 @@
+{
+  "summary": {
+    "total": {
+      "totalCount": 250,
+      "expectedAmount": 125000,
+      "events": {
+        "count": 12,
+        "expected": 60000
+      },
+      "workshops": {
+        "count": 6,
+        "expected": 65000
+      }
+    },
+    "calendar": {
+      "totalCount": 80,
+      "expectedAmount": 42000,
+      "events": {
+        "count": 5,
+        "expected": 22000
+      },
+      "workshops": {
+        "count": 3,
+        "expected": 20000
+      }
+    },
+    "blocklist": {
+      "totalCount": 18,
+      "expectedAmount": 9000
+    }
+  },
+
+  "participants": [
+    {
+      "date": "2026-01-10",
+      "partId": "EVT1001",
+      "name": "Arjun Kumar",
+      "event": "HackQuest",
+      "mobile": "9876543210",
+      "mail": "arjun@gmail.com",
+      "college": "ABC Engineering College",
+      "year": "3rd",
+      "amount": 500,
+      "type": "event",
+      "status": "paid"
+    },
+    {
+      "date": "2026-01-25",
+      "partId": "WRK2001",
+      "name": "Meena S",
+      "event": "AI Workshop",
+      "mobile": "9123456780",
+      "mail": "meena@gmail.com",
+      "college": "XYZ Institute",
+      "year": "2nd",
+      "amount": 1000,
+      "type": "workshop",
+      "status": "blocked"
+    }
+  ]
+
+}
