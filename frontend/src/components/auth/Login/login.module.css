@@ -59,7 +59,7 @@
       rgba(10, 4, 16, 0.65),
       rgba(10, 4, 16, 0.85)
     ),
-    url("../../../public/Admin/login.png") center / cover no-repeat;
+    url("../../../public/cognebula_logo.png") center / cover no-repeat;
   display: flex;
   align-items: flex-end;
 }
