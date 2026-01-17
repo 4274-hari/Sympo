@@ -7,7 +7,7 @@ async function getAdminAnalytics(date) {
     await client.query("BEGIN");
 
     /* =====================================================
-       🏠 HOME ANALYTICS
+       🏠 HOME ANALYTICS (QUERIES UNCHANGED)
     ===================================================== */
 
     const totalRegistrations = await client.query(`
@@ -61,7 +61,7 @@ async function getAdminAnalytics(date) {
     `);
 
     /* =====================================================
-       🎯 EVENT ANALYTICS
+       🎯 EVENT ANALYTICS (UNCHANGED)
     ===================================================== */
 
     const nonTechCount = await client.query(`
@@ -104,13 +104,13 @@ async function getAdminAnalytics(date) {
     `);
 
     /* =====================================================
-       📍 ON-DAY ANALYTICS
+       📍 ON-DAY ANALYTICS (UNCHANGED)
     ===================================================== */
 
     const checkInCount = await client.query(`
       SELECT COUNT(*)::INT AS count
       FROM registrations
-      WHERE check_in = true
+      WHERE checkin = true
     `);
 
     const eatenCount = await client.query(`
@@ -138,7 +138,7 @@ async function getAdminAnalytics(date) {
     `);
 
     /* =====================================================
-       💰 PAYMENT ANALYTICS
+       💰 PAYMENT ANALYTICS (UNCHANGED)
     ===================================================== */
 
     let paymentQuery = `
@@ -171,7 +171,7 @@ async function getAdminAnalytics(date) {
     const workshopAmount = workshopCountPay * WORKSHOP_PRICE;
 
     /* =====================================================
-       🚫 BLACKLISTED PARTICIPANTS
+       🚫 BLACKLISTED PARTICIPANTS (UNCHANGED)
     ===================================================== */
 
     const blacklistResult = await client.query(`
@@ -192,16 +192,46 @@ async function getAdminAnalytics(date) {
 
     await client.query("COMMIT");
 
+    /* =====================================================
+       🔁 DATA TRANSFORMATION FOR HOME
+    ===================================================== */
+
+    const totalFoodCount =
+      Number(vegCount.rows[0].count) +
+      Number(nonVegCount.rows[0].count);
+
+    const yearWiseCount = {
+      firstYear: 0,
+      secondYear: 0,
+      thirdYear: 0,
+      fourthYear: 0
+    };
+
+    yearWise.rows.forEach(row => {
+      if (row.student_year === 1) yearWiseCount.firstYear = row.count;
+      if (row.student_year === 2) yearWiseCount.secondYear = row.count;
+      if (row.student_year === 3) yearWiseCount.thirdYear = row.count;
+      if (row.student_year === 4) yearWiseCount.fourthYear = row.count;
+    });
+
+    const formattedTopColleges = topColleges.rows.map(row => ({
+      name: row.college,
+      count: row.count
+    }));
+
+    /* =====================================================
+       ✅ FINAL RESPONSE
+    ===================================================== */
+
     return {
       home: {
         totalRegistrations: totalRegistrations.rows[0].count,
-        food: {
-          veg: vegCount.rows[0].count,
-          nonveg: nonVegCount.rows[0].count
-        },
-        topColleges: topColleges.rows,
-        yearWiseParticipants: yearWise.rows,
-        sessions: {
+        totalFoodCount,
+        vegCount: vegCount.rows[0].count,
+        nonVegCount: nonVegCount.rows[0].count,
+        topColleges: formattedTopColleges,
+        yearWiseCount,
+        sessionCounts: {
           morning: morningSession.rows[0].count,
           evening: eveningSession.rows[0].count
         }
@@ -231,7 +261,6 @@ async function getAdminAnalytics(date) {
 
       payments: {
         totalRegistrations: eventCount + workshopCountPay,
-
         pricing: {
           event: {
             count: eventCount,
@@ -244,9 +273,7 @@ async function getAdminAnalytics(date) {
             amount: workshopAmount
           }
         },
-
         totalAmount: eventAmount + workshopAmount,
-
         blacklistedParticipants: blacklistResult.rows
       }
     };

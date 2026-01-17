@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {
-  createOrder,
-  verifyPayment
-} = require("../controllers/payment_controller");
+
 const { upload } = require("../middlewares/upload");
 const { validatePaymentProof } = require("../controllers/paymentValidation_controller");
 
