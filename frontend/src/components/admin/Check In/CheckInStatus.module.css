@@ -25,6 +25,10 @@
 
 .heading {
   margin-bottom: 15px;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: xx-large;
 }
 
 .searchBox {
@@ -35,6 +39,7 @@
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   font-size: 15px;
+  color: white;
 }
 
 .slotsContainer {

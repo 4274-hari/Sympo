@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Participants.module.css';
+import CheckInStatus from '../Check In/CheckInStatus';
 
 const Participants = () => {
   const sampleData = [
@@ -12,6 +13,7 @@ const Participants = () => {
   const [buttonText, setButtonText] = useState('Send Certificates');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState('participants');
 
   const participantsPerPage = 20;
 
@@ -44,86 +46,100 @@ const Participants = () => {
   );
 
   const dataToDisplay = searchTerm ? filteredParticipants : sampleData;
-
   const indexOfLast = currentPage * participantsPerPage;
   const indexOfFirst = indexOfLast - participantsPerPage;
   const currentParticipants = dataToDisplay.slice(indexOfFirst, indexOfLast);
-
   const totalPages = Math.ceil(dataToDisplay.length / participantsPerPage);
 
   return (
     <div className={styles.container}>
       <div className={styles.navbar}>
-        <span className={styles.link}>Participants</span>
-        <span className={styles.link}>Check-In Status</span>
-      </div>
-
-      <h2 className={styles.heading}>Participants</h2>
-
-      <div className={styles.topBar}>
-        <input
-          type="text"
-          placeholder="Search by ID, name, mobile, email, or college..."
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1);
-          }}
-          className={styles.searchBox}
-        />
-
-        <button onClick={handleSendCertificates} disabled={!isButtonEnabled}>
-          {buttonText}
+        <button 
+          className={`${styles.link} ${activeTab === 'participants' ? styles.active : ''}`}
+          onClick={() => setActiveTab('participants')}
+        >
+          Participants
+        </button>
+        <button 
+          className={`${styles.link} ${activeTab === 'checkin' ? styles.active : ''}`}
+          onClick={() => setActiveTab('checkin')}
+        >
+          Check-In Status
         </button>
       </div>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Select</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Mobile</th>
-            <th>Email</th>
-            <th>College</th>
-            <th>Year</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentParticipants.map(part => (
-            <tr key={part.id}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedIds.includes(part.id)}
-                  onChange={() => toggleSelection(part.id)}
-                  disabled={!isButtonEnabled}
-                />
-              </td>
-              <td>{part.id}</td>
-              <td>{part.name}</td>
-              <td>{part.mobile}</td>
-              <td>{part.email}</td>
-              <td>{part.college}</td>
-              <td>{part.year}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {activeTab === 'participants' && (
+        <>
+          <h2 className={styles.heading}>Participants</h2>
 
-      {!searchTerm && totalPages > 1 && (
-        <div className={styles.pagination}>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i}
-              className={currentPage === i + 1 ? styles.activePage : ''}
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              {i + 1}
+          <div className={styles.topBar}>
+            <input
+              type="text"
+              placeholder="Search by ID, name, mobile, email, or college..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              className={styles.searchBox}
+            />
+
+            <button onClick={handleSendCertificates} disabled={!isButtonEnabled}>
+              {buttonText}
             </button>
-          ))}
-        </div>
+          </div>
+
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>College</th>
+                <th>Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentParticipants.map(part => (
+                <tr key={part.id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(part.id)}
+                      onChange={() => toggleSelection(part.id)}
+                      disabled={!isButtonEnabled}
+                    />
+                  </td>
+                  <td>{part.id}</td>
+                  <td>{part.name}</td>
+                  <td>{part.mobile}</td>
+                  <td>{part.email}</td>
+                  <td>{part.college}</td>
+                  <td>{part.year}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {!searchTerm && totalPages > 1 && (
+            <div className={styles.pagination}>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i}
+                  className={currentPage === i + 1 ? styles.activePage : ''}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
       )}
+
+      {activeTab === 'checkin' && <CheckInStatus />}
     </div>
   );
 };

@@ -59,11 +59,6 @@ const CheckInStatus = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.navbar}>
-        <span className={styles.link}>Participants</span>
-        <span className={styles.link}>Check-In Status</span>
-      </div>
-
       <h2 className={styles.heading}>Check-In Status</h2>
 
       <input

@@ -104,10 +104,6 @@ const App = () => {
             path="/coordinator/dashboard"
             element={<Participants />}
           />
-          <Route
-            path="checkin"
-            element={<CheckInStatus />}
-          />
           {/* Common */}
           <Route
             path="*"

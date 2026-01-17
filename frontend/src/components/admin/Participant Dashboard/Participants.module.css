@@ -14,9 +14,17 @@
 }
 
 .link {
-  color: #ffffff;
-  font-weight: 600;
+  background: none;
+  border: none;
   cursor: pointer;
+  padding: 10px 15px;
+  font-size: 16px;
+  /* Add your existing styles */
+}
+
+.link.active {
+  border-bottom: 2px solid #007bff; /* Or your brand color */
+  font-weight: bold;
 }
 
 .link:hover {
@@ -25,6 +33,10 @@
 
 .heading {
   margin-bottom: 15px;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: xx-large;
 }
 
 .topBar {
@@ -42,6 +54,7 @@
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   font-size: 15px;
+  color: white;
 }
 
 .table {
@@ -82,7 +95,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background-color: #15803d;
+  /* background-color: #15803d; */
 }
 
 button:disabled {
