@@ -1,0 +1,567 @@
+.container {
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.navLogo {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 40px;
+}
+
+.navLink,
+.navLinkActive {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.navLinkActive {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: relative;
+}
+
+/* Top section - removed fixed height so content cannot overflow and overlap */
+.topSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.statsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+}
+
+.statTitle {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.statValue {
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.statSubtitle {
+  color: #fff;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Speedometer card */
+.speedometerWrapper {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.speedometerTitle {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+/* layout inside the speedometer card */
+.speedometerLayout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  min-height: 150px;
+  box-sizing: border-box;
+}
+
+/* left side: the gauge */
+.speedometerLeft {
+  flex: 1 1 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* right side: numeric stats centered */
+.speedometerRight {
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #fff;
+}
+.Totalcount{
+  flex: 1 1 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #fff;
+}
+
+/* each stat row */
+.foodStat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.vegDot,
+.nonVegDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.vegDot {
+  background: #48bb78;
+}
+
+.nonVegDot {
+  background: #f56565;
+}
+
+.foodTotal {
+  font-size: 20px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+/* SVG gauge sizing */
+.svgGauge {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  display: block;
+}
+
+.gaugeBg {
+  stroke: rgba(226,232,240,0.25);
+  stroke-width: 18;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.gaugeVeg {
+  stroke: #48bb78;
+  stroke-width: 18;
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.8s ease, stroke-dashoffset 0.8s ease;
+}
+
+.gaugeNonVeg {
+  stroke: #f56565;
+  stroke-width: 18;
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.8s ease, stroke-dashoffset 0.8s ease;
+}
+
+.gaugeNeedle {
+  stroke: #ffffff;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: transform 0.8s ease;
+  /* transform-origin: 50% 60%; */
+}
+
+.speedometerCenter {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+/* Bottom Section */
+.bottomSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  /* min-height: 200px; */
+}
+
+/* shared container */
+.dataContainer {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.containerTitle {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Top Colleges */
+.topColleges {
+  display: flex;
+  flex-direction: column;
+}
+
+.collegeList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 260px;          /* adjust if needed */
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.collegeList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.collegeList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.collegeList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+}
+
+
+.collegeItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.3s ease;
+}
+
+.collegeItem:hover {
+  background: rgba(2, 49, 97, 0.6);
+}
+
+.collegeRank {
+  background: #4299e1;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.collegeInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.collegeName {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.collegeCount {
+  font-size: 12px;
+  color: #a0aec0;
+}
+
+.collegeBar {
+  flex: 1;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  max-width: 100px;
+}
+
+.collegeBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 4px;
+  transition: width 1s ease-out;
+}
+
+/* Year Wise Count */
+.yearWise {
+  /* display: flex; */
+  flex-direction: column;
+}
+
+.yearGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.yearCard {
+  /* background: linear-gradient(135deg, #f6f9ff, #f0f4ff); */
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.3s ease;
+}
+
+.yearCard:hover {
+  transform: translateY(-3px);
+}
+
+.yearNumber {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.yearLabel {
+  font-size: 12px;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.yearCount {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4299e1;
+  margin-top: 5px;
+}
+
+.yearChart {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  padding: 20px;
+  background: #f7fafc;
+  border-radius: 10px;
+}
+
+.yearChartBarContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.yearChartBarLabel {
+  font-size: 14px;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.yearChartBar {
+  width: 100%;
+  height: 150px;
+  background: #e2e8f0;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.yearChartBarFill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-radius: 6px;
+  transition: height 1s ease-out;
+}
+
+.year1 { background: linear-gradient(to top, #667eea, #764ba2); }
+.year2 { background: linear-gradient(to top, #48bb78, #38a169); }
+.year3 { background: linear-gradient(to top, #ed8936, #dd6b20); }
+.year4 { background: linear-gradient(to top, #9f7aea, #805ad5); }
+
+/* Session Counts */
+.sessionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sessionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sessionCount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 10px 0;
+}
+
+.sessionLabel {
+  color: #a0aec0;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.sessionProgress {
+  width: 100%;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.sessionProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #f6d365, #fda085);
+  border-radius: 5px;
+  transition: width 1s ease-out;
+}
+
+/* Refresh */
+.refreshContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.refreshButton {
+  color: #667eea;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.refreshButton:hover {
+  background: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .topSection {
+    grid-template-columns: 1fr;
+  }
+
+  .bottomSection {
+    grid-template-columns: 1fr;
+  }
+
+  .speedometerLayout {
+    flex-direction: column;
+    gap: 16px;
+    min-height: auto;
+  }
+
+  .speedometerLeft,
+  .speedometerRight {
+    flex: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .statValue {
+    font-size: 36px;
+  }
+
+  .svgGauge {
+    max-width: 220px;
+  }
+}

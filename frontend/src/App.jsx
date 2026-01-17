@@ -28,10 +28,9 @@ import NotFound from "./components/common/404/NotFound.jsx";
 // ==============================================================
 import Scanner from "./components/admin/QR Scanner/Scanner.jsx";
 import RoleLogin from "./components/auth/Login/Login.jsx";
-import Dashboard from "./components/admin/General Dash/Dashboard.jsx";
-import CheckInStatus from "./components/admin/Check In/CheckInStatus.jsx";
-import Participants from "./components/admin/Participant Dashboard/Participants.jsx";
-import PaymentDashboard from "./components/admin/Payments/Payments.jsx";
+import EventContainer from "./components/admin/Containers/EventContainer.jsx";
+import GeneralContainer from "./components/admin/Containers/GeneralContainer.jsx";
+import CoordinatorCheckin from "./components/admin/New Register/CoordinatorCheckin.jsx";
 
 
 const App = () => { 
@@ -90,7 +89,7 @@ const App = () => {
           />
           {/* Admin */}
           <Route
-            path="/scanner@1029"
+            path="/admin/scanner"
             element={<Scanner />}
           />
           <Route
@@ -98,20 +97,17 @@ const App = () => {
             element={<RoleLogin />}
           />
           <Route
-            path="/admin/general/events"
-            element={<Dashboard />}
+            path="/admin/general"
+            element={<GeneralContainer />}
           />
           <Route
-            path="/coordinator/dashboard"
-            element={<Participants />}
+            path="/admin/eventdash"
+            element={<EventContainer />}
           />
-
           <Route
-            path="/admin/general/payments"
-            element={<PaymentDashboard />}
+            path="/admin/register"
+            element={<CoordinatorCheckin />}
           />
-
-
           {/* Common */}
           <Route
             path="*"

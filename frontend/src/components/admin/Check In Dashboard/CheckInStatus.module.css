@@ -1,0 +1,109 @@
+.container {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 14px 0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.link {
+  color: white;
+  font-weight: 600;
+}
+
+/* PAGE HEADING */
+.heading {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #e0f2fe;
+}
+
+/* SLOT BOXES */
+.slotsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.slotBox {
+  background-color: white;
+  border-radius: 8px;
+  padding: 12px;
+  width: 32%;
+  min-width: 260px;
+  max-height: 300px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.slotBox h3 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* HEADER LIKE TABLE */
+.tableHeader {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;  /* 🔥 ID | Name | Team */
+  font-weight: 700;
+  font-size: 15px;
+  border-bottom: 2px solid #e5e7eb;
+  padding: 6px 0;
+  text-align: center;
+}
+
+
+/* LIST */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.list li {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;  /* 🔥 match header */
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  text-align: center;
+}
+
+
+/* HIGHLIGHT MATCH */
+.highlight {
+  background-color: #e0f2fe;
+  border-left: 5px solid #2563eb;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(37,99,235,0.5);
+}
+
+/* SEARCH BAR */
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.searchBox {
+  width: 350px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  color: #e0f2fe;
+}

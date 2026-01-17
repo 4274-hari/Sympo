@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Participants.module.css';
 
-const Participants = () => {
+const ParticipantsTeam = () => {
   const sampleData = [
-    { id: 1, name: 'Alice', mobile: '1234567890', email: 'alice@example.com', college: 'ABC College', year: '3' },
+    { id: 1, name: 'Alice', team: 'Tech Titans', mobile: '1234567890', email: 'alice@example.com', college: 'ABC College', year: '3' },
   ];
 
   const [selectedIds, setSelectedIds] = useState(sampleData.map(p => p.id));
@@ -16,7 +16,15 @@ const Participants = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [showModal, setShowModal] = useState(false);
-  const [newParticipantId, setNewParticipantId] = useState('');
+
+  const [teamForm, setTeamForm] = useState({
+    leaderId: '',
+    teamName: '',
+    member2: '',
+    member3: '',
+    member4: '',
+    member5: ''
+  });
 
   const participantsPerPage = 20;
 
@@ -57,18 +65,23 @@ const Participants = () => {
   };
 
   const handleNewParticipantSubmit = () => {
-    if (!newParticipantId) return;
-
-    fetch('http://localhost:5000/api/add_participant', {
+    fetch('http://localhost:5000/api/add_team', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ participantId: newParticipantId })
+      body: JSON.stringify(teamForm)
     })
       .then(res => res.json())
       .then(() => {
-        alert('Participant Added');
+        alert('Team Added Successfully');
         setShowModal(false);
-        setNewParticipantId('');
+        setTeamForm({
+          leaderId: '',
+          teamName: '',
+          member2: '',
+          member3: '',
+          member4: '',
+          member5: ''
+        });
       });
   };
 
@@ -80,7 +93,8 @@ const Participants = () => {
 
   const filteredParticipants = sampleData.filter(part =>
     part.id.toString().includes(searchTerm) ||
-    part.name.toLowerCase().includes(searchTerm.toLowerCase())
+    part.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    part.team.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const dataToDisplay = searchTerm ? filteredParticipants : sampleData;
@@ -93,9 +107,8 @@ const Participants = () => {
 
   return (
     <div className={styles.container}>
-      {/* 🔥 Blur only background */}
       <div className={showModal ? styles.blurBackground : ''}>
-        <h2 className={styles.heading}>Participants</h2>
+        <h2>Participants</h2>
 
         <div className={styles.topBar}>
           <input
@@ -111,8 +124,8 @@ const Participants = () => {
               {buttonText}
             </button>
 
-            <button className={`${styles.newParticipantBtn} ${styles.button}`} onClick={() => setShowModal(true)}>
-              New Participant
+            <button className={`${styles.button} ${styles.newParticipantBtn}`} onClick={() => setShowModal(true)}>
+              New Team
             </button>
           </div>
         </div>
@@ -124,6 +137,7 @@ const Participants = () => {
               <th>ID</th>
               <th>Name</th>
               <th>Mobile</th>
+              <th>Team Name</th>
               <th>Email</th>
               <th>College</th>
               <th>Year</th>
@@ -144,6 +158,7 @@ const Participants = () => {
                 <td>{part.id}</td>
                 <td>{part.name}</td>
                 <td>{part.mobile}</td>
+                <td>{part.team}</td>
                 <td>{part.email}</td>
                 <td>{part.college}</td>
                 <td>{part.year}</td>
@@ -163,18 +178,17 @@ const Participants = () => {
         )}
       </div>
 
-      {/* 🔥 Modal */}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalBox}>
-            <h3>Add Participant</h3>
+            <h3>Add Team</h3>
 
-            <input
-              type="text"
-              placeholder="Participant ID"
-              value={newParticipantId}
-              onChange={(e) => setNewParticipantId(e.target.value)}
-            />
+            <input placeholder="Team Leader ID" value={teamForm.leaderId} onChange={(e)=>setTeamForm(p=>({...p,leaderId:e.target.value}))}/>
+            <input placeholder="Team Name" value={teamForm.teamName} onChange={(e)=>setTeamForm(p=>({...p,teamName:e.target.value}))}/>
+            <input placeholder="Team Member 2 ID" value={teamForm.member2} onChange={(e)=>setTeamForm(p=>({...p,member2:e.target.value}))}/>
+            <input placeholder="Team Member 3 ID" value={teamForm.member3} onChange={(e)=>setTeamForm(p=>({...p,member3:e.target.value}))}/>
+            <input placeholder="Team Member 4 ID" value={teamForm.member4} onChange={(e)=>setTeamForm(p=>({...p,member4:e.target.value}))}/>
+            <input placeholder="Team Member 5 ID" value={teamForm.member5} onChange={(e)=>setTeamForm(p=>({...p,member5:e.target.value}))}/>
 
             <div className={styles.modalButtons}>
               <button onClick={handleNewParticipantSubmit}>Submit</button>
@@ -187,4 +201,4 @@ const Participants = () => {
   );
 };
 
-export default Participants;
+export default ParticipantsTeam;

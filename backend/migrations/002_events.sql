@@ -58,3 +58,7 @@ WHERE event_name IN (
   'Prompt Craft',
   'Beyond the Gate'
 );
+
+ALTER TABLE events
+ADD COLUMN IF NOT EXISTS e_certificate_sent BOOLEAN DEFAULT false;
+
