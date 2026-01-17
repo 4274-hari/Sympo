@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Participants.module.css';
 
-const Participants = () => {
+const ParticipantsTeam = () => {
   const sampleData = [
     { id: 1, name: 'Alice', team: 'Tech Titans', mobile: '1234567890', email: 'alice@example.com', college: 'ABC College', year: '3' },
   ];
@@ -108,11 +108,6 @@ const Participants = () => {
   return (
     <div className={styles.container}>
       <div className={showModal ? styles.blurBackground : ''}>
-        <div className={styles.navbar}>
-          <span className={styles.link}>Participants</span>
-          <span className={styles.link}>Check-In Status</span>
-        </div>
-
         <h2>Participants</h2>
 
         <div className={styles.topBar}>
@@ -125,11 +120,11 @@ const Participants = () => {
           />
 
           <div className={styles.buttonGroup}>
-            <button onClick={handleButtonClick} disabled={!isButtonEnabled || certificatesSent}>
+            <button onClick={handleButtonClick} disabled={!isButtonEnabled || certificatesSent} className={styles.button}>
               {buttonText}
             </button>
 
-            <button className={styles.newParticipantBtn} onClick={() => setShowModal(true)}>
+            <button className={`${styles.button} ${styles.newParticipantBtn}`} onClick={() => setShowModal(true)}>
               New Team
             </button>
           </div>
@@ -206,4 +201,4 @@ const Participants = () => {
   );
 };
 
-export default Participants;
+export default ParticipantsTeam;

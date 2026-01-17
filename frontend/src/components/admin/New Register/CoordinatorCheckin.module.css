@@ -1,0 +1,217 @@
+.container {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 20px;
+  min-height: 100vh;
+  color: white;
+  margin-top: 40px;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding: 12px 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.link {
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.heading {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px 0;
+}
+
+/* TOP BAR — LEFT + RIGHT LAYOUT */
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.leftControls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* SEARCH BAR */
+.searchBar {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  min-width: 280px;
+  height: 35px;
+}
+
+.searchBar::placeholder {
+  color: #cbd5e1;
+}
+
+/* FILTER RADIO */
+.filterBox {
+  display: flex;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  font-size: 17px;
+  bottom: 10px;
+}
+
+.filterBox input[type="radio"] {
+  transform: scale(1.4);
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* RIGHT CARDS + BUTTON */
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 105px;
+}
+
+.countCard {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  height: 40px;
+}
+
+/* NEW REGISTRATION BUTTON */
+.newBtn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.newBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* TABLE WRAPPER */
+.tableWrapper {
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  padding: 12px;
+  overflow-x: auto;
+}
+
+/* HEADER ROW */
+.headerRow {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  font-weight: 700;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+/* DATA ROW */
+.dataRow {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  align-items: center;
+  padding: 8px 0;
+  font-size: 13px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-weight: bold;
+}
+
+/* INPUTS */
+.dataRow input {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: white;
+  width: 100%;
+}
+
+/* CHECK-IN BUTTON */
+.checkinBtn {
+  padding: 4px 8px;
+  font-size: 14px;
+  padding: 6px;
+  margin-left: 25px;
+  width: 100px;
+}
+
+/* ENTRY BUTTON */
+.entryBtn {
+  padding: 2px 6px;
+  font-size: 17px;
+  width: 30px;
+  margin-left: 58px;
+
+}
+
+/* COMMON ROW BUTTON STYLE */
+.dataRow button {
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dataRow button:disabled {
+  opacity: 0.3;
+}
+
+/* DISABLED ROW */
+.disabledRow {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* MODAL */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalCard {
+  background: rgba(20, 20, 40, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.modalCard button {
+  margin: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+}

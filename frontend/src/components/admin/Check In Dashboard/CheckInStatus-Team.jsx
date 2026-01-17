@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styles from './CheckInStatus.module.css';
 
-const CheckInStatus = () => {
+const CheckInStatusTeam = () => {
   const [slotData, setSlotData] = useState({
     slot1: [
       { id: 1, name: 'Alice', team: 'Tech Titans' },
@@ -57,11 +57,6 @@ const matchFilter = (part) =>
 
   return (
     <div className={styles.container}>
-      <div className={styles.navbar}>
-        <span className={styles.link}>Participants</span>
-        <span className={styles.link}>Check-In Status</span>
-      </div>
-
       <h2 className={styles.heading}>Check-In Status</h2>
 
       <div className={styles.slotsContainer}>
@@ -99,4 +94,4 @@ const matchFilter = (part) =>
   );
 };
 
-export default CheckInStatus;
+export default CheckInStatusTeam;

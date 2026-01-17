@@ -30,6 +30,7 @@ import Scanner from "./components/admin/QR Scanner/Scanner.jsx";
 import RoleLogin from "./components/auth/Login/Login.jsx";
 import EventContainer from "./components/admin/Containers/EventContainer.jsx";
 import GeneralContainer from "./components/admin/Containers/GeneralContainer.jsx";
+import CoordinatorCheckin from "./components/admin/New Register/CoordinatorCheckin.jsx";
 
 
 const App = () => { 
@@ -88,7 +89,7 @@ const App = () => {
           />
           {/* Admin */}
           <Route
-            path="/scanner@1029"
+            path="/admin/scanner"
             element={<Scanner />}
           />
           <Route
@@ -102,6 +103,10 @@ const App = () => {
           <Route
             path="/admin/eventdash"
             element={<EventContainer />}
+          />
+          <Route
+            path="/admin/register"
+            element={<CoordinatorCheckin />}
           />
           {/* Common */}
           <Route

@@ -40,9 +40,16 @@ const RoleLogin = () => {
 
       if (role === "general") {
         navigate("/admin/general");
+      } if (role === "registration") {
+        navigate("/admin/register")
+      } if (role === "food") {
+        navigate("/admin/scanner")
       } else {
-        setError(`Unsupported role: ${role}`);
+        navigate("/admin/eventdash");
       }
+      //  else {
+      //   setError(`Unsupported role: ${role}`);
+      // }
     } catch (e) {
       const msg = e?.response?.data?.message || "Invalid credentials or server error";
       setError(msg);
