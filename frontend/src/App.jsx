@@ -31,6 +31,7 @@ import RoleLogin from "./components/auth/Login/Login.jsx";
 import Dashboard from "./components/admin/General Dash/Dashboard.jsx";
 import CheckInStatus from "./components/admin/Check In/CheckInStatus.jsx";
 import Participants from "./components/admin/Participant Dashboard/Participants.jsx";
+import PaymentDashboard from "./components/admin/Payments/Payments.jsx";
 
 
 const App = () => { 
@@ -104,6 +105,13 @@ const App = () => {
             path="/coordinator/dashboard"
             element={<Participants />}
           />
+
+          <Route
+            path="/admin/general/payments"
+            element={<PaymentDashboard />}
+          />
+
+
           {/* Common */}
           <Route
             path="*"
