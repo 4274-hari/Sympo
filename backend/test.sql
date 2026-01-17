@@ -113,28 +113,28 @@ CREATE TABLE IF NOT EXISTS food_tokens (
    INSERT REGISTRATIONS (20)
 ===================================================== */
 INSERT INTO registrations
-(name,email,phone,college,student_year,amount,food,utr,screenshot_hash)
+(name,email,phone,college,student_year,amount,food,utr,screenshot_hash,checkin)
 VALUES
-('R1','r1@mail.com','9000000001','Velammal',2,200,'veg',700001,'h1'),
-('R2','r2@mail.com','9000000002','Velammal',3,200,'nonveg',700002,'h2'),
-('R3','r3@mail.com','9000000003','MIT',1,200,'veg',700003,'h3'),
-('R4','r4@mail.com','9000000004','MIT',4,200,'veg',700004,'h4'),
-('R5','r5@mail.com','9000000005','SRM',2,200,'nonveg',700005,'h5'),
-('R6','r6@mail.com','9000000006','SRM',3,200,'veg',700006,'h6'),
-('R7','r7@mail.com','9000000007','VIT',1,200,'veg',700007,'h7'),
-('R8','r8@mail.com','9000000008','VIT',4,200,'nonveg',700008,'h8'),
-('R9','r9@mail.com','9000000009','SSN',2,200,'veg',700009,'h9'),
-('R10','r10@mail.com','9000000010','SSN',3,200,'veg',700010,'h10'),
-('R11','r11@mail.com','9000000011','REC',2,300,'veg',700011,'h11'),
-('R12','r12@mail.com','9000000012','REC',3,300,'nonveg',700012,'h12'),
-('R13','r13@mail.com','9000000013','Saveetha',1,300,'veg',700013,'h13'),
-('R14','r14@mail.com','9000000014','Saveetha',4,300,'veg',700014,'h14'),
-('R15','r15@mail.com','9000000015','Panimalar',2,300,'nonveg',700015,'h15'),
-('R16','r16@mail.com','9000000016','Anna Univ',3,200,'veg',700016,'h16'),
-('R17','r17@mail.com','9000000017','Anna Univ',1,200,'veg',700017,'h17'),
-('R18','r18@mail.com','9000000018','Velammal',4,200,'nonveg',700018,'h18'),
-('R19','r19@mail.com','9000000019','Velammal',2,200,'veg',700019,'h19'),
-('R20','r20@mail.com','9000000020','MIT',3,200,'veg',700020,'h20');
+('R1','r1@mail.com','9000000001','Velammal',2,200,'veg',700001,'h1',true),
+('R2','r2@mail.com','9000000002','Velammal',3,200,'nonveg',700002,'h2',false),
+('R3','r3@mail.com','9000000003','MIT',1,200,'veg',700003,'h3',false),
+('R4','r4@mail.com','9000000004','MIT',4,200,'veg',700004,'h4',false),
+('R5','r5@mail.com','9000000005','SRM',2,200,'nonveg',700005,'h5',false),
+('R6','r6@mail.com','9000000006','SRM',3,200,'veg',700006,'h6',false),
+('R7','r7@mail.com','9000000007','VIT',1,200,'veg',700007,'h7',false),
+('R8','r8@mail.com','9000000008','VIT',4,200,'nonveg',700008,'h8',false),
+('R9','r9@mail.com','9000000009','SSN',2,200,'veg',700009,'h9',false),
+('R10','r10@mail.com','9000000010','SSN',3,200,'veg',700010,'h10',false),
+('R11','r11@mail.com','9000000011','REC',2,300,'veg',700011,'h11',true),
+('R12','r12@mail.com','9000000012','REC',3,300,'nonveg',700012,'h12',true),
+('R13','r13@mail.com','9000000013','Saveetha',1,300,'veg',700013,'h13',false),
+('R14','r14@mail.com','9000000014','Saveetha',4,300,'veg',700014,'h14',true),
+('R15','r15@mail.com','9000000015','Panimalar',2,300,'nonveg',700015,'h15',false),
+('R16','r16@mail.com','9000000016','Anna Univ',3,200,'veg',700016,'h16',false),
+('R17','r17@mail.com','9000000017','Anna Univ',1,200,'veg',700017,'h17',false),
+('R18','r18@mail.com','9000000018','Velammal',4,200,'nonveg',700018,'h18',false),
+('R19','r19@mail.com','9000000019','Velammal',2,200,'veg',700019,'h19',false),
+('R20','r20@mail.com','9000000020','MIT',3,200,'veg',700020,'h20',false);
 
 
 /* =====================================================
