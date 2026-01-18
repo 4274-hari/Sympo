@@ -1,4 +1,6 @@
-const { getClient } = require("../config/db");
+const {
+  registerParticipantToEventService
+} = require("../services/event_insert_service");
 
 /**
  * POST /api/coordinator/register-participant
@@ -9,11 +11,15 @@ const { getClient } = require("../config/db");
  * }
  */
 async function registerParticipantToEvent(req, res, next) {
-  const client = await getClient();
-
   try {
-    const role = req.session?.role; // event name
-    const { participant_id, team_name } = req.body;
+    const role = req.session?.user.role; // event name
+    let { participant_id, team_name } = req.body;
+
+    // Normalize empty string to NULL
+    team_name =
+      typeof team_name === "string" && team_name.trim() === ""
+        ? null
+        : team_name;
 
     if (!role) {
       return res.status(403).json({
@@ -22,112 +28,23 @@ async function registerParticipantToEvent(req, res, next) {
       });
     }
 
-    if (!participant_id || !team_name) {
+    if (!participant_id) {
       return res.status(400).json({
         success: false,
-        message: "Participant ID and team name are required"
+        message: "Participant ID required"
       });
     }
 
-    await client.query("BEGIN");
-
-    /* =====================================================
-       1️⃣ GET EVENT ID FROM ROLE (EVENT NAME)
-    ===================================================== */
-
-    const eventResult = await client.query(
-      `
-      SELECT id
-      FROM events
-      WHERE event_name = $1
-      `,
-      [role]
+    const result = await registerParticipantToEventService(
+      role,
+      participant_id,
+      team_name
     );
 
-    if (eventResult.rowCount === 0) {
-      throw new Error("Event not found for coordinator role");
-    }
-
-    const eventId = eventResult.rows[0].id;
-
-    /* =====================================================
-       2️⃣ CHECK IF PARTICIPANT ALREADY REGISTERED
-    ===================================================== */
-
-    const participantExists = await client.query(
-      `
-      SELECT 1
-      FROM registration_events
-      WHERE registration_id = $1
-        AND event_id = $2
-      `,
-      [participant_id, eventId]
-    );
-
-    if (participantExists.rowCount > 0) {
-      return res.status(409).json({
-        success: false,
-        message: "Participant is already registered for this event"
-      });
-    }
-
-    /* =====================================================
-       3️⃣ CHECK IF TEAM NAME ALREADY EXISTS
-    ===================================================== */
-
-    const teamExists = await client.query(
-      `
-      SELECT 1
-      FROM registration_events
-      WHERE event_id = $1
-        AND team_name = $2
-      `,
-      [eventId, team_name]
-    );
-
-    if (teamExists.rowCount > 0) {
-      return res.status(409).json({
-        success: false,
-        message: "Team name already exists"
-      });
-    }
-
-    /* =====================================================
-       4️⃣ INSERT INTO REGISTRATION_EVENTS
-    ===================================================== */
-
-    await client.query(
-      `
-      INSERT INTO registration_events (
-        registration_id,
-        event_id,
-        team_name,
-        role,
-        registration_mode
-      )
-      VALUES ($1, $2, $3, 'lead', 'onspot')
-      `,
-      [participant_id, eventId, team_name]
-    );
-
-    await client.query("COMMIT");
-
-    return res.status(201).json({
-      success: true,
-      message: "Participant successfully registered to event",
-      data: {
-        participant_id,
-        event: role,
-        team_name,
-        registration_mode: "onspot"
-      }
-    });
+    return res.status(result.status).json(result.response);
 
   } catch (err) {
-    await client.query("ROLLBACK");
     next(err);
-  } finally {
-    client.release();
   }
 }
 

@@ -47,7 +47,7 @@ router.post("/event/insert",auth , allowRoles("Auction Arena",
     "Prompt Craft",
     "HackQuest",
     "Query Clash",
-    "Shark Tank",
+    "Shark Tank"
     ),registerParticipantToEvent)
 
 module.exports = router;
