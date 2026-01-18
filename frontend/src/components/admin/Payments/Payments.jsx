@@ -1,52 +1,58 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import data from "./payments.json";
 import styles from "./payment.module.css";
 import CalendarComponent from "./CalendarDesign.jsx";
+import api from "../../../api/axios.js";
 
 const LAST_DATE = "2026-02-07";
 
-const PaymentDashboard = () => {
+const PaymentDashboard = ({ data: initialData }) => {
+  const [dashboardData, setDashboardData] = useState(initialData);
   const [filter, setFilter] = useState("total");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState(LAST_DATE);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  /* ================= DATE → COUNT MAP ================= */
-  const dateCountMap = useMemo(() => {
-    const map = {};
-    data.participants.forEach((p) => {
-      map[p.date] = (map[p.date] || 0) + 1;
-    });
-    return map;
-  }, []);
-
   /* ================= FILTER DATA ================= */
-  const filteredData = useMemo(() => {
-    if (filter !== "calendar" || !fromDate) return data.participants;
+  useEffect(() => {
+    if (filter !== "calendar" || !fromDate || !toDate) {
+      setDashboardData(initialData);
+      return;
+    }
 
-    return data.participants.filter(
-      (p) => p.date >= fromDate && p.date <= toDate
-    );
-  }, [filter, fromDate, toDate]);
+    const fetchDashboardData = async () => {
+      try {
+        const response = await api.get("/admin/dashboard", {
+          params: {
+            date:fromDate
+          },
+        });
+        
+        setDashboardData(response.data.data.payments);
+      } catch (error) {
+        console.error("Dashboard fetch error:", error);
+      }
+    };
+
+    fetchDashboardData();
+  }, [filter, fromDate, toDate, initialData]);
 
   /* ================= SUMMARY ================= */
   const summary = useMemo(() => {
-    const events = filteredData.filter((p) => p.type === "event");
-    const workshops = filteredData.filter((p) => p.type === "workshop");
-
     return {
-      totalCount: filteredData.length,
-      expectedAmount: filteredData.reduce((s, p) => s + p.amount, 0),
+      totalCount: dashboardData.totalRegistrations,
+      expectedAmount: dashboardData.totalAmount,
       events: {
-        count: events.length,
-        expected: events.reduce((s, p) => s + p.amount, 0),
+        count: dashboardData.pricing.event.count,
+        expected: dashboardData.pricing.event.amount,
       },
       workshops: {
-        count: workshops.length,
-        expected: workshops.reduce((s, p) => s + p.amount, 0),
+        count: dashboardData.pricing.workshop.count,
+        expected: dashboardData.pricing.workshop.amount,
       },
+      blacklistedParticipants: dashboardData.blacklistedParticipants
     };
-  }, [filteredData]);
+  }, [dashboardData]);
 
   return (
     <div className={styles.wrapper}>
@@ -66,19 +72,18 @@ const PaymentDashboard = () => {
       </div>
 
       {/* ================= CALENDAR ================= */}
-{filter === "calendar" && (
-  <CalendarComponent
-    selectedDate={selectedDate}
-    className={styles.calendar}
-    setSelectedDate={setSelectedDate}
-    setFromDate={setFromDate}
-    setToDate={setToDate}
-    participants={data.participants}
-    lastDate={LAST_DATE}
-    styles={styles}
-  />
-)}
-
+      {filter === "calendar" && (
+        <CalendarComponent
+          selectedDate={selectedDate}
+          className={styles.calendar}
+          setSelectedDate={setSelectedDate}
+          setFromDate={setFromDate}
+          setToDate={setToDate}
+          // participants={data.blacklistedParticipants}
+          lastDate={LAST_DATE}
+          styles={styles}
+        />
+      )}
 
       {/* ================= SUMMARY ================= */}
       <div className={styles.centerSummary}>
@@ -121,7 +126,7 @@ const PaymentDashboard = () => {
               </thead>
 
               <tbody>
-                {filteredData.map((p, i) => (
+                {summary.blacklistedParticipants.map((p, i) => (
                   <tr key={i}>
                     <td>{p.date}</td>
                     <td>{p.partId}</td>

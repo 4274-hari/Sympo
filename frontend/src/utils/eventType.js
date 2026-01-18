@@ -5,5 +5,6 @@ export const INDIVIDUAL_EVENTS = [
 ];
 
 export const isTeamEvent = (role) => {
+  if (!role) return false;
   return !INDIVIDUAL_EVENTS.includes(role);
 };

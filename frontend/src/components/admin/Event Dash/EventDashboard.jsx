@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import eventsData from "./EventDashcount.json";
 import styles from "./EventDashboard.module.css";
 import { ChevronDown, User, X } from "lucide-react";
 
-const EventDashboard = () => {
+const EventDashboard = ({ data }) => {
   const [activeCategory, setActiveCategory] = useState(null);
 
   const openPopup = (categoryKey) => {
@@ -14,8 +14,50 @@ const EventDashboard = () => {
     setActiveCategory(null);
   };
 
-  // Get the active category data
-  const activeCategoryData = activeCategory ? eventsData[activeCategory] : null;
+  const eventsData = useMemo(() => {
+    if (!data) return {};
+
+    return {
+      tech: {
+        categoryName: "Technical Events",
+        totalEvents: data.modeCounts?.tech || 0,
+        dropdown: true,
+        events:
+          data.eventWise?.tech?.map((e) => ({
+            name: e.event_name,
+            type: "Tech",
+            totalParticipants: e.participant_count,
+          })) || [],
+      },
+
+      nonTech: {
+        categoryName: "Non-Technical Events",
+        totalEvents: data.modeCounts?.nonTech || 0,
+        dropdown: true,
+        events:
+          data.eventWise?.nonTech?.map((e) => ({
+            name: e.event_name,
+            type: "Non-Tech",
+            totalParticipants: e.participant_count,
+          })) || [],
+      },
+
+      workshop: {
+        categoryName: "Workshops",
+        totalEvents: data.modeCounts?.workshop || 0,
+        dropdown: false,
+        events: [       
+          { "name": "Workshop", "type": "Solo Event", "totalParticipants": data.modeCounts?.workshop || 0 }
+        ],
+      },
+    };
+  }, [data]);
+
+  const activeCategoryData = activeCategory
+    ? eventsData[activeCategory]
+    : null;
+
+  if (!data) return <p className="p-5">Loading events...</p>;
 
   return (
     <div className={styles.wrapper}>

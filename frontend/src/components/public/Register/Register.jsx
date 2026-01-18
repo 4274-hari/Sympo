@@ -5,8 +5,8 @@ import { ArrowLeft, CheckCircle, Users, User, Sparkles, Clock, AlertCircle, Cred
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import Tesseract from "tesseract.js";
-import axios from 'axios'
 import QRCode from 'qrcode';
+import api from "../../../api/axios"
 
 const EVENT_GROUPS = [
   { title: "Technical", mode: "tech", gradient: "from-cyan-500 to-blue-600" },
@@ -190,7 +190,7 @@ export default function RegisterPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responce = await axios.get('/api/events/live_slots');
+        const responce = await api.get('/events/live_slots');
 
         setEvents(responce.data.events)
         
@@ -510,14 +510,14 @@ export default function RegisterPage() {
         setLoading(true);
         
         // BEFORE create_order
-        await axios.post("/api/reserve-slots", {
+        await api.post("/reserve-slots", {
           email: form.email,
           registration_mode: "online",
           events: buildRegistrationData().events
         });
 
-        const res = await axios.post(
-          "/api/validate-payment",
+        const res = await api.post(
+          "/validate-payment",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -581,7 +581,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/register", data,{
+      const response = await api.post("/register", data,{
         responseType: "blob" 
       });
 
@@ -625,7 +625,7 @@ export default function RegisterPage() {
     try {
       setLoading(true);
 
-      const res = await axios.post("/api/check-team-code", {
+      const res = await api.post("/check-team-code", {
         team_code: teamCode
       });
 
