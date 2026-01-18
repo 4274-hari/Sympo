@@ -41,23 +41,23 @@ const RoleLogin = () => {
       };
 
       const EVENT_ROLES = [
-        "auction_arena",
-        "flashback",
-        "cinefrenzy",
-        "battle_of_thrones",
-        "beyond_the_gate",
-        "rhythmia",
-        "agent_fusion",
-        "paper_podium",
-        "prompt_craft",
-        "hackquest",
-        "query_clash",
-        "shark_tank",
-        "workshop",
+        'Auction Arena',
+        'Flashback',
+        'Cinefrenzy',
+        'Battle of Thrones',
+        'Beyond the Gate',
+        'Rhythmia',
+        'Agent Fusion',
+        'Paper Podium',
+        'Prompt Craft',
+        'HackQuest',
+        'Query Clash',
+        'Shark Tank',
+        'Workshop'
       ];
 
       if (EVENT_ROLES.includes(role)) {
-        navigate("/admin/events");
+        navigate("/admin/eventdash");
       } else if (roleRoutes[role]) {
         navigate(roleRoutes[role]);
       } else {

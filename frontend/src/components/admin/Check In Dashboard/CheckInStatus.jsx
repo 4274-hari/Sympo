@@ -1,18 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styles from './CheckInStatus.module.css';
 
-const CheckInStatus = () => {
-  const [slotData, setSlotData] = useState({
-    slot1: [
-      { id: 1, name: 'Alice' },
-      { id: 2, name: 'Bob' },
-      { id: 3, name: 'Dinesh' },
-    ],
-    slot2: [
-      { id: 4, name: 'Hari' },
-      { id: 5, name: 'Vimal' },
-    ],
-  });
+const CheckInStatus = ({ morningSessionParticipants, afternoonSessionParticipants }) => {
+  const slotData = {
+    slot1: morningSessionParticipants?.data ?? [],
+    slot2: afternoonSessionParticipants?.data ?? [],
+  };
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -27,15 +20,15 @@ const CheckInStatus = () => {
   }, []);
 
   const matchFilter = (part) =>
-    part.id.toString().includes(searchTerm) ||
+    part.registration_id.toString().includes(searchTerm) ||
     part.name.toLowerCase().includes(searchTerm.toLowerCase());
 
   const renderRow = (part) => (
     <li
-      key={part.id}
+      key={part.registration_id}
       className={searchTerm && matchFilter(part) ? styles.highlight : ''}
     >
-      <span>{part.id}</span>
+      <span>{part.registration_id}</span>
       <span>{part.name}</span>
     </li>
   );

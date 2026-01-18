@@ -1,18 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styles from './CheckInStatus.module.css';
 
-const CheckInStatusTeam = () => {
-  const [slotData, setSlotData] = useState({
-    slot1: [
-      { id: 1, name: 'Alice', team: 'Tech Titans' },
-      { id: 2, name: 'Bob', team: 'Tech Titans' },
-      { id: 3, name: 'Dinesh',team: 'Debuggers' },
-    ],
-    slot2: [
-      { id: 4, name: 'Hari', team: 'Script Kiddies' },
-      { id: 5, name: 'Vimal', team: 'Script Kiddies' },
-    ],
-  });
+const CheckInStatusTeam = ({ morningSessionParticipants, afternoonSessionParticipants }) => {
+  const slotData = {
+    slot1: morningSessionParticipants?.data ?? [],
+    slot2: afternoonSessionParticipants?.data ?? [],
+  };
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -27,19 +20,19 @@ const CheckInStatusTeam = () => {
   }, []);
 
 const matchFilter = (part) =>
-  part.id.toString().includes(searchTerm) ||
+  part.registration_id.toString().includes(searchTerm) ||
   part.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  (part.team && part.team.toLowerCase().includes(searchTerm.toLowerCase()));
+  (part.team_name ?? '').toLowerCase().includes(searchTerm.toLowerCase());
 
 
   const renderRow = (part) => (
     <li
-      key={part.id}
+      key={part.registration_id}
       className={searchTerm && matchFilter(part) ? styles.highlight : ''}
     >
-      <span>{part.id}</span>
+      <span>{part.registration_id}</span>
       <span>{part.name}</span>
-      <span>{part.team}</span>
+      <span>{part.team_name}</span>
     </li>
   );
 

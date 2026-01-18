@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Participants.module.css';
 
-const ParticipantsTeam = () => {
-  const sampleData = [
-    { id: 1, name: 'Alice', team: 'Tech Titans', mobile: '1234567890', email: 'alice@example.com', college: 'ABC College', year: '3' },
-  ];
-
-  const [selectedIds, setSelectedIds] = useState(sampleData.map(p => p.id));
+const ParticipantsTeam = ({ participants }) => {
   const [isButtonEnabled, setButtonEnabled] = useState(false);
   const [buttonText, setButtonText] = useState('Send Certificates');
   const [showCheckboxes, setShowCheckboxes] = useState(false);
@@ -25,6 +20,14 @@ const ParticipantsTeam = () => {
     member4: '',
     member5: ''
   });
+
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  useEffect(() => {
+    if (participants?.length) {
+      setSelectedIds(participants.map(p => p.registration_id));
+    }
+  }, [participants]);
 
   const participantsPerPage = 20;
 
@@ -91,13 +94,13 @@ const ParticipantsTeam = () => {
     );
   };
 
-  const filteredParticipants = sampleData.filter(part =>
-    part.id.toString().includes(searchTerm) ||
+  const filteredParticipants = participants.filter(part =>
+    part.registration_id.toString().includes(searchTerm) ||
     part.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    part.team.toLowerCase().includes(searchTerm.toLowerCase())
+    (part.team ?? '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const dataToDisplay = searchTerm ? filteredParticipants : sampleData;
+  const dataToDisplay = searchTerm ? filteredParticipants : participants;
 
   const indexOfLast = currentPage * participantsPerPage;
   const indexOfFirst = indexOfLast - participantsPerPage;
@@ -137,31 +140,33 @@ const ParticipantsTeam = () => {
               <th>ID</th>
               <th>Name</th>
               <th>Mobile</th>
-              <th>Team Name</th>
+              {/* <th>Team Name</th> */}
               <th>Email</th>
               <th>College</th>
               <th>Year</th>
+              <th>Session</th>
             </tr>
           </thead>
           <tbody>
             {currentParticipants.map(part => (
-              <tr key={part.id}>
+              <tr key={part.registration_id}>
                 {showCheckboxes && (
                   <td>
                     <input
                       type="checkbox"
-                      checked={selectedIds.includes(part.id)}
-                      onChange={() => toggleSelection(part.id)}
+                      checked={selectedIds.includes(part.registration_id)}
+                      onChange={() => toggleSelection(part.registration_id)}
                     />
                   </td>
                 )}
-                <td>{part.id}</td>
+                <td>{part.registration_id}</td>
                 <td>{part.name}</td>
                 <td>{part.mobile}</td>
-                <td>{part.team}</td>
+                {/* <td>{part.team}</td> */}
                 <td>{part.email}</td>
                 <td>{part.college}</td>
                 <td>{part.year}</td>
+                <td>{part.session}</td>
               </tr>
             ))}
           </tbody>
