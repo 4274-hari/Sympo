@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Participants.module.css';
+import api from '../../../api/axios';
 
 const Participants = ({ participants }) => {
   const [isButtonEnabled, setButtonEnabled] = useState(false);
@@ -58,21 +59,38 @@ const Participants = ({ participants }) => {
     }
   };
 
-  const handleNewParticipantSubmit = () => {
-    if (!newParticipantId) return;
+  const handleNewParticipantSubmit = async () => {
+  if (!newParticipantId) return;
 
-    fetch('http://localhost:5000/api/add_participant', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ participantId: newParticipantId })
-    })
-      .then(res => res.json())
-      .then(() => {
-        alert('Participant Added');
-        setShowModal(false);
-        setNewParticipantId('');
-      });
-  };
+  try {
+    const response = await api.post(
+      '/event/insert',
+      {
+        participant_ids: [Number(newParticipantId)], // ✅ array of one
+        team_name: null
+      }
+    );
+
+    if (response.data.success) {
+      alert('Participant added successfully');
+
+      // OPTIONAL: refresh list from backend if you have an API
+      // await fetchParticipants();
+
+      // Optimistically update UI
+      setSelectedIds(prev => [...prev, Number(newParticipantId)]);
+
+      setNewParticipantId('');
+      setShowModal(false);
+    }
+  } catch (err) {
+    console.log(err);
+    
+    alert(
+      err.response?.data?.message || 'Failed to add participant'
+    );
+  }
+};
 
   const toggleSelection = (id) => {
     setSelectedIds(prev =>
