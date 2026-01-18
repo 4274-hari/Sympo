@@ -1,107 +1,70 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import style from "./On_day.module.css";
 
-const OnDay = () => {
-  // Mock data - replace with API call in real implementation
-  const initialParticipants = [
-    {
-      id: 1,
-      name: "Rahul Sharma",
-      registerNumber: "21BCE1001",
-      phone: "+91 9876543210",
-      email: "rahul.sharma@example.com",
-      isCheckedIn: true,
-      foodPreference: "Veg",
-      certificateSent: true
-    },
-    {
-      id: 2,
-      name: "Priya Patel",
-      registerNumber: "21BCE1002",
-      phone: "+91 9876543211",
-      email: "priya.patel@example.com",
-      isCheckedIn: false,
-      foodPreference: "Non-Veg",
-      certificateSent: false
-    },
-    {
-      id: 3,
-      name: "Amit Kumar",
-      registerNumber: "21BCE1003",
-      phone: "+91 9876543212",
-      email: "amit.kumar@example.com",
-      isCheckedIn: true,
-      foodPreference: "Veg",
-      certificateSent: false
-    },
-    {
-      id: 4,
-      name: "Sneha Reddy",
-      registerNumber: "21BCE1004",
-      phone: "+91 9876543213",
-      email: "sneha.reddy@example.com",
-      isCheckedIn: true,
-      foodPreference: "Non-Veg",
-      certificateSent: true
-    },
-    {
-      id: 5,
-      name: "Vikram Singh",
-      registerNumber: "21BCE1005",
-      phone: "+91 9876543214",
-      email: "vikram.singh@example.com",
-      isCheckedIn: false,
-      foodPreference: "Veg",
-      certificateSent: false
-    }
-  ];
+/* ---------- EVENT META ---------- */
+const EVENT_META = {
+  "Auction Arena": { mode: "Non-Tech", type: "Team", isBoth: false },
+  "Flashback": { mode: "Non-Tech", type: "Team", isBoth: true },
+  "Cinefrenzy": { mode: "Non-Tech", type: "Team", isBoth: true },
+  "Battle of Thrones": { mode: "Non-Tech", type: "Team", isBoth: false },
+  "Beyond the Gate": { mode: "Non-Tech", type: "Team", isBoth: false },
+  "Rhythmia": { mode: "Non-Tech", type: "Team", isBoth: true },
+  "Agent Fusion": { mode: "Tech", type: "Team", isBoth: true },
+  "Paper Podium": { mode: "Tech", type: "Team", isBoth: false },
+  "Prompt Craft": { mode: "Tech", type: "Team", isBoth: true },
+  "HackQuest": { mode: "Tech", type: "Team", isBoth: false },
+  "Query Clash": { mode: "Tech", type: "Individual", isBoth: true },
+  "Shark Tank": { mode: "Tech", type: "Team", isBoth: false },
+  "Workshop": { mode: "Workshop", type: "Individual", isBoth: false },
+};
 
-  // State management
-  const [participants, setParticipants] = useState(initialParticipants);
-  const [foodFilter, setFoodFilter] = useState("All");
-  const [filteredParticipants, setFilteredParticipants] = useState(initialParticipants);
+const OnDay = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [error, setError] = useState(null);
+  const [foodFilter, setFoodFilter] = useState("All");
 
-  // Calculate statistics
-  const checkinCount = participants.filter(p => p.isCheckedIn).length;
-  const vegCount = participants.filter(p => p.foodPreference === "Veg").length;
-  const nonVegCount = participants.filter(p => p.foodPreference === "Non-Veg").length;
+  /**
+   * Merge API certificates + static event meta
+   */
+  const events = useMemo(() => {
+    if (!data?.certificates) return [];
+
+    return data.certificates.map((item) => {
+      const meta = EVENT_META[item.event_name] || {};
+
+      return {
+        name: item.event_name,
+        mode: meta.mode || "—",
+        type: meta.type || "—",
+        session: meta.isBoth ? "Morning & Evening" : "Single Session",
+        certificateSent: item.e_certificate_sent,
+      };
+    });
+  }, [data]);
+
+  const filteredEvents = events.filter((e) =>
+    e.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const vegCount = data?.food.vegEaten
+  const nonVegCount = data?.food.nonvegEaten
   const totalFoodCount = vegCount + nonVegCount;
 
-  // Filter participants based on search only (food dropdown does NOT filter table)
-  useEffect(() => {
-    let filtered = [...participants];
-
-    // Apply search filter only (foodFilter intentionally NOT used here)
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(query) ||
-        p.registerNumber.toLowerCase().includes(query) ||
-        p.email.toLowerCase().includes(query) ||
-        p.phone.includes(query)
-      );
-    }
-
-    setFilteredParticipants(filtered);
-  }, [participants, searchQuery]);
+  if (!data) return <p className="p-5">Loading on-day data...</p>;
 
   return (
     <div className={style.container}>
       {/* Page Title */}
-      <h1 className={style.pageTitle}>OnDay</h1>
-      {/* Header Section */}
+      <h1 className={style.pageTitle}>On-Day Events</h1>
+
+      {/* SUMMARY */}
       <header className={style.header}>
-        {/* Check-in Count */}
         <div className={style.countSection}>
           <h2 className={style.cardTitle}>Check-in Count</h2>
-          <div className={style.checkinCount}>{checkinCount}</div>
-          <p className={style.muted}>Total Participants: {participants.length}</p>
+          <div className={style.checkinCount}>
+            {data.checkInCount}
+          </div>
         </div>
 
-        {/* Food Status */}
         <div className={`${style.countSection} ${style.foodStatus}`}>
           <h2 className={style.cardTitle}>Food Status</h2>
 
@@ -123,14 +86,14 @@ const OnDay = () => {
                   <div className={style.foodTotalCount}>{totalFoodCount}</div>
                   <div className={style.foodLabel}>Total</div>
                 </div>
-                <div className={style.foodCountItem}>
+                {/* <div className={style.foodCountItem}>
                   <div className={`${style.foodCount} ${style.veg}`}>{vegCount}</div>
                   <div className={style.foodLabel}>Veg</div>
                 </div>
                 <div className={style.foodCountItem}>
                   <div className={`${style.foodCount} ${style.nonVeg}`}>{nonVegCount}</div>
                   <div className={style.foodLabel}>Non-Veg</div>
-                </div>
+                </div> */}
               </>
             ) : foodFilter === "Veg" ? (
               <div className={style.singleFoodHighlight}>
@@ -146,67 +109,62 @@ const OnDay = () => {
           </div>
         </div>
       </header>
-      {/* Error Message */}
-      {error && <div className={style.error}>{error}</div>}
 
-      {/* Table Title */}
-      <h2 className={style.tableTitle}>E-Certificate</h2>
-      {/* Search and Controls */}
+      {/* TABLE TITLE */}
+      <h2 className={style.tableTitle}>E-Certificates</h2>
+
+      {/* SEARCH */}
       <div className={style.controls}>
         <input
           type="text"
           className={style.searchBar}
-          placeholder="Search participants by name, email, or register number..."
+          placeholder="Search by event name..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
-      {/* Participants Table */}
+      {/* TABLE */}
       <div className={style.tableContainer}>
         <table className={style.table}>
           <thead className={style.tableHeader}>
             <tr>
-              <th>S.NO</th>
-              <th>Name</th>
-              <th>Register Number</th>
-              <th>Phone Number</th>
-              <th>Email ID</th>
-              <th>Certificate Status</th>
+              <th>S.No</th>
+              <th>Event Name</th>
+              <th>Mode</th>
+              <th>Type</th>
+              <th>Session</th>
+              <th>Certificate</th>
             </tr>
           </thead>
+
           <tbody className={style.tableBody}>
-            {filteredParticipants.map((participant,idx) => (
-              <tr key={participant.id}>
-                <td>{idx+1}</td>
-                {/* Name */}
-                <td data-label="Name">{participant.name}</td>
-                {/* Register Number */}
-                <td data-label="Register Number">{participant.registerNumber}</td>
-                {/* Phone Number */}
-                <td data-label="Phone Number">{participant.phone}</td>
-                {/* Email ID */}
-                <td data-label="Email ID">
-                  <a href={`mailto:${participant.email}`}>
-                    {participant.email}
-                  </a>
-                </td>
-                {/* Certificate Status Icon */}
-                <td data-label="Certificate Status" className={style.checkboxCell}>
+            {filteredEvents.map((event, idx) => (
+              <tr key={event.name}>
+                <td>{idx + 1}</td>
+                <td>{event.name}</td>
+                <td>{event.mode}</td>
+                <td>{event.type}</td>
+                <td>{event.session}</td>
+                <td className={style.checkboxCell}>
                   <span
                     className={`${style.statusIcon} ${
-                      participant.certificateSent ? style.statusSent : style.statusNotSent
+                      event.certificateSent
+                        ? style.statusSent
+                        : style.statusNotSent
                     }`}
-                    title={participant.certificateSent ? "Certificate Sent" : "Certificate Not Sent"}
                   >
-                    {participant.certificateSent ? "✓" : "✗"}
+                    {event.certificateSent ? "✓" : "✗"}
                   </span>
                 </td>
               </tr>
             ))}
-            {filteredParticipants.length === 0 && (
+
+            {filteredEvents.length === 0 && (
               <tr>
-                <td colSpan={7} className={style.empty}>No participants match the search.</td>
+                <td colSpan={6} className={style.empty}>
+                  No events found
+                </td>
               </tr>
             )}
           </tbody>

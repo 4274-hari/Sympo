@@ -80,43 +80,66 @@ const Speedometer = ({ vegCount, nonVegCount }) => {
   );
 };
 
-const GeneralHome = () => {
-  const [dashboardData, setDashboardData] = useState({
+const GeneralHome = ({ data }) => {
+    const [dashboardData, setDashboardData] = useState({
     totalRegistrations: 0,
     totalFoodCount: 0,
     vegCount: 0,
     nonVegCount: 0,
     topColleges: [],
-    yearWiseCount: {},
+    yearWiseCount: {
+      firstYear: 0,
+      secondYear: 0,
+      thirdYear: 0,
+      fourthYear: 0,
+    },
     sessionCounts: { morning: 0, evening: 0 },
   });
 
-  const mockData = {
-    totalRegistrations: 356,
-    totalFoodCount: 289,
-    vegCount: 187,
-    nonVegCount: 102,
-    topColleges: [
-      { name: "ABC Engineering College", count: 45 },
-      { name: "XYZ Institute of Technology", count: 38 },
-      { name: "PQR College of Science", count: 32 },
-      { name: "LMN University", count: 28 },
-      { name: "DEF Technical Campus", count: 25 },
-    ],
-    yearWiseCount: {
-      firstYear: 85,
-      secondYear: 112,
-      thirdYear: 97,
-      fourthYear: 62,
-    },
-    sessionCounts: { morning: 143, evening: 213 },
-  };
-
   useEffect(() => {
-    setTimeout(() => {
-      setDashboardData(mockData);
-    }, 500);
-  }, []);
+    if (!data) return;
+
+    // ---- FOOD ----
+    const vegCount = data.food?.veg || 0;
+    const nonVegCount = data.food?.nonveg || 0;
+
+    // ---- YEAR WISE ----
+    const yearWise = {
+      firstYear: 0,
+      secondYear: 0,
+      thirdYear: 0,
+      fourthYear: 0,
+    };
+
+    data.yearWiseParticipants?.forEach((item) => {
+      if (item.student_year === 1) yearWise.firstYear = item.count;
+      if (item.student_year === 2) yearWise.secondYear = item.count;
+      if (item.student_year === 3) yearWise.thirdYear = item.count;
+      if (item.student_year === 4) yearWise.fourthYear = item.count;
+    });
+
+    setDashboardData({
+      totalRegistrations: data.totalRegistrations || 0,
+      totalFoodCount: vegCount + nonVegCount,
+      vegCount,
+      nonVegCount,
+
+      topColleges:
+        data.topColleges?.map((c) => ({
+          name: c.college,
+          count: c.count,
+        })) || [],
+
+      yearWiseCount: yearWise,
+
+      sessionCounts: {
+        morning: data.sessions?.morning || 0,
+        evening: data.sessions?.evening || 0,
+      },
+    });
+  }, [data]);
+
+  if (!data) return <p className="p-5">Loading home dashboard...</p>;
 
   return (
     <div className={styles.container}>
