@@ -1,19 +1,19 @@
 const {
-  registerParticipantToEventService
+  registerParticipantsToEventService
 } = require("../services/event_insert_service");
 
 /**
  * POST /api/coordinator/register-participant
  * Body:
  * {
- *   "participant_id": number,
- *   "team_name": string
+ *   "participant_ids": number[],
+ *   "team_name": string | null
  * }
  */
 async function registerParticipantToEvent(req, res, next) {
   try {
-    const role = req.session?.user.role; // event name
-    let { participant_id, team_name } = req.body;
+    const role = req.session?.user.role;
+    let { participant_ids, team_name } = req.body;
 
     // Normalize empty string to NULL
     team_name =
@@ -28,16 +28,16 @@ async function registerParticipantToEvent(req, res, next) {
       });
     }
 
-    if (!participant_id) {
+    if (!Array.isArray(participant_ids) || participant_ids.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Participant ID required"
+        message: "participant_ids must be a non-empty array"
       });
     }
 
-    const result = await registerParticipantToEventService(
+    const result = await registerParticipantsToEventService(
       role,
-      participant_id,
+      participant_ids,
       team_name
     );
 

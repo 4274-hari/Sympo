@@ -1,13 +1,13 @@
 const { getClient } = require("../config/db");
 
-async function registerParticipantToEventService(role, participant_id, team_name) {
+async function registerParticipantsToEventService(role, participant_ids, team_name) {
   const client = await getClient();
 
   try {
     await client.query("BEGIN");
 
     /* =====================================================
-       1️⃣ GET EVENT ID FROM ROLE (EVENT NAME)
+       1️⃣ GET EVENT ID FROM ROLE
     ===================================================== */
     const eventResult = await client.query(
       `
@@ -25,56 +25,60 @@ async function registerParticipantToEventService(role, participant_id, team_name
     const eventId = eventResult.rows[0].id;
 
     /* =====================================================
-       2️⃣ CHECK IF PARTICIPANT ALREADY REGISTERED
+       2️⃣ CHECK DUPLICATE PARTICIPANTS
     ===================================================== */
-    const participantExists = await client.query(
+    const duplicateParticipants = await client.query(
       `
-      SELECT 1
-      FROM registration_events
-      WHERE registration_id = $1
-        AND event_id = $2
-      `,
-      [participant_id, eventId]
-    );
-
-    if (participantExists.rowCount > 0) {
-      return {
-        status: 409,
-        response: {
-          success: false,
-          message: "Participant is already registered for this event"
-        }
-      };
-    }
-
-    /* =====================================================
-       3️⃣ CHECK IF TEAM NAME ALREADY EXISTS
-    ===================================================== */
-    const teamExists = await client.query(
-      `
-      SELECT 1
+      SELECT registration_id
       FROM registration_events
       WHERE event_id = $1
-        AND team_name = $2
+        AND registration_id = ANY($2::int[])
       `,
-      [eventId, team_name]
+      [eventId, participant_ids]
     );
 
-    if (teamExists.rowCount > 0) {
+    if (duplicateParticipants.rowCount > 0) {
       return {
         status: 409,
         response: {
           success: false,
-          message: "Team name already exists"
+          message: "Some participants are already registered",
+          duplicate_participants: duplicateParticipants.rows.map(
+            r => r.registration_id
+          )
         }
       };
     }
 
     /* =====================================================
-       4️⃣ INSERT INTO REGISTRATION_EVENTS
+       3️⃣ CHECK TEAM NAME (ONLY ONCE)
     ===================================================== */
-    await client.query(
-      `
+    if (team_name) {
+      const teamExists = await client.query(
+        `
+        SELECT 1
+        FROM registration_events
+        WHERE event_id = $1
+          AND team_name = $2
+        `,
+        [eventId, team_name]
+      );
+
+      if (teamExists.rowCount > 0) {
+        return {
+          status: 409,
+          response: {
+            success: false,
+            message: "Team name already exists"
+          }
+        };
+      }
+    }
+
+    /* =====================================================
+      4️⃣ BULK INSERT
+    ===================================================== */
+    const insertQuery = `
       INSERT INTO registration_events (
         registration_id,
         event_id,
@@ -82,10 +86,23 @@ async function registerParticipantToEventService(role, participant_id, team_name
         role,
         registration_mode
       )
-      VALUES ($1, $2, $3, 'lead', 'onspot')
-      `,
-      [participant_id, eventId, team_name]
-    );
+      SELECT
+        pid,
+        $2,
+        $3,
+        CASE
+          WHEN ord = 1 THEN 'lead'
+          ELSE 'member'
+        END,
+        'onspot'
+      FROM unnest($1::int[]) WITH ORDINALITY AS u(pid, ord)
+    `;
+
+    await client.query(insertQuery, [
+      participant_ids,
+      eventId,
+      team_name
+    ]);
 
     await client.query("COMMIT");
 
@@ -93,11 +110,11 @@ async function registerParticipantToEventService(role, participant_id, team_name
       status: 201,
       response: {
         success: true,
-        message: "Participant successfully added to event",
+        message: "Participants successfully added to event",
         data: {
-          participant_id,
           event: role,
-          team_name
+          team_name,
+          participant_ids
         }
       }
     };
@@ -111,5 +128,5 @@ async function registerParticipantToEventService(role, participant_id, team_name
 }
 
 module.exports = {
-  registerParticipantToEventService
+  registerParticipantsToEventService
 };

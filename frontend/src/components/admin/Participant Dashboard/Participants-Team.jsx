@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Participants.module.css';
+import api from '../../../api/axios';
 
 const ParticipantsTeam = ({ participants }) => {
   const [isButtonEnabled, setButtonEnabled] = useState(false);
@@ -67,15 +68,45 @@ const ParticipantsTeam = ({ participants }) => {
     }
   };
 
-  const handleNewParticipantSubmit = () => {
-    fetch('http://localhost:5000/api/add_team', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(teamForm)
-    })
-      .then(res => res.json())
-      .then(() => {
-        alert('Team Added Successfully');
+  const handleNewParticipantSubmit = async () => {
+    const {
+      leaderId,
+      teamName,
+      member2,
+      member3,
+      member4,
+      member5
+    } = teamForm;
+
+    // Build participant_ids array (leader first)
+    const participant_ids = [
+      leaderId,
+      member2,
+      member3,
+      member4,
+      member5
+    ]
+      .map(id => Number(id))
+      .filter(Boolean); 
+
+    if (participant_ids.length === 0) {
+      alert('At least a leader ID is required');
+      return;
+    }
+console.log(participant_ids, teamName);
+
+    try {
+      const response = await api.post(
+        '/event/insert',
+        {
+          participant_ids,
+          team_name: teamName || null
+        }
+      );
+
+      if (response.data.success) {
+        alert('Team added successfully');
+    
         setShowModal(false);
         setTeamForm({
           leaderId: '',
@@ -85,7 +116,12 @@ const ParticipantsTeam = ({ participants }) => {
           member4: '',
           member5: ''
         });
-      });
+      }
+    } catch (err) {
+      console.log(err);
+      
+      alert(err.message);
+    }
   };
 
   const toggleSelection = (id) => {

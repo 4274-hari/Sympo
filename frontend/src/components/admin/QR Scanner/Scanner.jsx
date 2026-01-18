@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
-import axios from "axios";
 import styles from "./scanner.module.css";
 import {
   CheckCircle,
@@ -9,6 +8,7 @@ import {
   RotateCcw,
   AlertTriangle,
 } from "lucide-react";
+import api from "../../../api/axios";
 
 /* 🔊 Beep sound */
 const beep = new Audio("/beep1.mp3");
@@ -18,9 +18,11 @@ export default function Scanner() {
   const isScanningRef = useRef(false);
   const retryTimeoutRef = useRef(null);
 
-  const [status, setStatus] = useState("idle"); // idle | success | error | denied
+  const [status, setStatus] = useState(
+    "idle" // idle | confirm | loading | success | error | denied
+  );
   const [message, setMessage] = useState("");
-  const [foodType, setFoodType] = useState("");
+  const [pendingToken, setPendingToken] = useState(null);
 
   /* 📱 iOS Safari fix */
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -54,7 +56,8 @@ export default function Scanner() {
           isScanningRef.current = false;
           beep.play().catch(() => {});
           await safeStopScanner();
-          await verifyQR(decodedText);
+          setPendingToken(decodedText);
+          setStatus("confirm");
         }
       );
 
@@ -82,35 +85,43 @@ export default function Scanner() {
   /* 🔍 Verify QR */
   const verifyQR = async (token) => {
     try {
-      const res = await axios.post("/api/food/scan", { token });
+      setStatus("loading");
 
-      if (res.data.valid) {
-        setFoodType(res.data.food_type);
+      const res = await api.post("/food/scan", { token });
+
+      if (res.data.success) {
         setStatus("success");
       } else {
         throw new Error("Invalid QR");
       }
     } catch (err) {
       setStatus("error");
-      setMessage(err.response?.data?.reason || "Invalid QR");
+      setMessage(err.response?.data?.message || "Invalid QR");
 
-      /* 🚦 Auto-resume after error */
       retryTimeoutRef.current = setTimeout(() => {
         handleScanNext();
       }, 2000);
     }
   };
 
-  /* 🔄 Manual retry */
+  /* ✅ Confirm scan */
+  const handleConfirm = async () => {
+    if (!pendingToken) return;
+    await verifyQR(pendingToken);
+    setPendingToken(null);
+  };
+
+  /* ❌ Cancel scan */
+  const handleCancel = async () => {
+    setPendingToken(null);
+    setStatus("idle");
+    await startScanner();
+  };
+
+  /* 🔄 Scan next */
   const handleScanNext = async () => {
     clearTimeout(retryTimeoutRef.current);
     window.location.reload();
-
-    setStatus("idle");
-    setMessage("");
-    setFoodType("");
-
-    // await startScanner();
   };
 
   return (
@@ -129,21 +140,52 @@ export default function Scanner() {
           </>
         )}
 
+        {/* 🔔 Confirmation */}
+        {status === "confirm" && (
+          <div className={styles.confirm}>
+            <AlertTriangle size={80} />
+            <h2>Confirm Scan</h2>
+            <p>Do you want to validate this QR code?</p>
+
+            <div className={styles.actions}>
+              <button
+                className={styles.confirmBtn}
+                onClick={handleConfirm}
+              >
+                Confirm
+              </button>
+
+              <button
+                className={styles.cancelBtn}
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ⏳ Loading */}
+        {status === "loading" && (
+          <div className={styles.loading}>
+            <AlertTriangle size={80} />
+            <h2>Verifying…</h2>
+            <p>Please wait</p>
+          </div>
+        )}
+
         {/* ✅ Success */}
         {status === "success" && (
           <div className={styles.success}>
             <CheckCircle size={80} />
-            <h2>Valid Token</h2>
-            <p>
-              Food Type: <strong>{foodType.toUpperCase()}</strong>
-            </p>
+            <h2>Access Granted</h2>
             <button className={styles.nextBtn} onClick={handleScanNext}>
               <RotateCcw size={16} /> Scan Next QR
             </button>
           </div>
         )}
 
-        {/* ❌ Invalid QR */}
+        {/* ❌ Error */}
         {status === "error" && (
           <div className={styles.error}>
             <XCircle size={80} />
